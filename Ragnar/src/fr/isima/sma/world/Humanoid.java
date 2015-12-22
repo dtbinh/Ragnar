@@ -28,7 +28,7 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 	
 	/**
-	 * Defaulf constructor
+	 * Default constructor
 	 */
 	public Humanoid() {
 		// By default the entities name, surname and age are randomly generated
@@ -51,6 +51,48 @@ public abstract class Humanoid extends ActiveEntity {
 		} else {
 			throw new BadAgeException();
 		}
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the surname
+	 */
+	public String getSurname() {
+		return surname;
+	}
+
+	/**
+	 * @param surname the surname to set
+	 */
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	/**
+	 * @return the age
+	 */
+	public int getAge() {
+		return age;
+	}
+
+	/**
+	 * @param age the age to set
+	 */
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 }
