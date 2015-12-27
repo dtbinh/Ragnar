@@ -243,6 +243,10 @@ public class Location {
 	 * @param offsetY the shift value for y axis
 	 */
 	public void shiftLocation(int offsetX, int offsetY) {
+		// TODO possible to separately test X and Y and move one of them if
+		// the other is bad
+		// Right now the entity wont move for some turns if one of the location
+		// is bad
 		setLocation(this.locationX + offsetX, this.locationY + offsetY);
 	}
 	
