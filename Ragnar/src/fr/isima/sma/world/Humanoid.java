@@ -10,7 +10,7 @@ import java.util.Random;
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
-	public static Random rand = new Random();
+	public static Random rand = new Random(123); // TODO remove the seed at the end
 	public static final int ageMax = 90;
 	
 	// Class members
@@ -70,6 +70,18 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 
 	/**
+	 * Randomly choose where to go. It can move full speed or not
+	 */
+	public void moveRandom() {
+		int bound = 2 * this.speed + 1; // The max of the random, +1 because it is exclusive value
+		this.location.shiftLocation(Humanoid.rand.nextInt(bound) - speed, Humanoid.rand.nextInt(bound) - speed);
+	}
+	
+	public void move(int locationX, int locationY) {
+		this.location.setLocation(locationX, locationY);
+	}
+	
+	/**
 	 * @return the name
 	 */
 	public String getName() {
@@ -118,7 +130,6 @@ public abstract class Humanoid extends ActiveEntity {
 	public int getSpeed() {
 		return speed;
 	}
-
 
 	/**
 	 * @param speed the speed to set

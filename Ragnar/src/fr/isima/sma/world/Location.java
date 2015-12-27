@@ -75,7 +75,9 @@ public class Location {
 	 * @param locationX the locationX to set
 	 */
 	public void setLocationX(int locationX) {
-		this.locationX = locationX;
+		if(locationX >= minLocationX && locationX <= maxLocationX) {
+			this.locationX = locationX;
+		}
 	}
 
 	/**
@@ -89,7 +91,9 @@ public class Location {
 	 * @param locationY the locationY to set
 	 */
 	public void setLocationY(int locationY) {
-		this.locationY = locationY;
+		if(locationY >= minLocationY && locationY <= maxLocationY) {
+			this.locationY = locationY;
+		}
 	}
 
 	/**
@@ -152,6 +156,8 @@ public class Location {
 		if(isValid(locationX, locationY)) {
 			this.locationX = locationX;
 			this.locationY = locationY;
+		} else {
+			System.err.println("Bad location setting");
 		}
 	}
 	
@@ -231,4 +237,13 @@ public class Location {
 		this.isInterior = false;
 	}
 	
-}
+	/**
+	 * Shift the locations with positives or negatives offsets
+	 * @param offsetX the shift value for x axis
+	 * @param offsetY the shift value for y axis
+	 */
+	public void shiftLocation(int offsetX, int offsetY) {
+		setLocation(this.locationX + offsetX, this.locationY + offsetY);
+	}
+
+} // Class
