@@ -19,7 +19,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected int age;
 	
 	protected int speed; // indicate the entity speed (max blocs per ticks)
-	protected Location location;
+	public Location location; // Seems easier to manipulate this way
 
 	/**
 	 * Exceptions thrown in the class
@@ -138,4 +138,5 @@ public abstract class Humanoid extends ActiveEntity {
 		this.speed = speed;
 	}
 
+	
 }

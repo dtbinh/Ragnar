@@ -191,8 +191,8 @@ public class Location {
 		boolean ret = false;
 		
 		// Testing the two coordinates separately
-		if(this.locationX >= this.minLocationX && this.locationX <= this.maxLocationX) {
-			if(this.locationY >= this.minLocationY && this.locationY <= this.maxLocationY) {
+		if(locationX >= this.minLocationX && locationX <= this.maxLocationX) {
+			if(locationY >= this.minLocationY && locationY <= this.maxLocationY) {
 				ret = true;
 			}
 		}
@@ -244,6 +244,14 @@ public class Location {
 	 */
 	public void shiftLocation(int offsetX, int offsetY) {
 		setLocation(this.locationX + offsetX, this.locationY + offsetY);
+	}
+	
+	/**
+	 * @return a printable string to see where is the entity
+	 */
+	@Override
+	public String toString() {
+		return "x : " + locationX + " - y : " + locationY + ((isInterior)?" (interior)": " (exterior)");
 	}
 
 } // Class
