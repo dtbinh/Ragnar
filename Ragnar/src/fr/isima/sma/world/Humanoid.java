@@ -1,5 +1,5 @@
 /**
- * Humanoid class used to implement citizens and heroes
+ * Humanoid class used to implement citizens and heroes/vilains
  * 
  */
 
@@ -18,15 +18,14 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String surname;
 	protected int age;
 	
+	protected int speed; // indicate the entity speed (max blocs per ticks)
 	protected Location location;
 
 	/**
 	 * Exceptions thrown in the class
 	 */
 	public class BadAgeException extends Exception {
-		public BadAgeException() {
-			super();
-		}
+		public BadAgeException() { super(); }
 	}
 	
 	/**
@@ -37,10 +36,16 @@ public abstract class Humanoid extends ActiveEntity {
 		
 	}
 	
-	
+	/**
+	 * Normal constructor with fewer arguments
+	 * @param name
+	 * @param surname
+	 * @param age
+	 * @throws BadAgeException
+	 */
 	public Humanoid(String name, String surname, int age) throws BadAgeException {
-		// Default can be 
-		this(name, surname, age, 0, 0);
+		// Default can be placed in the HQ
+		this(name, surname, age, 1, 0, 0);
 	}
 	
 	/**
@@ -50,9 +55,10 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age age of the entity
 	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
 	 */
-	public Humanoid(String name, String surname, int age, int locationX, int locationY) throws BadAgeException {
+	public Humanoid(String name, String surname, int age, int speed, int locationX, int locationY) throws BadAgeException {
 		this.name = name;
 		this.surname = surname;
+		this.speed = speed;
 		
 		if(age > 0 && age < Humanoid.ageMax) {
 			this.age = age;
@@ -103,6 +109,22 @@ public abstract class Humanoid extends ActiveEntity {
 	 */
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+
+	/**
+	 * @return the speed
+	 */
+	public int getSpeed() {
+		return speed;
+	}
+
+
+	/**
+	 * @param speed the speed to set
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 }

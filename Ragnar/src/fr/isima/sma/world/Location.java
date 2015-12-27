@@ -15,11 +15,13 @@ public class Location {
 	private int maxLocationX;
 	private int maxLocationY;
 	
+	private boolean isInterior; // indicate if the location concerns interior or exterior
+	
 	/**
 	 * Default constructor, setting everything to 0
 	 */
 	public Location() {
-		this(0, 0, 0, 0, 0, 0);
+		this(0, 0, 0, 0, 0, 0, false);
 	}
 
 	/**
@@ -28,7 +30,7 @@ public class Location {
 	 * @param locationY the location on the y axis
 	 */
 	public Location(int locationX, int locationY) {
-		this(locationX, locationY, 0, 0, 0, 0);
+		this(locationX, locationY, 0, 0, 0, 0, false);
 	}
 	
 	/**
@@ -39,7 +41,7 @@ public class Location {
 	 * @param maxLocationY the max location on the y axis
 	 */
 	public Location(int locationX, int locationY, int maxLocationX, int maxLocationY) {
-		this(locationX, locationY, 0, 0, maxLocationX, maxLocationY);
+		this(locationX, locationY, 0, 0, maxLocationX, maxLocationY, false);
 	}
 
 	/**
@@ -52,13 +54,14 @@ public class Location {
 	 * @param maxLocationY the max location on y axis
 	 */
 	public Location(int locationX, int locationY, int minLocationX, int minLocationY, int maxLocationX,
-			int maxLocationY) {
+			int maxLocationY, boolean isInterior) {
 		this.locationX = locationX;
 		this.locationY = locationY;
 		this.minLocationX = minLocationX;
 		this.minLocationY = minLocationY;
 		this.maxLocationX = maxLocationX;
 		this.maxLocationY = maxLocationY;
+		this.isInterior = isInterior;
 	}
 
 	/**
@@ -189,6 +192,43 @@ public class Location {
 		}
 		
 		return ret;
+	}
+
+	/**
+	 * @return the interior
+	 */
+	public boolean isInterior() {
+		return isInterior;
+	}
+
+	/**
+	 * @param interior the interior to set
+	 */
+	public void setInterior(boolean interior) {
+		this.isInterior = interior;
+	}
+	
+	public boolean isInside() {
+		return this.isInterior;
+	}
+	
+	public boolean isOutside() {
+		return !(this.isInterior);
+	}
+	
+	/**
+	 * Simply invert the interior boolean to quickly change the state
+	 */
+	public void toggleInOut() {
+		this.isInterior = !(this.isInterior);
+	}
+	
+	public void setInside() {
+		this.isInterior = true;
+	}
+	
+	public void setOutside() {
+		this.isInterior = false;
 	}
 	
 }
