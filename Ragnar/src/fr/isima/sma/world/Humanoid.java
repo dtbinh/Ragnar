@@ -17,6 +17,8 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String name;
 	protected String surname;
 	protected int age;
+	
+	protected Location location;
 
 	/**
 	 * Exceptions thrown in the class
@@ -30,9 +32,15 @@ public abstract class Humanoid extends ActiveEntity {
 	/**
 	 * Default constructor
 	 */
-	public Humanoid() {
+	public Humanoid() throws BadAgeException {
 		// By default the entities name, surname and age are randomly generated
 		
+	}
+	
+	
+	public Humanoid(String name, String surname, int age) throws BadAgeException {
+		// Default can be 
+		this(name, surname, age, 0, 0);
 	}
 	
 	/**
@@ -42,7 +50,7 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age age of the entity
 	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
 	 */
-	public Humanoid(String name, String surname, int age) throws BadAgeException {
+	public Humanoid(String name, String surname, int age, int locationX, int locationY) throws BadAgeException {
 		this.name = name;
 		this.surname = surname;
 		
@@ -51,6 +59,8 @@ public abstract class Humanoid extends ActiveEntity {
 		} else {
 			throw new BadAgeException();
 		}
+		
+		this.location = new Location(locationX, locationY);
 	}
 
 	/**
