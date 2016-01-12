@@ -10,10 +10,10 @@ public class Location {
 	private int locationX;
 	private int locationY;
 	
-	private int minLocationX;
-	private int minLocationY;
-	private int maxLocationX;
-	private int maxLocationY;
+	private static int minLocationX;
+	private static int minLocationY;
+	private static int maxLocationX;
+	private static int maxLocationY;
 	
 	private boolean isInterior; // indicate if the location concerns interior or exterior
 	
@@ -99,57 +99,22 @@ public class Location {
 	/**
 	 * @return the minLocationX
 	 */
-	public int getMinLocationX() {
+	public static int getMinLocationX() {
 		return minLocationX;
 	}
 
 	/**
 	 * @param minLocationX the minLocationX to set
 	 */
-	public void setMinLocationX(int minLocationX) {
-		this.minLocationX = minLocationX;
+	public static void setMinLocationX(int minLocationX) {
+		Location.minLocationX = minLocationX;
 	}
 
 	/**
 	 * @return the minLocationY
 	 */
-	public int getMinLocationY() {
+	public static int getMinLocationY() {
 		return minLocationY;
-	}
-
-	/**
-	 * @param minLocationY the minLocationY to set
-	 */
-	public void setMinLocationY(int minLocationY) {
-		this.minLocationY = minLocationY;
-	}
-
-	/**
-	 * @return the maxLocationX
-	 */
-	public int getMaxLocationX() {
-		return maxLocationX;
-	}
-
-	/**
-	 * @param maxLocationX the maxLocationX to set
-	 */
-	public void setMaxLocationX(int maxLocationX) {
-		this.maxLocationX = maxLocationX;
-	}
-
-	/**
-	 * @return the maxLocationY
-	 */
-	public int getMaxLocationY() {
-		return maxLocationY;
-	}
-
-	/**
-	 * @param maxLocationY the maxLocationY to set
-	 */
-	public void setMaxLocationY(int maxLocationY) {
-		this.maxLocationY = maxLocationY;
 	}
 	
 	public void setLocation(int locationX, int locationY) {
@@ -166,9 +131,9 @@ public class Location {
 	 * @param minLocationX the min location on the x axis
 	 * @param minLocationY the min location on the y axis
 	 */
-	public void setMinLocation(int minLocationX, int minLocationY) {
-		this.minLocationX = minLocationX;
-		this.minLocationY = minLocationY;
+	public static void setMinLocation(int minLocationX, int minLocationY) {
+		Location.minLocationX = minLocationX;
+		Location.minLocationY = minLocationY;
 	}
 
 	/**
@@ -176,9 +141,9 @@ public class Location {
 	 * @param maxLocationX the max location on the x axis
 	 * @param maxLocationY the max location on the y axis
 	 */
-	public void setMaxLocation(int maxLocationX, int maxLocationY) {
-		this.maxLocationX = maxLocationX;
-		this.maxLocationY = maxLocationY;
+	public static void setMaxLocation(int maxLocationX, int maxLocationY) {
+		Location.maxLocationX = maxLocationX;
+		Location.maxLocationY = maxLocationY;
 	}
 	
 	/**
@@ -256,6 +221,41 @@ public class Location {
 	@Override
 	public String toString() {
 		return "x : " + locationX + " - y : " + locationY + ((isInterior)?" (interior)": " (exterior)");
+	}
+
+	/**
+	 * @return the maxLocationX
+	 */
+	public static int getMaxLocationX() {
+		return maxLocationX;
+	}
+
+	/**
+	 * @param maxLocationX the maxLocationX to set
+	 */
+	public static void setMaxLocationX(int maxLocationX) {
+		Location.maxLocationX = maxLocationX;
+	}
+
+	/**
+	 * @return the maxLocationY
+	 */
+	public static int getMaxLocationY() {
+		return maxLocationY;
+	}
+
+	/**
+	 * @param maxLocationY the maxLocationY to set
+	 */
+	public static void setMaxLocationY(int maxLocationY) {
+		Location.maxLocationY = maxLocationY;
+	}
+
+	/**
+	 * @param minLocationY the minLocationY to set
+	 */
+	public static void setMinLocationY(int minLocationY) {
+		Location.minLocationY = minLocationY;
 	}
 
 } // Class

@@ -6,4 +6,6 @@ public abstract class ActiveEntity extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 
+	public abstract void live();
+
 }

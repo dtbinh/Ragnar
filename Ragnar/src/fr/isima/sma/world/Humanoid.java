@@ -18,20 +18,13 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String surname;
 	protected int age;
 	
-	protected int speed; // indicate the entity speed (max blocs per ticks)
-	public Location location; // Seems easier to manipulate this way
-
-	/**
-	 * Exceptions thrown in the class
-	 */
-	public class BadAgeException extends Exception {
-		public BadAgeException() { super(); }
-	}
+	protected int speed; // Indicate the entity speed (max blocs per ticks)
+	protected Location location; // Seems easier to manipulate this way
 	
 	/**
 	 * Default constructor
 	 */
-	public Humanoid() throws BadAgeException {
+	public Humanoid() {
 		// By default the entities name, surname and age are randomly generated
 		
 	}
@@ -43,7 +36,7 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age
 	 * @throws BadAgeException
 	 */
-	public Humanoid(String name, String surname, int age) throws BadAgeException {
+	public Humanoid(String name, String surname, int age) {
 		// Default can be placed in the HQ
 		this(name, surname, age, 1, 0, 0);
 	}
@@ -55,7 +48,7 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age age of the entity
 	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
 	 */
-	public Humanoid(String name, String surname, int age, int speed, int locationX, int locationY) throws BadAgeException {
+	public Humanoid(String name, String surname, int age, int speed, int locationX, int locationY) {
 		this.name = name;
 		this.surname = surname;
 		this.speed = speed;
@@ -63,7 +56,7 @@ public abstract class Humanoid extends ActiveEntity {
 		if(age > 0 && age < Humanoid.ageMax) {
 			this.age = age;
 		} else {
-			throw new BadAgeException();
+			System.err.println("Erreur sur l'age de : " + name);
 		}
 		
 		this.location = new Location(locationX, locationY);
@@ -78,6 +71,7 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 	
 	public void move(int locationX, int locationY) {
+		// TODO je peux pas aller plus vite que la speed
 		this.location.setLocation(locationX, locationY);
 	}
 	
@@ -136,6 +130,20 @@ public abstract class Humanoid extends ActiveEntity {
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	/**
+	 * @return the location
+	 */
+	public Location getLocation() {
+		return location;
+	}
+
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	

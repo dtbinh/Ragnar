@@ -2,16 +2,16 @@ package fr.isima.sma.world;
 
 public class Hero extends Super {
 
-	public Hero() throws BadAgeException {
+	public Hero()  {
 		super();
 	}
 	
-	public Hero(String name, String surname, int age, int speed, int locationX, int locationY) throws BadAgeException {
+	public Hero(String name, String surname, int age, int speed, int locationX, int locationY) {
 		super(name, surname, age, speed, locationX, locationY);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Hero(String name, String surname, int age) throws BadAgeException {
+	public Hero(String name, String surname, int age) {
 		super(name, surname, age);
 		// TODO Auto-generated constructor stub
 	}
@@ -106,5 +106,10 @@ public class Hero extends Super {
 		super.setSpeed(speed);
 	}
 
+	@Override
+	public void live() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

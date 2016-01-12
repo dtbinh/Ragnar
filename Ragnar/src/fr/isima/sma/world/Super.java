@@ -1,17 +1,17 @@
 package fr.isima.sma.world;
 
-public class Super extends Humanoid {
+public abstract class Super extends Humanoid {
 
-	public Super() throws BadAgeException {
+	public Super() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Super(String name, String surname, int age, int speed, int locationX, int locationY) throws BadAgeException {
+	public Super(String name, String surname, int age, int speed, int locationX, int locationY) {
 		super(name, surname, age, speed, locationX, locationY);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Super(String name, String surname, int age) throws BadAgeException {
+	public Super(String name, String surname, int age) {
 		super(name, surname, age);
 		// TODO Auto-generated constructor stub
 	}

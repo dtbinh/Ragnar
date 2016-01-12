@@ -1,7 +1,8 @@
 package fr.isima.sma.simulator;
 
+import java.util.ArrayList;
+
 import fr.isima.sma.world.*;
-import fr.isima.sma.world.Humanoid.BadAgeException;
 
 public class Ragnar {
 	
@@ -12,22 +13,10 @@ public class Ragnar {
 	public static void main(String[] args) {
 		VirtualClock c = new VirtualClock(2000);
 		
-		Hero benji = null;
-		try {
-			benji = new Hero("Super", "Man", 21, 4, 0, 0);
-		} catch (BadAgeException e) {
-			System.err.println("N'a pas pu etre cree");
-		}
+		SimulationKernel simulationKernel = new SimulationKernel();
 		
-		if(benji != null) {
-			benji.location.setMaxLocation(10, 10);
-		
-			while(true) {
-				if(c.ticTac()) {
-					benji.moveRandom();
-					System.out.println(benji.location);
-				}
-			}
+		while (true) {
+			
 		}
 	}
 
