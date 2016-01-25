@@ -2,7 +2,7 @@ package fr.isima.sma.world;
 
 import java.util.ArrayList;
 
-public interface ICityCitizen {
+public interface ICityCitizen extends ICity {
 	
 	public int getHeure(); // Heure courant de la map
 	public Sector getSector(Citizen citizen); // Precise sur quel secteur on se trouve

@@ -1,9 +1,9 @@
 package fr.isima.sma.world;
 
 public class Citizen extends Humanoid {
-	private static ICityCitizen cityInterface;
+	static private ICityCitizen cityInterface;
 
-	public Citizen() {
+	public Citizen(ICityCitizen city) {
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -12,8 +12,16 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
+		if(cityInterface.getHeure() > 22) {
+			
+		} else {
+			cityInterface.getSector(this);
+		}
 		
-		
+	}
+	
+	public static void setCityInterface(ICityCitizen i) {
+		cityInterface = i;
 	}
 
 }
