@@ -16,10 +16,9 @@ public class Ragnar {
 		if(args.length == 1) {
 			System.out.println("Chargement de la city par fichier");
 			c.loadFromFile(args[0]);
+			Location.setMaxLocation(c.getSizeX(), c.getSizeY());
 			
 			Hero h = new Hero("Super", "quiche", 20, 1, 0, 0);
-			/** Si c'est fait avant la declaration du heros, ca marche pas **/
-			Location.setMaxLocation(c.getSizeX(), c.getSizeY());
 			
 			c.addActiveEntity(h);
 			

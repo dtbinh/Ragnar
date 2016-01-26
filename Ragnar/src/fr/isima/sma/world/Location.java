@@ -10,10 +10,10 @@ public class Location {
 	private int locationX;
 	private int locationY;
 	
-	private static int minLocationX;
-	private static int minLocationY;
-	private static int maxLocationX;
-	private static int maxLocationY;
+	private static int minLocationX = 0;
+	private static int minLocationY = 0;
+	private static int maxLocationX = 0;
+	private static int maxLocationY = 0;
 	
 	private boolean isInterior; // indicate if the location concerns interior or exterior
 	
@@ -21,7 +21,7 @@ public class Location {
 	 * Default constructor, setting everything to 0
 	 */
 	public Location() {
-		this(0, 0, 0, 0, 0, 0, false);
+		this(0, 0, false);
 	}
 
 	/**
@@ -30,37 +30,17 @@ public class Location {
 	 * @param locationY the location on the y axis
 	 */
 	public Location(int locationX, int locationY) {
-		this(locationX, locationY, 0, 0, 0, 0, false);
-	}
-	
-	/**
-	 * Constructor to set location and max coordinates at the same time
-	 * @param locationX the location on the x axis
-	 * @param locationY the location on the y axis
-	 * @param maxLocationX the max location on the x axis
-	 * @param maxLocationY the max location on the y axis
-	 */
-	public Location(int locationX, int locationY, int maxLocationX, int maxLocationY) {
-		this(locationX, locationY, 0, 0, maxLocationX, maxLocationY, false);
+		this(locationX, locationY, false);
 	}
 
 	/**
 	 * constructor to set all the parameters at once
 	 * @param locationX the location on the x axis
 	 * @param locationY the location on the y axis
-	 * @param minLocationX the min location on x axis
-	 * @param minLocationY the min location on y axis
-	 * @param maxLocationX the max location on x axis
-	 * @param maxLocationY the max location on y axis
 	 */
-	public Location(int locationX, int locationY, int minLocationX, int minLocationY, int maxLocationX,
-			int maxLocationY, boolean isInterior) {
+	public Location(int locationX, int locationY, boolean isInterior) {
 		this.locationX = locationX;
 		this.locationY = locationY;
-		Location.minLocationX = minLocationX;
-		Location.minLocationY = minLocationY;
-		Location.maxLocationX = maxLocationX;
-		Location.maxLocationY = maxLocationY;
 		this.isInterior = isInterior;
 	}
 
