@@ -57,10 +57,10 @@ public class Location {
 			int maxLocationY, boolean isInterior) {
 		this.locationX = locationX;
 		this.locationY = locationY;
-		this.minLocationX = minLocationX;
-		this.minLocationY = minLocationY;
-		this.maxLocationX = maxLocationX;
-		this.maxLocationY = maxLocationY;
+		Location.minLocationX = minLocationX;
+		Location.minLocationY = minLocationY;
+		Location.maxLocationX = maxLocationX;
+		Location.maxLocationY = maxLocationY;
 		this.isInterior = isInterior;
 	}
 
@@ -75,7 +75,7 @@ public class Location {
 	 * @param locationX the locationX to set
 	 */
 	public void setLocationX(int locationX) {
-		if(locationX >= minLocationX && locationX <= maxLocationX) {
+		if(locationX >= Location.minLocationX && locationX <= Location.maxLocationX) {
 			this.locationX = locationX;
 		}
 	}
@@ -91,7 +91,7 @@ public class Location {
 	 * @param locationY the locationY to set
 	 */
 	public void setLocationY(int locationY) {
-		if(locationY >= minLocationY && locationY <= maxLocationY) {
+		if(locationY >= Location.minLocationY && locationY <= Location.maxLocationY) {
 			this.locationY = locationY;
 		}
 	}
@@ -114,7 +114,7 @@ public class Location {
 	 * @return the minLocationY
 	 */
 	public static int getMinLocationY() {
-		return minLocationY;
+		return Location.minLocationY;
 	}
 	
 	public void setLocation(int locationX, int locationY) {
@@ -156,8 +156,8 @@ public class Location {
 		boolean ret = false;
 		
 		// Testing the two coordinates separately
-		if(locationX >= this.minLocationX && locationX <= this.maxLocationX) {
-			if(locationY >= this.minLocationY && locationY <= this.maxLocationY) {
+		if(locationX >= Location.minLocationX && locationX <= Location.maxLocationX) {
+			if(locationY >= Location.minLocationY && locationY <= Location.maxLocationY) {
 				ret = true;
 			}
 		}
@@ -212,6 +212,7 @@ public class Location {
 		// the other is bad
 		// Right now the entity wont move for some turns if one of the location
 		// is bad
+		System.out.println("setLocation("+(this.locationX + offsetX)+", "+(this.locationY + offsetY)+");");
 		setLocation(this.locationX + offsetX, this.locationY + offsetY);
 	}
 	
@@ -220,14 +221,14 @@ public class Location {
 	 */
 	@Override
 	public String toString() {
-		return "x : " + locationX + " - y : " + locationY + ((isInterior)?" (interior)": " (exterior)");
+		return "x : " + this.locationX + " - y : " + this.locationY + ((this.isInterior)?" (interior)": " (exterior)");
 	}
 
 	/**
 	 * @return the maxLocationX
 	 */
 	public static int getMaxLocationX() {
-		return maxLocationX;
+		return Location.maxLocationX;
 	}
 
 	/**
@@ -241,7 +242,7 @@ public class Location {
 	 * @return the maxLocationY
 	 */
 	public static int getMaxLocationY() {
-		return maxLocationY;
+		return Location.maxLocationY;
 	}
 
 	/**

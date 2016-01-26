@@ -12,7 +12,9 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
-		if(cityInterface.getHeure() > 22) {
+		if(cityInterface.getHeure() > 20 && cityInterface.getHeure() < 8) {
+			// Entre 20h et 8h, il faut etre a la maison
+			
 			
 		} else {
 			cityInterface.getSector(this);

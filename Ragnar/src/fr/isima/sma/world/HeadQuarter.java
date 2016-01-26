@@ -1,9 +1,41 @@
 package fr.isima.sma.world;
 
 public class HeadQuarter extends Sector {
+	
+	public static enum OwnerType {
+		Citizen, Heroe, Vilain
+	}
 
+	protected OwnerType owner;
+	
 	public HeadQuarter() {
-		// TODO Auto-generated constructor stub
+		this(OwnerType.Citizen);
+	}
+	
+	public HeadQuarter(OwnerType owner) {
+		this.owner = owner;
+	}
+	
+	@Override
+	public String toString() {
+		String out = "";
+		
+		switch (owner) {
+		case Citizen:
+			out += "I";
+			break;
+		case Heroe:
+			out += "H";
+			break;
+		case Vilain:
+			out += "V";
+			break;
+		default:
+			out += "?";
+			break;
+		}
+		
+		return out;
 	}
 
 }

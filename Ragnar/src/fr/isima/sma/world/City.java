@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 
+import fr.isima.sma.world.HeadQuarter.OwnerType;
+import fr.isima.sma.world.Sector.SectorType;
+
 public class City extends ActiveEntity implements ICityCitizen {
 	protected int currentTick;
 	protected int tickPerHour; 
@@ -12,10 +15,11 @@ public class City extends ActiveEntity implements ICityCitizen {
 	protected int jour;
 	protected String name;
 	
-	protected ArrayList< ArrayList<Sector> > map; 
+	protected Sector[][] map;
+	protected ArrayList<ActiveEntity> activeEntities;
 
 	public City() {
-		// TODO
+		this(2000);
 	}
 	
 	public City(int tickPerHour) {
@@ -23,14 +27,18 @@ public class City extends ActiveEntity implements ICityCitizen {
 		this.heure = 0;
 		this.jour = 0;
 		this.tickPerHour = tickPerHour;
+		activeEntities = new ArrayList<>();
 	}
-	
+	/**
+	 * Load the map from a file
+	 * @param filePath the file to load
+	 */
 	public void loadFromFile(String filePath) { 
-		/*
+		/**
 		 * Structure generale du fichier
 		 * NOM DE LA VILLE
-		 * 
-		 * Elements
+		 * TAILLEX TAILLEY
+		 * <it> Le reste sous forme de la map </it>
 		 * B : banque
 		 * H : hq de heros
 		 * V : hq de villains
@@ -42,19 +50,55 @@ public class City extends ActiveEntity implements ICityCitizen {
 			FileReader fr = new FileReader(filePath);
 			BufferedReader br = new BufferedReader(fr);
 			
-			String line = null;
+			/// Setting the name of the map
+			String line = br.readLine();
+			this.name = line;
 			
-			// TODO finish
+			/// Allocating the map
+			line = br.readLine();
+			this.map = new Sector[Integer.parseInt((line.split(" "))[1])][];
 			
+			int xSize = Integer.parseInt((line.split(" "))[0]);
+			for (int i = 0; i < map.length; i++) {
+				this.map[i] = new Sector[xSize];
+			}
+			
+			/// Filling the map
+			int lineIndex = 0;
 			while((line = br.readLine()) != null) {
-				
+				for (int i = 0; i < line.length(); i++) {
+					char c = line.charAt(i);
+					switch (c) {
+					case 'B':
+						map[lineIndex][i]= new Bank();
+						break;
+					case 'H':
+						map[lineIndex][i] = new HeadQuarter(HeadQuarter.OwnerType.Heroe);
+						break;
+					case 'V':
+						map[lineIndex][i] = new HeadQuarter(HeadQuarter.OwnerType.Vilain);
+						break;
+					case 'S':
+						map[lineIndex][i] = new Street();
+						break;
+					case 'I':
+						map[lineIndex][i] = new HeadQuarter(HeadQuarter.OwnerType.Citizen);
+						break;
+					default:
+						map[lineIndex][i] = new Street();
+						break;
+					}
+				}
+				lineIndex++;
 			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+	}
+	
+	public void addActiveEntity(ActiveEntity entity) {
+		this.activeEntities.add(entity);
 	}
 	
 	@Override
@@ -70,18 +114,58 @@ public class City extends ActiveEntity implements ICityCitizen {
 			}
 		}
 	}
+	
+	/**
+	 * Print the map in its string format
+	 * @return the formated string representing the map
+	 */
+	@Override
+	public String toString() {
+		String[][] out = new String[getSizeX()][getSizeY()];
+		
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[0].length; j++) {
+				out[i][j] = map[i][j].toString();
+			}
+		}
+		
+		for (ActiveEntity entity : activeEntities) {
+			out[((Humanoid)entity).getLocation().getLocationX()][((Humanoid)entity).getLocation().getLocationX()] = "#";
+		}
+		
+		String res = "";
+		res += "Map : " + this.name + "\n";
+		res += "Size : " + map.length + " x " + map[0].length + "\n\n";
+		
+		for (int i = 0; i < out.length; i++) {
+			for (int j = 0; j < out.length; j++) {
+				res += out[i][j] + " ";
+			}
+			res += "\n";
+		}
+		
+		return res;
+	}
 
 	@Override
 	public int getHeure() {
 		return this.heure;
 	}
 
+	/**
+	 * Get the sector on which the citizen is
+	 * @param citizen the guy whi need its sector
+	 * @return the sector on which it is !
+	 */
 	@Override
 	public Sector getSector(Citizen citizen) {
-		// TODO Auto-generated method stub
-		return null;
+		int x = citizen.getLocation().getLocationX();
+		int y = citizen.getLocation().getLocationY();
+		
+		return map[x][y];
 	}
 
+	
 	@Override
 	public void depositMoney(Citizen citizen, int amount) {
 		// TODO Auto-generated method stub
@@ -153,14 +237,14 @@ public class City extends ActiveEntity implements ICityCitizen {
 	/**
 	 * @return the map
 	 */
-	public ArrayList<ArrayList<Sector>> getMap() {
+	public Sector[][] getMap() {
 		return map;
 	}
 
 	/**
 	 * @param map the map to set
 	 */
-	public void setMap(ArrayList<ArrayList<Sector>> map) {
+	public void setMap(Sector[][] map) {
 		this.map = map;
 	}
 
@@ -169,6 +253,20 @@ public class City extends ActiveEntity implements ICityCitizen {
 	 */
 	public void setHeure(int heure) {
 		this.heure = heure;
+	}
+	
+	/**
+	 * @return the x size of the map
+	 */
+	public int getSizeX () {
+		return map[0].length;
+	}
+	
+	/**
+	 * @return the y size of the map
+	 */
+	public int getSizeY() {
+		return map.length;
 	}
 
 }

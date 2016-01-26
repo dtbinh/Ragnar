@@ -5,5 +5,10 @@ public class Bank extends Sector {
 	public Bank() {
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public String toString() {
+		return "B";
+	}
 
 }
