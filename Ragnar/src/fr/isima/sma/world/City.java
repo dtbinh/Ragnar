@@ -130,7 +130,7 @@ public class City extends ActiveEntity implements ICityCitizen {
 		}
 		
 		for (ActiveEntity entity : activeEntities) {
-			out[((Humanoid)entity).getLocation().getLocationX()][((Humanoid)entity).getLocation().getLocationX()] = "#";
+			out[((Humanoid)entity).getLocation().getLocationX()][((Humanoid)entity).getLocation().getLocationY()] = "#";
 		}
 		
 		String res = "";
@@ -138,7 +138,7 @@ public class City extends ActiveEntity implements ICityCitizen {
 		res += "Size : " + map.length + " x " + map[0].length + "\n\n";
 		
 		for (int i = 0; i < out.length; i++) {
-			for (int j = 0; j < out.length; j++) {
+			for (int j = 0; j < out[0].length; j++) {
 				res += out[i][j] + " ";
 			}
 			res += "\n";
@@ -259,6 +259,9 @@ public class City extends ActiveEntity implements ICityCitizen {
 	 * @return the x size of the map
 	 */
 	public int getSizeX () {
+		if(map[0].length == 0) {
+			System.err.println("Map init might have failed !");
+		}
 		return map[0].length;
 	}
 	
@@ -266,6 +269,9 @@ public class City extends ActiveEntity implements ICityCitizen {
 	 * @return the y size of the map
 	 */
 	public int getSizeY() {
+		if(map.length == 0) {
+			System.err.println("Map init might have failed !");
+		}
 		return map.length;
 	}
 

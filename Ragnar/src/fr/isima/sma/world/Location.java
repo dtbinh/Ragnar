@@ -118,6 +118,7 @@ public class Location {
 	}
 	
 	public void setLocation(int locationX, int locationY) {
+		
 		if(isValid(locationX, locationY)) {
 			this.locationX = locationX;
 			this.locationY = locationY;
@@ -154,14 +155,12 @@ public class Location {
 	 */
 	private boolean isValid(int locationX, int locationY) {
 		boolean ret = false;
-		
 		// Testing the two coordinates separately
 		if(locationX >= Location.minLocationX && locationX <= Location.maxLocationX) {
 			if(locationY >= Location.minLocationY && locationY <= Location.maxLocationY) {
 				ret = true;
 			}
 		}
-		
 		return ret;
 	}
 
@@ -212,7 +211,6 @@ public class Location {
 		// the other is bad
 		// Right now the entity wont move for some turns if one of the location
 		// is bad
-		System.out.println("setLocation("+(this.locationX + offsetX)+", "+(this.locationY + offsetY)+");");
 		setLocation(this.locationX + offsetX, this.locationY + offsetY);
 	}
 	
