@@ -4,25 +4,29 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import fr.isima.sma.world.HeadQuarter.OwnerType;
 import fr.isima.sma.world.Sector.SectorType;
 
-public class City extends ActiveEntity implements ICityCitizen {
-	protected int currentTick;
-	protected int tickPerHour; 
-	protected int heure;
-	protected int jour;
-	protected String name;
+public class City extends ActiveEntity implements ICityCitizen, Notifier {
+	protected int 						currentTick;
+	protected int 						tickPerHour;
+	protected int 						heure;
+	protected int 						jour;
+	protected String 					name;
+	protected Observable 				notifier;
 	
-	protected Sector[][] map;
-	protected ArrayList<ActiveEntity> activeEntities;
+	protected Sector[][] 				map;
+	protected ArrayList<ActiveEntity> 	activeEntities;
 
 	public City() {
 		this(2000);
 	}
 	
 	public City(int tickPerHour) {
+		this.notifier = new Observable();
 		this.currentTick = 0;
 		this.heure = 0;
 		this.jour = 0;
@@ -273,6 +277,16 @@ public class City extends ActiveEntity implements ICityCitizen {
 			System.err.println("Map init might have failed !");
 		}
 		return map.length;
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		notifier.addObserver(o);
+	}
+
+	@Override
+	public int countObservers() {
+		return notifier.countObservers();
 	}
 
 }

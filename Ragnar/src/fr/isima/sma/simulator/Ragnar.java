@@ -2,6 +2,7 @@ package fr.isima.sma.simulator;
 
 import java.util.ArrayList;
 
+import fr.isima.sma.gui.CityView;
 import fr.isima.sma.world.*;
 
 public class Ragnar {
@@ -11,29 +12,13 @@ public class Ragnar {
 	}
 
 	public static void main(String[] args) {
-		City c = new City();
+		City m = new City();
+		m.loadFromFile("ragnar.txt");
+		CityView v = new CityView(m);
+		m.addObserver(v);
+		SimulationKernel c = new SimulationKernel(m, v);
 		
-		if(args.length == 1) {
-			System.out.println("Chargement de la city par fichier");
-			c.loadFromFile(args[0]);
-			Location.setMaxLocation(c.getSizeX(), c.getSizeY());
-			
-			Hero h = new Hero("Super", "quiche", 20, 1, 0, 0);
-			
-			c.addActiveEntity(h);
-			
-			while(true) {
-				h.moveRandom();
-				System.out.println(h.getLocation());
-				
-				System.out.println(c);
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {}
-			}
-		} else {
-			System.err.println("Pas de fichier de configuration de la city");
-		}
+		c.simulate();
 	}
 
 }

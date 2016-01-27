@@ -3,7 +3,7 @@ package fr.isima.sma.world;
 public class Street extends Sector {
 
 	public Street() {
-		
+		setType(SectorType.Street);
 	}
 	
 	public SectorType getType() {

@@ -14,6 +14,7 @@ public class HeadQuarter extends Sector {
 	
 	public HeadQuarter(OwnerType owner) {
 		this.owner = owner;
+		setType(SectorType.HeadQuarter);
 	}
 	
 	@Override

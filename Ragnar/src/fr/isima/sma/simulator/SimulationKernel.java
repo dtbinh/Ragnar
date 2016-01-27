@@ -5,23 +5,29 @@ import java.util.Collections;
 import java.util.Random;
 
 import fr.isima.sma.world.*;
+import fr.isima.sma.gui.CityView;
 import fr.isima.sma.simulator.events.*;
 
+/*
+ * 	Classe correspondant au contrôleur du MVC
+ */
 public class SimulationKernel {
 	
-	protected long time;			// temps de simulation
-	protected boolean isRunning;	//
+	protected long 						time;			// temps de simulation
+	protected boolean 					isRunning;	//
 	
-	protected City ragnar;			// ville de la simulation
+	protected City 						ragnar;			// ville de la simulation
+	protected CityView					view;			// vue
 	
-	protected ArrayList<ActiveEntity> activeEntities;
-	protected ArrayList<Event> events;
+	protected ArrayList<ActiveEntity> 	activeEntities;
+	protected ArrayList<Event> 			events;
 	
-	protected static Random rand = new Random();
-	protected static VirtualClock c = new VirtualClock(2000); 
+	protected static Random 			rand = new Random();
+	protected static VirtualClock 		c = new VirtualClock(2000); 
 
-	public SimulationKernel() {
-		
+	public SimulationKernel(City c, CityView v) {
+		ragnar = c;
+		view = v;
 	}
 
 	/**

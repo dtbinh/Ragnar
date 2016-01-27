@@ -5,17 +5,21 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import fr.isima.sma.world.Sector;
+
 public class Map extends JPanel {
 	static protected final Color RED = new Color(255,0,0);
 	static protected final Color BLU = new Color(0,0,255);
 	static protected final Color GRE = new Color(0,255,0);
 	static protected final Color WHI = new Color(255,255,255);
 	
-	public Map(int pRows, int pCols, int pSize) {
-		super(new GridLayout(pRows, pCols), true);
-		setSize(pRows*pSize, pCols*pSize);
-		for(int i = 0 ; i < pCols*pRows ; ++i) {
-			this.add(new Case((i%2==0? BLU : RED)));
+	public Map(Sector [][] map, int pSize) {
+		super(new GridLayout(map.length, map[0].length), true);
+		setSize(map.length*pSize, map[0].length*pSize);
+		for (Sector[] ss : map) {
+			for (Sector s : ss) {
+				add(new Case(s.getType()));
+			}
 		}
 		setVisible(true);
 	}

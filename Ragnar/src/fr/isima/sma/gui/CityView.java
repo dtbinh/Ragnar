@@ -19,23 +19,21 @@ public class CityView implements Observer {
 	public CityView(City pModele) {
 		window = new RagnarWindow();
 		modele = pModele;
-		//modele.addObserver(this);
-		map = new Map(pModele.getSizeY(), pModele.getSizeX(), 50);
+		modele.addObserver(this);
+		map = new Map(modele.getMap(), 50);
 		window.getContentPane().add(map, BorderLayout.CENTER);
 		window.setVisible(true);
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
+		int n = 0;
+		for (Sector[] ss : modele.getMap()) {
+			for (Sector s : ss) {
+				((Case) map.getComponent(n)).setCaseType(s.getType());
+			}
+		}
 		map.repaint();
-	}
-	
-	public static void main(String[] args) {
-		City ragnar = new City(2000);
-		ragnar.loadFromFile("ragnar.txt");
-		CityView cv = new CityView(ragnar);
-		
-		cv.map.getComponent(3).setBackground(new Color(255,255,255));
 	}
 	
 }
