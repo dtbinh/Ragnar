@@ -3,54 +3,32 @@ package fr.isima.sma.simulator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.function.Predicate;
 
 import fr.isima.sma.world.*;
 import fr.isima.sma.gui.CityView;
 import fr.isima.sma.simulator.events.*;
 
 /*
- * 	Classe correspondant au contrôleur du MVC
+ * 	MVC class
  */
 public class SimulationKernel {
 	
 	protected long 						time;			// temps de simulation
-	protected boolean 					isRunning;	//
+	protected boolean 					isRunning;		// la simu est en cours ?
 	
 	protected City 						ragnar;			// ville de la simulation
 	protected CityView					view;			// vue
 	
-	protected ArrayList<ActiveEntity> 	activeEntities;
 	protected ArrayList<Event> 			events;
-	
+	// TODO s'abonner a toutes les entites de la city pour faire ajouter les events automatiquement
 	protected static Random 			rand = new Random();
 	protected static VirtualClock 		c = new VirtualClock(2000); 
 
 	public SimulationKernel(City c, CityView v) {
 		ragnar = c;
 		view = v;
-	}
-
-	/**
-	 * @return the activeEntities
-	 */
-	public ArrayList<ActiveEntity> getActiveEntities() {
-		return activeEntities;
-	}
-
-	/**
-	 * @param activeEntities the activeEntities to set
-	 */
-	public void setActiveEntities(ArrayList<ActiveEntity> activeEntities) {
-		this.activeEntities = activeEntities;
-	}
-	
-	public void shuffleEntities() {
-		Collections.shuffle(this.activeEntities, SimulationKernel.rand);
-		
-		System.out.println("Dans la liste :");
-		for(ActiveEntity e : activeEntities) {
-			System.out.println(e);
-		}
+		events = new ArrayList<>();
 	}
 
 	/**
@@ -71,11 +49,38 @@ public class SimulationKernel {
 	 * Shuffle entities and run them if the clock allows it
 	 */
 	public void simulate() {
-		// TODO gestion des event
-		this.shuffleEntities();
-		if(SimulationKernel.c.ticTac()) {
-			for(ActiveEntity e : activeEntities) {
-				e.live();
+		isRunning = true;
+		Collections.shuffle(events); //
+		
+		for (Event event : events) {
+			event.Proceed(); // Launch the event
+			clearEvents(); // Clear the next events
+			events.remove(0); // Remove this event
+		}
+		isRunning = false;
+	}
+
+	/**
+	 * Clear the events that have at least one entity from the first event
+	 * @param event the event which has been proceed
+	 */
+	private void clearEvents() {		
+		if(events.size() > 0) {
+			Event event = events.get(0);
+			ArrayList<ActiveEntity> eventEntities  = event.getEntities();
+			
+			// Reverse to avoid problems when deleting
+			for (int i = events.size()-1; i > 0; i--) {
+				boolean stop = false;
+				
+				Event e = events.get(i);
+				for (int a = 0; a < eventEntities.size() && !stop; a++) {
+					ActiveEntity actE = eventEntities.get(a);
+					if(e.getEntities().contains(actE)) {
+						events.remove(i);
+						stop = true;
+					}
+				}
 			}
 		}
 	}

@@ -13,6 +13,7 @@ public class HeadQuarter extends Sector {
 	}
 	
 	public HeadQuarter(OwnerType owner) {
+		super();
 		this.owner = owner;
 		setType(SectorType.HeadQuarter);
 	}
