@@ -24,6 +24,7 @@ public abstract class Humanoid extends ActiveEntity {
 	 * Default constructor
 	 */
 	public Humanoid() {
+		super();
 		// By default the entities name, surname and age are randomly generated
 		
 	}

@@ -4,7 +4,8 @@ public class Citizen extends Humanoid {
 	static private ICityCitizen cityInterface;
 
 	public Citizen(ICityCitizen city) {
-		// TODO Auto-generated constructor stub
+		super();
+		// TODO add constructors
 	}
 	
 	public Citizen(String name, String surname, int age, int speed, int locationX, int locationY) {
@@ -20,7 +21,8 @@ public class Citizen extends Humanoid {
 		if(cityInterface.getHeure() > 20 && cityInterface.getHeure() < 8) {
 			// Entre 20h et 8h, il faut etre a la maison
 			
-			
+		} else if (true) {
+			// TODO terminer
 		} else {
 			cityInterface.getSector(this);
 		}

@@ -27,6 +27,7 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	}
 	
 	public City(int tickPerHour) {
+		super();
 		this.notifier = new MyObservable();
 		this.currentTick = 0;
 		this.heure = 0;
