@@ -18,8 +18,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String surname;
 	protected int age;
 	
-	protected int speed; // Indicate the entity speed (max blocs per ticks)
-	protected Location location;
+	
 	
 	/**
 	 * Default constructor
@@ -130,20 +129,6 @@ public abstract class Humanoid extends ActiveEntity {
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
-	}
-
-	/**
-	 * @return the location
-	 */
-	public Location getLocation() {
-		return location;
-	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(Location location) {
-		this.location = location;
 	}
 
 	

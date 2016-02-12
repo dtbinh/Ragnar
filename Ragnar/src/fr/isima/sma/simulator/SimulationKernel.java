@@ -28,6 +28,7 @@ public class SimulationKernel {
 	public SimulationKernel(City c, CityView v) {
 		ragnar = c;
 		view = v;
+		activeEntities = new ArrayList<ActiveEntity>();
 	}
 
 	/**
@@ -72,8 +73,9 @@ public class SimulationKernel {
 	 */
 	public void simulate() {
 		// TODO gestion des event
-		this.shuffleEntities();
+		//this.shuffleEntities();
 		if(SimulationKernel.c.ticTac()) {
+			ragnar.live();
 			for(ActiveEntity e : activeEntities) {
 				e.live();
 			}

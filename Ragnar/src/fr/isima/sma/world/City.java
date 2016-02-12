@@ -4,40 +4,54 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import fr.isima.sma.world.HeadQuarter.OwnerType;
 import fr.isima.sma.world.Sector.SectorType;
 
-public class City extends ActiveEntity implements ICityCitizen, Notifier {
+public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	protected int 						currentTick;
 	protected int 						tickPerHour;
 	protected int 						heure;
 	protected int 						jour;
 	protected String 					name;
-	protected Observable 				notifier;
+	protected MyObservable 				notifier;
 	
 	protected Sector[][] 				map;
-	protected ArrayList<ActiveEntity> 	activeEntities;
+	protected List<Humanoid>	 	activeEntities;
 
 	public City() {
 		this(2000);
 	}
 	
 	public City(int tickPerHour) {
-		this.notifier = new Observable();
+		this.notifier = new MyObservable();
 		this.currentTick = 0;
 		this.heure = 0;
 		this.jour = 0;
 		this.tickPerHour = tickPerHour;
 		activeEntities = new ArrayList<>();
 	}
+	
 	/**
 	 * Load the map from a file
 	 * @param filePath the file to load
 	 */
-	public void loadFromFile(String filePath) { 
+	public void loadAgentsFromFile(String filePath) {
+		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
+		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
+		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
+		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
+		activeEntities.add(new Vilain("Abomination", "", 30, 100, 8, 5));
+		activeEntities.add(new Citizen("Stève", "Boulot", 30, 100, 1, 7));
+	}
+	/**
+	 * Load the map from a file
+	 * @param filePath the file to load
+	 */
+	public void loadCityFromFile(String filePath) { 
 		/**
 		 * Structure generale du fichier
 		 * NOM DE LA VILLE
@@ -50,9 +64,13 @@ public class City extends ActiveEntity implements ICityCitizen, Notifier {
 		 * I : hq de citizens
 		 */
 		
-		try {
-			FileReader fr = new FileReader(filePath);
-			BufferedReader br = new BufferedReader(fr);
+		try (
+				FileReader fr = new FileReader(filePath);
+				BufferedReader br = new BufferedReader(fr);
+			)
+		{
+			
+			
 			
 			/// Setting the name of the map
 			String line = br.readLine();
@@ -101,8 +119,16 @@ public class City extends ActiveEntity implements ICityCitizen, Notifier {
 		}
 	}
 	
-	public void addActiveEntity(ActiveEntity entity) {
+	public void addActiveEntity(Humanoid entity) {
 		this.activeEntities.add(entity);
+	}
+	
+	public List<Humanoid> getActiveEntities() {
+		return this.activeEntities;
+	}
+	
+	public void setActiveEntities(List<Humanoid> pActiveEntities) {
+		this.activeEntities = pActiveEntities;
 	}
 	
 	@Override
@@ -117,6 +143,13 @@ public class City extends ActiveEntity implements ICityCitizen, Notifier {
 				jour++;
 			}
 		}
+		
+		notifier.setChanged();
+		notifier.notifyObservers();
+	}
+	
+	public void notifyObservers() {
+		notifier.notifyObservers();
 	}
 	
 	/**

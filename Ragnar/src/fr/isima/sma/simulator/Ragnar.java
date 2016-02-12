@@ -13,12 +13,15 @@ public class Ragnar {
 
 	public static void main(String[] args) {
 		City m = new City();
-		m.loadFromFile("ragnar.txt");
+		m.loadCityFromFile("ragnar.txt");
 		CityView v = new CityView(m);
+		m.loadAgentsFromFile(null);
 		m.addObserver(v);
 		SimulationKernel c = new SimulationKernel(m, v);
 		
-		c.simulate();
+		while(true) {
+			c.simulate();			
+		}
 	}
 
 }

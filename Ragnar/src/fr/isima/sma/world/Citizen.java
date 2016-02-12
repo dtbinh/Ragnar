@@ -7,6 +7,11 @@ public class Citizen extends Humanoid {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public Citizen(String name, String surname, int age, int speed, int locationX, int locationY) {
+		super(name, surname, age, speed, locationX, locationY);
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * Defines the behaviour of the entity
 	 */

@@ -15,6 +15,10 @@ public class HeadQuarter extends Sector {
 	public HeadQuarter(OwnerType owner) {
 		this.owner = owner;
 		setType(SectorType.HeadQuarter);
+		if(owner == OwnerType.Heroe)
+			setType(SectorType.HeroHQ);
+		else if(owner == OwnerType.Vilain)
+			setType(SectorType.VilainHQ);
 	}
 	
 	@Override

@@ -3,7 +3,7 @@ package fr.isima.sma.world;
 public abstract class Sector {
 
 	static public enum SectorType {
-		Street, Bank, HeadQuarter
+		Street, Bank, HeadQuarter, HeroHQ, VilainHQ
 	}
 	
 	protected SectorType 	type;
