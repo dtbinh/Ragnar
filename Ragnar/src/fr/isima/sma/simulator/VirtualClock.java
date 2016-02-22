@@ -1,7 +1,5 @@
 package fr.isima.sma.simulator;
 
-import java.util.Date;
-
 public class VirtualClock {
 	protected long step;
 	protected long start;

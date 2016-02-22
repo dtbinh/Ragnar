@@ -1,15 +1,9 @@
 package fr.isima.sma.world;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
 import java.util.Observer;
-
-import fr.isima.sma.world.HeadQuarter.OwnerType;
-import fr.isima.sma.world.Sector.SectorType;
 
 public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	protected int 						currentTick;
@@ -18,14 +12,14 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	protected int 						jour;
 	protected String 					name;
 	protected MyObservable 				notifier;
-	
+
 	protected Sector[][] 				map;
-	protected List<Humanoid>	 	activeEntities;
+	protected AgentsList<Humanoid>	agents;
 
 	public City() {
-		this(2000);
+		this(1);
 	}
-	
+
 	public City(int tickPerHour) {
 		super();
 		this.notifier = new MyObservable();
@@ -33,26 +27,26 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		this.heure = 0;
 		this.jour = 0;
 		this.tickPerHour = tickPerHour;
-		activeEntities = new ArrayList<>();
+		agents = new AgentsList<>("agents");
 	}
-	
+
 	/**
 	 * Load the map from a file
 	 * @param filePath the file to load
 	 */
 	public void loadAgentsFromFile(String filePath) {
-		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
-		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
-		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
-		activeEntities.add(new Hero("Hulk", "", 30, 100, 1, 1));
-		activeEntities.add(new Vilain("Abomination", "", 30, 100, 8, 5));
-		activeEntities.add(new Citizen("Stève", "Boulot", 30, 100, 1, 7));
+		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
+		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
+		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
+		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
+		agents.addAgent(new Vilain("Abomination", "", 30, 100, 8, 5));
+		agents.addAgent(new Citizen("Stève", "Boulot", 30, 100, 1, 7));
 	}
 	/**
 	 * Load the map from a file
 	 * @param filePath the file to load
 	 */
-	public void loadCityFromFile(String filePath) { 
+	public void loadCityFromFile(String filePath) {
 		/**
 		 * Structure generale du fichier
 		 * NOM DE LA VILLE
@@ -64,28 +58,28 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		 * S : rues
 		 * I : hq de citizens
 		 */
-		
+
 		try (
 				FileReader fr = new FileReader(filePath);
 				BufferedReader br = new BufferedReader(fr);
 			)
 		{
-			
-			
-			
+
+
+
 			/// Setting the name of the map
 			String line = br.readLine();
 			this.name = line;
-			
+
 			/// Allocating the map
 			line = br.readLine();
 			this.map = new Sector[Integer.parseInt((line.split(" "))[1])][];
-			
+
 			int xSize = Integer.parseInt((line.split(" "))[0]);
 			for (int i = 0; i < map.length; i++) {
 				this.map[i] = new Sector[xSize];
 			}
-			
+
 			/// Filling the map
 			int lineIndex = 0;
 			while((line = br.readLine()) != null) {
@@ -114,45 +108,48 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 				}
 				lineIndex++;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void addActiveEntity(Humanoid entity) {
-		this.activeEntities.add(entity);
+		this.agents.addAgent(entity);
 	}
-	
-	public List<Humanoid> getActiveEntities() {
-		return this.activeEntities;
+
+	public AgentsList<Humanoid> getActiveEntities() {
+		return this.agents;
 	}
-	
-	public void setActiveEntities(List<Humanoid> pActiveEntities) {
-		this.activeEntities = pActiveEntities;
+
+	public void setActiveEntities(AgentsList<Humanoid> pActiveEntities) {
+		this.agents = pActiveEntities;
 	}
-	
+
 	@Override
 	public void live() {
 		currentTick++;
-		
-		if(currentTick == tickPerHour) {
+
+		if(currentTick >= tickPerHour) {
 			heure++;
-			
+
+			firePropertyChange("heure", heure-1, heure);	// BINDING
+
 			if(heure == 24) {
 				heure = 0;
 				jour++;
 			}
+			currentTick = 0;
 		}
-		
+
 		notifier.setChanged();
 		notifier.notifyObservers();
 	}
-	
+
 	public void notifyObservers() {
 		notifier.notifyObservers();
 	}
-	
+
 	/**
 	 * Print the map in its string format
 	 * @return the formated string representing the map
@@ -160,28 +157,28 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	@Override
 	public String toString() {
 		String[][] out = new String[getSizeX()][getSizeY()];
-		
+
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[0].length; j++) {
 				out[i][j] = map[i][j].toString();
 			}
 		}
-		
-		for (ActiveEntity entity : activeEntities) {
+
+		for (ActiveEntity entity : agents.getAgents()) {
 			out[((Humanoid)entity).getLocation().getLocationX()][((Humanoid)entity).getLocation().getLocationY()] = "#";
 		}
-		
+
 		String res = "";
 		res += "Map : " + this.name + "\n";
 		res += "Size : " + map.length + " x " + map[0].length + "\n\n";
-		
+
 		for (int i = 0; i < out.length; i++) {
 			for (int j = 0; j < out[0].length; j++) {
 				res += out[i][j] + " ";
 			}
 			res += "\n";
 		}
-		
+
 		return res;
 	}
 
@@ -196,18 +193,18 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	 * @return the sector on which it is !
 	 */
 	@Override
-	public Sector getSector(Citizen citizen) {
+	public Sector getSector(ActiveEntity citizen) {
 		int x = citizen.getLocation().getLocationX();
 		int y = citizen.getLocation().getLocationY();
-		
+
 		return map[x][y];
 	}
 
-	
+
 	@Override
 	public void depositMoney(Citizen citizen, int amount) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -292,7 +289,7 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	public void setHeure(int heure) {
 		this.heure = heure;
 	}
-	
+
 	/**
 	 * @return the x size of the map
 	 */
@@ -302,7 +299,7 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		}
 		return map[0].length;
 	}
-	
+
 	/**
 	 * @return the y size of the map
 	 */

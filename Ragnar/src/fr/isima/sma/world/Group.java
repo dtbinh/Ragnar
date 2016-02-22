@@ -4,13 +4,13 @@ public class Group extends Humanoid {
 
 	public Group() {
 		super();
-		// TODO Auto-generated constructor stub
+		city.getSector(this).setNumberGroup(city.getSector(this).getNumberGroup()+1);
 	}
-	
+
 	@Override
 	public void live() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

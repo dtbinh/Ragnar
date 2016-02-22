@@ -4,18 +4,19 @@ public class Hero extends Super {
 
 	public Hero()  {
 		super();
+		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
 	}
-	
+
 	public Hero(String name, String surname, int age, int speed, int locationX, int locationY) {
 		super(name, surname, age, speed, locationX, locationY);
-		// TODO Auto-generated constructor stub
+		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
 	}
 
 	public Hero(String name, String surname, int age) {
 		super(name, surname, age);
-		// TODO Auto-generated constructor stub
+		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see fr.isima.sma.world.Super#moveRandom()
 	 */
@@ -109,7 +110,7 @@ public class Hero extends Super {
 	@Override
 	public void live() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

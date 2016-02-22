@@ -1,14 +1,14 @@
 package fr.isima.sma.world;
 
 public abstract class ActiveEntity extends Entity {
-	
+	protected static City city;
 	protected int speed; // Indicate the entity speed (max blocs per ticks)
 	protected Location location;
-	
+
 	public static enum ActiveEntityType {
 		Citizen, Hero, Vilain, Group
 	}
-	
+
 	protected static int cpt = 0; // Count for the id
 	protected int id;
 
@@ -24,7 +24,7 @@ public abstract class ActiveEntity extends Entity {
 	@Override
 	public boolean equals(Object obj) {
 		boolean eq = false;
-		
+
 		if(obj instanceof ActiveEntity) {
 			if(((ActiveEntity) obj).id == this.id) {
 				eq = true;
@@ -33,7 +33,7 @@ public abstract class ActiveEntity extends Entity {
 
 		return eq;
 	}
-	
+
 	public abstract void live();
 
 	/**
@@ -47,14 +47,20 @@ public abstract class ActiveEntity extends Entity {
 	 * @param location the location to set
 	 */
 	public void setLocation(Location location) {
+		Location old = this.location;
 		this.location = location;
+		firePropertyChange("location", old, this.location);
 	}
-	
+
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-	
+
+	public static void setCity(City m) {
+		city = m;
+	}
+
 
 }
