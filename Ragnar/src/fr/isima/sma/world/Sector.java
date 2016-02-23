@@ -9,7 +9,7 @@ public abstract class Sector extends AbstractModelObject {
 	protected SectorType 	type;
 	protected Location		location;
 	protected int			numberHero;
-	protected Integer		numberVilain;
+	protected int			numberVilain;
 	protected int			numberCitizen;
 	protected int			numberGroup;
 

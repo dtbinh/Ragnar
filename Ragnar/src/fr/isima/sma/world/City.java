@@ -2,6 +2,7 @@ package fr.isima.sma.world;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observer;
 
@@ -14,7 +15,7 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	protected MyObservable 				notifier;
 
 	protected Sector[][] 				map;
-	protected AgentsList<Humanoid>	agents;
+	protected AgentsList<Humanoid>		agents;
 
 	public City() {
 		this(1);
@@ -31,16 +32,58 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	}
 
 	/**
-	 * Load the map from a file
+	 * Load the agents from a file
 	 * @param filePath the file to load
 	 */
 	public void loadAgentsFromFile(String filePath) {
-		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
-		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
-		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
-		agents.addAgent(new Hero("Hulk", "", 30, 100, 1, 1));
-		agents.addAgent(new Vilain("Abomination", "", 30, 100, 8, 5));
-		agents.addAgent(new Citizen("Stève", "Boulot", 30, 100, 1, 7));
+		// nettoyage
+		agents = new AgentsList<>("agents");
+
+		try (
+				FileReader file = new FileReader(filePath);
+				BufferedReader data = new BufferedReader(file);
+			)
+		{
+			// lecture du fichier .properties
+
+			String line = data.readLine();
+			String agent[];
+
+			while(line != null) {
+				if(!line.contains("#") && !line.isEmpty()) {
+					agent = line.split(":",-1);
+					if(agent.length >= 8) {
+						Humanoid nouveau = null;
+						switch (agent[0]) {
+						
+							case "Citizen":
+								nouveau = new Citizen(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));							
+								break;
+								
+							case "Hero":
+								nouveau = new Hero(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));	
+								break;
+								
+							case "Vilain":
+								nouveau = new Vilain(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));							
+								break;
+		
+							default:
+								break;
+						}
+						nouveau.setUrl(agent[7]);
+						agents.addAgent(nouveau);
+					}
+				}
+				line = data.readLine();
+			}
+
+			// fin de lecture
+
+		} catch (IOException e) {
+			System.err.println("Le fichier n'a pas pu être ouvert.");
+			e.printStackTrace();
+		}
 	}
 	/**
 	 * Load the map from a file

@@ -1,6 +1,7 @@
 package fr.isima.sma.simulator;
 
 import fr.isima.sma.gui.RagnarView;
+import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Hero;
@@ -12,10 +13,12 @@ public class Ragnar {
 	}
 
 	public static void main(String[] args) {
+		
+		Properties props = Properties.getInstance();
 		City m = new City();
-		m.loadCityFromFile("ragnar.txt");
+		m.loadCityFromFile(props.getProperty("cityFile"));
 		ActiveEntity.setCity(m);
-		m.loadAgentsFromFile(null);
+		m.loadAgentsFromFile(props.getProperty("agentsFile"));
 		RagnarView v = new RagnarView(m);
 		m.addObserver(v);
 		SimulationKernel c = new SimulationKernel(m, v);
@@ -24,6 +27,7 @@ public class Ragnar {
 		while(true) {
 			c.simulate();
 		}
+		
 	}
 
 }

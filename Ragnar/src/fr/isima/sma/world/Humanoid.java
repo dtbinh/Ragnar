@@ -1,5 +1,7 @@
 /**
+ * 
  * Humanoid class used to implement citizens and heroes/vilains
+ * It corresponds to the "agent" class
  * 
  */
 
@@ -17,6 +19,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String name;
 	protected String surname;
 	protected int age;
+	protected String url;
 	
 	
 	
@@ -130,6 +133,14 @@ public abstract class Humanoid extends ActiveEntity {
 	 */
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	
