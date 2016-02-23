@@ -63,21 +63,6 @@ public class SectorView extends JPanel {
 		setLayout(new GridLayout(0, 2, 0, 0));
 
 		heroLabel = new JLabel(assets.getIcon("hero"));
-		this.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				modele.getMap()[indiceX][indiceY].setNumberHero(1);
-				System.out.println(modele.getMap()[indiceX][indiceY].getNumberHero());
-			}
-		});
-		this.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				modele.addActiveEntity(new Hero("Bob", "Cho", 26, 10, indiceX, indiceY));
-				//modele.getMap()[indiceX][indiceY].setNumberHero(1);
-				System.out.println(modele.getMap()[indiceX][indiceY].getNumberHero() + " " + modele.getActiveEntities().size());
-			}
-		});
 		add(heroLabel);
 
 		citizenLabel = new JLabel(assets.getIcon("citizen"));

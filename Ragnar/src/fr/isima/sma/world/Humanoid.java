@@ -78,6 +78,13 @@ public abstract class Humanoid extends ActiveEntity {
 		this.location.setLocation(locationX, locationY);
 	}
 	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append("  -  ").append(this.getClass().getSimpleName());
+		return st.toString();
+	}
+	
 	/**
 	 * @return the name
 	 */

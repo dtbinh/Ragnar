@@ -13,7 +13,10 @@ Citizen:Adrien:Pierreval:21:1:3:8:
 Citizen:John:Smith:40:1:2:7:
 Citizen:Jason:Statur:52:1:8:5:
 Citizen:Leia:Organa:65:1:7:3:
+Citizen:Tina:Turner:70:1:8:4:
+Citizen:Michelle:Chabrol:59:1:8:2:
 Citizen:Scarlett:Johansson:31:1:3:3:
+Citizen:Cindy:Roche:22:1:9:9:
 Vilain:C:Mos:48:2:7:5:
 Vilain:Lex:Luthor:32:2:5:5:
 Vilain:The:Joker:32:2:8:1:

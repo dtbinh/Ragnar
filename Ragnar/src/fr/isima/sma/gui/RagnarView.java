@@ -14,18 +14,18 @@ public class RagnarView implements Observer {
 	protected City 			modele;	/// modele
 	protected RagnarWindow	window;	/// fenetre de la map
 	protected AgentsView	entities;	/// fenetre des entites
-	protected Map			map;	/// zone d'affichage de la carte
+	protected CityView			map;	/// zone d'affichage de la carte
 
 	public RagnarView(City pModele) {
 		window = new RagnarWindow();
 		modele = pModele;
 		modele.addObserver(this);
-		map = new Map(modele, 64);
+		map = new CityView(modele, 64);
 		entities = new AgentsView(modele);
 		window.getContentPane().add(map, BorderLayout.CENTER);
 		window.setSize(map.getNbBlocsL()*map.getBlocsSize(), map.getNbBlocsH()*map.getBlocsSize());
 		entities.setLocation(window.getWidth()+window.getX(), window.getY());
-
+		//entities.agentsList.
 		window.setVisible(true);
 		entities.setVisible(true);
 	}

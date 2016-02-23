@@ -5,12 +5,16 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
+import fr.isima.sma.resources.Properties;
+import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.*;
 
 import javax.swing.JList;
@@ -23,26 +27,34 @@ import javax.swing.Box;
 import java.awt.Dimension;
 import javax.swing.JScrollBar;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+
 import java.awt.Panel;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.GridLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ObjectProperty;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+import java.awt.ComponentOrientation;
+import java.awt.Cursor;
 
 
 public class AgentsView extends JFrame {
 	private static final long serialVersionUID = 1L;
-
+	
+	private ResourcesManager res = ResourcesManager.getInstance();
 	private JPanel contentPane;
-	private JList<Humanoid> agentsList;
+	public JList<Humanoid> agentsList;
 	private City modele;
 	private JLabel lblDate;
 	private JPanel panel;
 	private Panel detailsPanel;
-	private Panel imagePanel;
+	private JLabel imageLabel;
 	private JLabel lblNom;
 	private JLabel lblPrenom;
 	private JLabel lblprenom;
@@ -55,6 +67,9 @@ public class AgentsView extends JFrame {
 	private JLabel lblposition;
 	private JLabel lblVitesse;
 	private JLabel lblvitesse;
+	private JPanel panel_1;
+	private JScrollPane scrollPane;
+	private JPanel panel_2;
 
 	/**
 	 * Create the frame.
@@ -72,12 +87,6 @@ public class AgentsView extends JFrame {
 		setAlwaysOnTop(true);
 		setTitle("Liste des agents");
 
-		agentsList = new JList<Humanoid>();
-		agentsList.setVisibleRowCount(32);
-		contentPane.add(agentsList, BorderLayout.CENTER);
-		agentsList.setAutoscrolls(true);
-		agentsList.setSelectedIndex(0);
-
 		lblDate = new JLabel("Placeholder pour la date");
 		contentPane.add(lblDate, BorderLayout.SOUTH);
 		
@@ -87,18 +96,27 @@ public class AgentsView extends JFrame {
 		contentPane.add(panel, BorderLayout.NORTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 		
-		imagePanel = new Panel();
-		imagePanel.setPreferredSize(new Dimension(128, 128));
-		imagePanel.setMaximumSize(new Dimension(128, 128));
-		imagePanel.setMinimumSize(new Dimension(128, 128));
-		panel.add(imagePanel);
+		imageLabel = new JLabel();
+		imageLabel.setPreferredSize(new Dimension(128, 128));
+		imageLabel.setMaximumSize(new Dimension(128, 128));
+		imageLabel.setMinimumSize(new Dimension(128, 128));
+		panel.add(imageLabel);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(Color.DARK_GRAY);
+		panel_2.setBorder(new EmptyBorder(4, 4, 4, 4));
+		panel.add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		detailsPanel = new Panel();
+		panel_2.add(detailsPanel);
+		detailsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		detailsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		detailsPanel.setBounds(new Rectangle(0, 0, 5, 5));
 		detailsPanel.setFont(new Font("Dialog", Font.PLAIN, 12));
 		detailsPanel.setPreferredSize(new Dimension(450, 10));
 		detailsPanel.setForeground(Color.WHITE);
 		detailsPanel.setBackground(Color.DARK_GRAY);
-		panel.add(detailsPanel);
 		detailsPanel.setLayout(new GridLayout(0, 2, 0, 0));
 		
 		lblNom = new JLabel("Nom :");
@@ -167,8 +185,49 @@ public class AgentsView extends JFrame {
 		lblposition.setForeground(Color.YELLOW);
 		lblposition.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblposition);
+		
+		panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.CENTER);
+		panel_1.setLayout(new BorderLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panel_1.add(scrollPane, BorderLayout.CENTER);
+		
+				agentsList = new JList<Humanoid>();
+				scrollPane.setViewportView(agentsList);
+				agentsList.setVisibleRowCount(32);
+				agentsList.setAutoscrolls(true);
+				agentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				
+						agentsList.addListSelectionListener(new ListSelectionListener() {
+				
+				            @Override
+				            public void valueChanged(ListSelectionEvent arg0) {
+				                if (!arg0.getValueIsAdjusting()) {
+				                	Humanoid selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
+				                    lblnom.setText(selected.getName());
+				                    lblprenom.setText(selected.getSurname());
+				                    lblage.setText(String.valueOf(selected.getAge()));
+				                    lblvitesse.setText(String.valueOf(selected.getSpeed()));
+				                    lbltype.setText(selected.getClass().getSimpleName());
+				                    lblposition.setText(String.valueOf(selected.getLocation()));
+				                    String imageName = "";
+				                    if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+				                    	imageName = selected.getClass().getSimpleName().toLowerCase();
+				                    else
+				                    	imageName = selected.getUrl();
+				                    imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+				                }
+				            }
+				        });
 		initDataBindings();
-		agentsList.setSelectedIndex(0);
+		//agentsList.setSelectedIndex(0);
+	}
+
+	protected void paintComponent(Graphics g) {
+		for(Component c : this.getComponents()) {
+			c.repaint();
+		}
 	}
 	protected void initDataBindings() {
 		BeanProperty<City, Integer> cityBeanProperty_1 = BeanProperty.create("heure");
@@ -178,20 +237,7 @@ public class AgentsView extends JFrame {
 		//
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
-		//
-		ELProperty<Humanoid, Object> humanoidEvalutionProperty = ELProperty.create("${name} ${surname} ${class.name}");
-		jListBinding.setDetailBinding(humanoidEvalutionProperty, "agentsListDetailsBinding");
-		//
 		jListBinding.bind();
-		//
-		BeanProperty<JList, String> jListBeanProperty = BeanProperty.create("selectedElement.surname");
-		ObjectProperty<JLabel> jLabelObjectProperty = ObjectProperty.create();
-		AutoBinding<JList, String, JLabel, JLabel> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, agentsList, jListBeanProperty, lblnom, jLabelObjectProperty);
-		autoBinding_1.bind();
-		//
-		BeanProperty<JList<Humanoid>, Object> jListBeanProperty_1 = BeanProperty.create("selectedElement");
-		AutoBinding<JList<Humanoid>, Object, JLabel, JLabel> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, agentsList, jListBeanProperty_1, lblnom, jLabelObjectProperty);
-		autoBinding_2.bind();
 	}
 }
 /*

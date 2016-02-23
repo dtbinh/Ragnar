@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
 
-public class Map extends JPanel {
+public class CityView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	static protected final Color RED = new Color(255,0,0);
@@ -22,7 +22,7 @@ public class Map extends JPanel {
 	protected int nbBlocLargeur;
 	protected int nbBlocHauteur;
 
-	public Map(City pModele, int pSize) {
+	public CityView(City pModele, int pSize) {
 		super(new GridLayout(pModele.getMap().length, pModele.getMap()[0].length), true);
 		setSize(pModele.getMap().length*pSize, pModele.getMap()[0].length*pSize);
 		int i = 0;

@@ -22,7 +22,6 @@ public class Ragnar {
 		RagnarView v = new RagnarView(m);
 		m.addObserver(v);
 		SimulationKernel c = new SimulationKernel(m, v);
-		m.addActiveEntity(new Hero("Benoît", "", 22));
 
 		while(true) {
 			c.simulate();
