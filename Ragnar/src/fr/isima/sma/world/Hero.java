@@ -2,19 +2,8 @@ package fr.isima.sma.world;
 
 public class Hero extends Super {
 
-	public Hero()  {
-		super();
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
-	}
-
 	public Hero(String name, String surname, int age, int speed, int locationX, int locationY) {
-		super(name, surname, age, speed, locationX, locationY);
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
-	}
-
-	public Hero(String name, String surname, int age) {
-		super(name, surname, age);
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
+		super(AgentType.HERO, name, surname, age, speed, locationX, locationY);
 	}
 
 	/* (non-Javadoc)
@@ -109,8 +98,9 @@ public class Hero extends Super {
 
 	@Override
 	public void live() {
-		// TODO Auto-generated method stub
-
+		if(surname.equals("Superman")){
+			move(location.getLocationX()+1, location.getLocationY()+1);
+		}
 	}
 
 }

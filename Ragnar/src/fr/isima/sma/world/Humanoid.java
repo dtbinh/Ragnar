@@ -21,7 +21,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String surname;
 	protected int age;
 	protected String url;
-	
+	protected ActiveEntity.AgentType type;
 	
 	
 	/**
@@ -40,9 +40,9 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age
 	 * @throws BadAgeException
 	 */
-	public Humanoid(String name, String surname, int age) {
+	public Humanoid(AgentType type, String name, String surname, int age) {
 		// Default can be placed in the HQ
-		this(name, surname, age, 1, 0, 0);
+		this(type, name, surname, age, 1, 0, 0);
 	}
 	
 	/**
@@ -52,10 +52,11 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age age of the entity
 	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
 	 */
-	public Humanoid(String name, String surname, int age, int speed, int locationX, int locationY) {
+	public Humanoid(AgentType type, String name, String surname, int age, int speed, int locationX, int locationY) {
 		this.name = name;
 		this.surname = surname;
 		this.speed = speed;
+		this.type = type;
 		
 		if(age > 0 && age < Humanoid.ageMax) {
 			this.age = age;
@@ -64,6 +65,8 @@ public abstract class Humanoid extends ActiveEntity {
 		}
 		
 		this.location = new Location(locationX, locationY);
+		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
+		firePropertyChange("location", new Location(), this.location);		
 	}
 
 	/**
@@ -77,9 +80,18 @@ public abstract class Humanoid extends ActiveEntity {
 	@Override
 	public void setLocation(Location location) {
 		Location old = this.location;
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()-1);
-		this.location = location;
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
+		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)-1);
+		this.location.setLocation(location.getLocationX(), location.getLocationY());
+		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
+		firePropertyChange("location", old, this.location);
+	}
+	
+	@Override
+	public void setLocation(int x, int y) {
+		Location old = this.location;
+		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)-1);
+		this.location.setLocation(x, y);
+		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
 		firePropertyChange("location", old, this.location);
 	}
 	

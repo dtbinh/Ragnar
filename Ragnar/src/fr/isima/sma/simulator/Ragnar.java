@@ -4,6 +4,7 @@ import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
+import fr.isima.sma.world.Location;
 
 public class Ragnar {
 
@@ -21,6 +22,11 @@ public class Ragnar {
 		RagnarView v = new RagnarView(m);
 		m.addObserver(v);
 		SimulationKernel c = new SimulationKernel(m, v);
+
+		Location.setMinLocationX(0);
+		Location.setMaxLocationX(m.getSizeX());
+		Location.setMinLocationY(0);
+		Location.setMaxLocationY(m.getSizeY());
 
 		while(true) {
 			c.simulate();

@@ -8,6 +8,7 @@ import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.City;
+import fr.isima.sma.world.Humanoid;
 
 /*
  * 	MVC class
@@ -56,6 +57,9 @@ public class SimulationKernel {
 				event.Proceed(); // Launch the event
 				clearEvents(); // Clear the next events
 				events.remove(0); // Remove this event
+			}
+			for (int i = 0 ; i < ragnar.getActiveEntities().size() ; i++) {
+				ragnar.getActiveEntities().getAgent(i).live();
 			}
 			ragnar.live();
 		}

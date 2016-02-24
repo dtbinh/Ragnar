@@ -35,6 +35,10 @@ public class AgentsList<T> extends AbstractModelObject {
 	public List<T> getAgents() {
 		return agents;
 	}
+	
+	public T getAgent(int i) {
+		return agents.get(i);
+	}
 
 	public int size() {
 		return agents.size();

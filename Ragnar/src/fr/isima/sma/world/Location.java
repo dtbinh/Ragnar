@@ -103,7 +103,7 @@ public class Location {
 			this.locationX = locationX;
 			this.locationY = locationY;
 		} else {
-			System.err.println("Bad location setting");
+			System.err.println("Bad location setting, limits X["+minLocationX+"-"+maxLocationX+"] Y["+minLocationY+"-"+maxLocationY+"]");
 		}
 	}
 	

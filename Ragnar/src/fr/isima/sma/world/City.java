@@ -232,7 +232,7 @@ public class City extends ActiveEntity implements IMyObservable {
 
 	/**
 	 * Get the sector on which the citizen is
-	 * @param citizen the guy whi need its sector
+	 * @param citizen the guy who need its sector
 	 * @return the sector on which it is !
 	 */
 	public Sector getSector(ActiveEntity citizen) {

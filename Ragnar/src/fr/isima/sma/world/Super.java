@@ -6,13 +6,13 @@ public abstract class Super extends Humanoid {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Super(String name, String surname, int age, int speed, int locationX, int locationY) {
-		super(name, surname, age, speed, locationX, locationY);
+	public Super(AgentType type, String name, String surname, int age, int speed, int locationX, int locationY) {
+		super(type, name, surname, age, speed, locationX, locationY);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Super(String name, String surname, int age) {
-		super(name, surname, age);
+	public Super(AgentType type, String name, String surname, int age) {
+		super(type, name, surname, age);
 		// TODO Auto-generated constructor stub
 	}
 

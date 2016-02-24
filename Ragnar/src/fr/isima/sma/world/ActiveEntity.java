@@ -4,8 +4,17 @@ public abstract class ActiveEntity extends Entity {
 	protected int speed; // Indicate the entity speed (max blocs per ticks)
 	protected Location location;
 
-	public static enum ActiveEntityType {
-		Citizen, Hero, Vilain, Group
+	public static enum AgentType {
+		CITIZEN(0), HERO(1), VILAIN(2), GROUP(3);
+		
+		final private int value;
+		private AgentType(int value) {
+	        this.value = value;
+	    }
+		
+		public int getValue() {
+			return value;
+		}
 	}
 
 	protected static int cpt = 0; // Count for the id
@@ -46,15 +55,17 @@ public abstract class ActiveEntity extends Entity {
 	 * @param location the location to set
 	 */
 	public void setLocation(Location location) {
-		Location old = this.location;
-		this.location = location;
-		firePropertyChange("location", old, this.location);
+		
 	}
 
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return super.toString();
+	}
+
+	public void setLocation(int x, int y) {
+
 	}
 
 }

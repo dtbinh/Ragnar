@@ -2,14 +2,8 @@ package fr.isima.sma.world;
 
 public class Citizen extends Humanoid {
 
-	public Citizen() {
-		super();
-		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
-	}
-
 	public Citizen(String name, String surname, int age, int speed, int locationX, int locationY) {
-		super(name, surname, age, speed, locationX, locationY);
-		city.getSector(this).setNumberCitizen(city.getSector(this).getNumberCitizen()+1);
+		super(AgentType.CITIZEN, name, surname, age, speed, locationX, locationY);
 	}
 
 	/**

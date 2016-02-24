@@ -4,7 +4,7 @@ public class Group extends Humanoid {
 
 	public Group() {
 		super();
-		city.getSector(this).setNumberGroup(city.getSector(this).getNumberGroup()+1);
+		this.type = AgentType.GROUP;
 	}
 
 	@Override

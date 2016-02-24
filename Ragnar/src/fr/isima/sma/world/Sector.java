@@ -3,6 +3,8 @@ package fr.isima.sma.world;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.isima.sma.world.ActiveEntity.AgentType;
+
 public abstract class Sector extends AbstractModelObject {
 
 	static public enum SectorType {
@@ -11,10 +13,7 @@ public abstract class Sector extends AbstractModelObject {
 
 	protected SectorType 	type;
 	protected Location		location;
-	protected int			numberHero;
-	protected int			numberVilain;
-	protected int			numberCitizen;
-	protected int			numberGroup;
+	protected int			numberHumanoid[];
 	protected List<List<Humanoid>> agents; 
 
 	public Sector() {
@@ -23,15 +22,14 @@ public abstract class Sector extends AbstractModelObject {
 
 	public Sector(SectorType type, Location location) {
 		super();
-		numberHero = 0;
-		numberVilain = 0;
-		numberCitizen = 0;
-		numberGroup = 0;
+		numberHumanoid = new int[4];
 		this.type = type;
 		this.location = location;
 		agents = new ArrayList<List<Humanoid>>(4);
-		for(int i = 0 ; i < agents.size() ; i++)
+		for(int i = 0 ; i < agents.size() ; i++) {
 			agents.set(i, new ArrayList<Humanoid>(16));
+			numberHumanoid[i] = 0;
+		}
 	}
 
 	@Override
@@ -66,43 +64,54 @@ public abstract class Sector extends AbstractModelObject {
 	}
 
 	public int getNumberHero() {
-		return numberHero;
+		return numberHumanoid[AgentType.HERO.getValue()];
 	}
 
 	public void setNumberHero(int numberHero) {
-		int old = this.numberHero;
-		this.numberHero = numberHero;
+		int old = this.numberHumanoid[AgentType.HERO.getValue()];
+		this.numberHumanoid[AgentType.HERO.getValue()] = numberHero;
 		firePropertyChange("numberHero", old, numberHero);	// BINDING
 	}
 
 	public int getNumberVilain() {
-		return numberVilain;
+		return numberHumanoid[AgentType.VILAIN.getValue()];
 	}
 
 	public void setNumberVilain(int numberVilain) {
-		int old = this.numberVilain;
-		this.numberVilain = numberVilain;
+		int old = this.numberHumanoid[AgentType.VILAIN.getValue()];
+		this.numberHumanoid[AgentType.VILAIN.getValue()] = numberVilain;
 		firePropertyChange("numberVilain", old, numberVilain);	// BINDING
 	}
 
 	public int getNumberCitizen() {
-		return numberCitizen;
+		return numberHumanoid[AgentType.CITIZEN.getValue()];
 	}
 
 	public void setNumberCitizen(int numberCitizen) {
-		int old = this.numberCitizen;
-		this.numberCitizen = numberCitizen;
+		int old = this.numberHumanoid[AgentType.CITIZEN.getValue()];
+		this.numberHumanoid[AgentType.CITIZEN.getValue()] = numberCitizen;
 		firePropertyChange("numberCitizen", old, numberCitizen);	// BINDING
 	}
 
 	public int getNumberGroup() {
-		return numberGroup;
+		return numberHumanoid[AgentType.GROUP.getValue()];
 	}
 
 	public void setNumberGroup(int numberGroup) {
-		int old = this.numberGroup;
-		this.numberGroup = numberGroup;
+		int old = this.numberHumanoid[AgentType.GROUP.getValue()];
+		this.numberHumanoid[AgentType.GROUP.getValue()] = numberGroup;
 		firePropertyChange("numberGroup", old, numberGroup);	// BINDING
+	}
+
+	public int getNumberHumanoid(AgentType pType) {
+		return numberHumanoid[pType.getValue()];
+	}
+
+	public void setNumberHumanoid(AgentType pType, int val) {
+		int old = this.numberHumanoid[pType.getValue()];
+		this.numberHumanoid[pType.getValue()] = val;
+		String propertyName = "number"+pType.toString().charAt(0)+pType.toString().toLowerCase().substring(1);
+		firePropertyChange(propertyName, old, val);	// BINDING
 	}
 
 }
