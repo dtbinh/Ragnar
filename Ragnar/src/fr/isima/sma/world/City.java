@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Observer;
 
-public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
+public class City extends ActiveEntity implements IMyObservable {
 	protected int 						currentTick;
 	protected int 						tickPerHour;
 	protected int 						heure;
@@ -176,12 +176,13 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		if(currentTick >= tickPerHour) {
 			heure++;
 
-			firePropertyChange("heure", heure-1, heure);	// BINDING
-
 			if(heure == 24) {
 				heure = 0;
 				jour++;
 			}
+
+			firePropertyChange("heure", heure-1, heure);	// BINDING
+			
 			currentTick = 0;
 		}
 
@@ -225,7 +226,6 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		return res;
 	}
 
-	@Override
 	public int getHeure() {
 		return this.heure;
 	}
@@ -235,7 +235,6 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 	 * @param citizen the guy whi need its sector
 	 * @return the sector on which it is !
 	 */
-	@Override
 	public Sector getSector(ActiveEntity citizen) {
 		int x = citizen.getLocation().getLocationX();
 		int y = citizen.getLocation().getLocationY();
@@ -243,14 +242,11 @@ public class City extends ActiveEntity implements ICityCitizen, IMyObservable {
 		return map[x][y];
 	}
 
-
-	@Override
 	public void depositMoney(Citizen citizen, int amount) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public ArrayList<Location> pathToHome(Citizen citizen) {
 		// TODO Auto-generated method stub
 		return null;

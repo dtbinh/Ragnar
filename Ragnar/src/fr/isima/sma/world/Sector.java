@@ -1,5 +1,8 @@
 package fr.isima.sma.world;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Sector extends AbstractModelObject {
 
 	static public enum SectorType {
@@ -12,6 +15,7 @@ public abstract class Sector extends AbstractModelObject {
 	protected int			numberVilain;
 	protected int			numberCitizen;
 	protected int			numberGroup;
+	protected List<List<Humanoid>> agents; 
 
 	public Sector() {
 		this(SectorType.Street, new Location());
@@ -25,6 +29,9 @@ public abstract class Sector extends AbstractModelObject {
 		numberGroup = 0;
 		this.type = type;
 		this.location = location;
+		agents = new ArrayList<List<Humanoid>>(4);
+		for(int i = 0 ; i < agents.size() ; i++)
+			agents.set(i, new ArrayList<Humanoid>(16));
 	}
 
 	@Override

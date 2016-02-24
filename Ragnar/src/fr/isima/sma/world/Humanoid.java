@@ -12,8 +12,9 @@ import java.util.Random;
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
-	public static Random rand = new Random(123); // TODO remove the seed at the end
-	public static final int ageMax = 90;
+	protected static City city;
+	protected static Random rand = new Random(123); // TODO remove the seed at the end
+	protected static final int ageMax = 90;
 	
 	// Class members
 	protected String name;
@@ -72,10 +73,19 @@ public abstract class Humanoid extends ActiveEntity {
 		int bound = 2 * this.speed + 1; // The max of the random, +1 because it is exclusive value
 		this.location.shiftLocation(Humanoid.rand.nextInt(bound) - speed, Humanoid.rand.nextInt(bound) - speed);
 	}
+
+	@Override
+	public void setLocation(Location location) {
+		Location old = this.location;
+		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()-1);
+		this.location = location;
+		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
+		firePropertyChange("location", old, this.location);
+	}
 	
 	public void move(int locationX, int locationY) {
 		// TODO je peux pas aller plus vite que la speed
-		this.location.setLocation(locationX, locationY);
+		this.setLocation(new Location(locationX, locationY));
 	}
 	
 	@Override
@@ -150,5 +160,8 @@ public abstract class Humanoid extends ActiveEntity {
 		this.url = url;
 	}
 
+	public static void setCity(City m) {
+		city = m;
+	}
 	
 }

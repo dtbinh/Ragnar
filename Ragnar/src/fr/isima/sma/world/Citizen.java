@@ -1,9 +1,8 @@
 package fr.isima.sma.world;
 
 public class Citizen extends Humanoid {
-	static private ICityCitizen cityInterface;
 
-	public Citizen(ICityCitizen city) {
+	public Citizen() {
 		super();
 		city.getSector(this).setNumberHero(city.getSector(this).getNumberHero()+1);
 	}
@@ -18,19 +17,15 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
-		if(cityInterface.getHeure() > 20 && cityInterface.getHeure() < 8) {
+		if(city.getHeure() > 20 && city.getHeure() < 8) {
 			// Entre 20h et 8h, il faut etre a la maison
 
 		} else if (true) {
 			// TODO terminer
 		} else {
-			cityInterface.getSector(this);
+			city.getSector(this);
 		}
 
-	}
-
-	public static void setCityInterface(ICityCitizen i) {
-		cityInterface = i;
 	}
 
 }

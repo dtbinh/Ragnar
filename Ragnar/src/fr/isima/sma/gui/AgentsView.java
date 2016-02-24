@@ -52,7 +52,7 @@ public class AgentsView extends JFrame {
 	public JList<Humanoid> agentsList;
 	private City modele;
 	private JLabel lblDate;
-	private JPanel panel;
+	private JPanel panelAgent;
 	private Panel detailsPanel;
 	private JLabel imageLabel;
 	private JLabel lblNom;
@@ -67,9 +67,10 @@ public class AgentsView extends JFrame {
 	private JLabel lblposition;
 	private JLabel lblVitesse;
 	private JLabel lblvitesse;
-	private JPanel panel_1;
+	private JPanel panelScrollableAgentList;
 	private JScrollPane scrollPane;
-	private JPanel panel_2;
+	private JPanel layoutBorderDetailPanel;
+	private JPanel panelDateTime;
 
 	/**
 	 * Create the frame.
@@ -86,30 +87,33 @@ public class AgentsView extends JFrame {
 		setContentPane(contentPane);
 		setAlwaysOnTop(true);
 		setTitle("Liste des agents");
+		
+		panelDateTime = new JPanel();
+		contentPane.add(panelDateTime, BorderLayout.SOUTH);
 
 		lblDate = new JLabel("Placeholder pour la date");
-		contentPane.add(lblDate, BorderLayout.SOUTH);
+		panelDateTime.add(lblDate);
 		
-		panel = new JPanel();
-		panel.setPreferredSize(new Dimension(500, 128));
-		panel.setMinimumSize(new Dimension(500, 128));
-		contentPane.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		panelAgent = new JPanel();
+		panelAgent.setPreferredSize(new Dimension(500, 128));
+		panelAgent.setMinimumSize(new Dimension(500, 128));
+		contentPane.add(panelAgent, BorderLayout.NORTH);
+		panelAgent.setLayout(new BoxLayout(panelAgent, BoxLayout.X_AXIS));
 		
 		imageLabel = new JLabel();
 		imageLabel.setPreferredSize(new Dimension(128, 128));
 		imageLabel.setMaximumSize(new Dimension(128, 128));
 		imageLabel.setMinimumSize(new Dimension(128, 128));
-		panel.add(imageLabel);
+		panelAgent.add(imageLabel);
 		
-		panel_2 = new JPanel();
-		panel_2.setBackground(Color.DARK_GRAY);
-		panel_2.setBorder(new EmptyBorder(4, 4, 4, 4));
-		panel.add(panel_2);
-		panel_2.setLayout(new BorderLayout(0, 0));
+		layoutBorderDetailPanel = new JPanel();
+		layoutBorderDetailPanel.setBackground(Color.DARK_GRAY);
+		layoutBorderDetailPanel.setBorder(new EmptyBorder(4, 4, 4, 4));
+		panelAgent.add(layoutBorderDetailPanel);
+		layoutBorderDetailPanel.setLayout(new BorderLayout(0, 0));
 		
 		detailsPanel = new Panel();
-		panel_2.add(detailsPanel);
+		layoutBorderDetailPanel.add(detailsPanel);
 		detailsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		detailsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		detailsPanel.setBounds(new Rectangle(0, 0, 5, 5));
@@ -186,12 +190,12 @@ public class AgentsView extends JFrame {
 		lblposition.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblposition);
 		
-		panel_1 = new JPanel();
-		contentPane.add(panel_1, BorderLayout.CENTER);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		panelScrollableAgentList = new JPanel();
+		contentPane.add(panelScrollableAgentList, BorderLayout.CENTER);
+		panelScrollableAgentList.setLayout(new BorderLayout(0, 0));
 		
 		scrollPane = new JScrollPane();
-		panel_1.add(scrollPane, BorderLayout.CENTER);
+		panelScrollableAgentList.add(scrollPane, BorderLayout.CENTER);
 		
 				agentsList = new JList<Humanoid>();
 				scrollPane.setViewportView(agentsList);
@@ -230,14 +234,14 @@ public class AgentsView extends JFrame {
 		}
 	}
 	protected void initDataBindings() {
-		BeanProperty<City, Integer> cityBeanProperty_1 = BeanProperty.create("heure");
-		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
-		AutoBinding<City, Integer, JLabel, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele, cityBeanProperty_1, lblDate, jLabelBeanProperty);
-		autoBinding.bind();
-		//
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
 		jListBinding.bind();
+		//
+		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Jour ${jour} - ${heure}:00");
+		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
+		AutoBinding<City, Object, JLabel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, modele, cityEvalutionProperty, lblDate, jLabelBeanProperty, "DateTimeBinding");
+		autoBinding_1.bind();
 	}
 }
 /*

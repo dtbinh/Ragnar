@@ -1,7 +1,6 @@
 package fr.isima.sma.world;
 
 public abstract class ActiveEntity extends Entity {
-	protected static City city;
 	protected int speed; // Indicate the entity speed (max blocs per ticks)
 	protected Location location;
 
@@ -57,10 +56,5 @@ public abstract class ActiveEntity extends Entity {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
-
-	public static void setCity(City m) {
-		city = m;
-	}
-
 
 }
