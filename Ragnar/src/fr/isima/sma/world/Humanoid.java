@@ -7,6 +7,8 @@
 
 package fr.isima.sma.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 //import fr.isima.sma.world.Humanoid.BadAgeException;
@@ -15,7 +17,6 @@ public abstract class Humanoid extends ActiveEntity {
 	protected static City city;
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
-	protected HeadQuarter home;
 	
 	// Class members
 	protected String name;
@@ -23,10 +24,11 @@ public abstract class Humanoid extends ActiveEntity {
 	protected int age;
 	protected String url;
 	protected ActiveEntity.AgentType type;
+	protected HeadQuarter home;
+	protected List<Location> path; // The path to home
 	
 	// syteme monetaire
 	protected int money;
-	
 	
 	/**
 	 * Default constructor
@@ -77,8 +79,10 @@ public abstract class Humanoid extends ActiveEntity {
 			System.err.println(name + " " + surname + " ne peut avoir son domicile en " + colonne + "-" + ligne);
 		}
 		setMoney(0);
+		
+		path = new ArrayList<Location>();
 	}
-
+	
 	/**
 	 * Randomly choose where to go. It can move full speed or not
 	 */
