@@ -68,10 +68,14 @@ public abstract class Humanoid extends ActiveEntity {
 			System.err.println("Erreur sur l'age de : " + name);
 		}
 		
-		this.location = new Location(ligne, colonne);
+		this.location = new Location(colonne, ligne);
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
 		firePropertyChange("location", new Location(), this.location);
-		home = (HeadQuarter)city.getSector(this);
+		try {
+			home = (HeadQuarter)city.getSector(this);			
+		} catch (ClassCastException e) {
+			System.err.println(name + " " + surname + " ne peut avoir son domicile en " + colonne + "-" + ligne);
+		}
 		setMoney(0);
 	}
 
@@ -81,15 +85,6 @@ public abstract class Humanoid extends ActiveEntity {
 	public void moveRandom() {
 		int bound = 2 * this.speed + 1; // The max of the random, +1 because it is exclusive value
 		this.location.shiftLocation(Humanoid.rand.nextInt(bound) - speed, Humanoid.rand.nextInt(bound) - speed);
-	}
-
-	@Override
-	public void setLocation(Location location) {
-		Location old = this.location;
-		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)-1);
-		this.location.setLocation(location.getLocationX(), location.getLocationY());
-		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
-		firePropertyChange("location", old, this.location);
 	}
 	
 	@Override
@@ -187,7 +182,9 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 
 	public void setMoney(int money) {
+		int old = this.money;
 		this.money = money;
+		firePropertyChange("money", old, this.money);
 	}
 	
 }

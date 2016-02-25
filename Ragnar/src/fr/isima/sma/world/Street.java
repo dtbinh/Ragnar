@@ -6,6 +6,7 @@ public class Street extends Sector {
 
 	public Street() {
 		setType(SectorType.Street);
+		dailyMoney = 50 + City.rand.nextInt(100);
 	}
 	
 	public SectorType getType() {
@@ -31,6 +32,6 @@ public class Street extends Sector {
 	
 	@Override
 	public void ruleEconomy() {
-		this.moneyAvailable += ((0.75+City.rand.nextDouble()/2)*dailyMoney);
+		moneyAvailable += (int)((0.75+City.rand.nextDouble()/2)*dailyMoney);
 	}
 }

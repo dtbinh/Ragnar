@@ -8,7 +8,6 @@ import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.City;
-import fr.isima.sma.world.Humanoid;
 
 /*
  * 	MVC class

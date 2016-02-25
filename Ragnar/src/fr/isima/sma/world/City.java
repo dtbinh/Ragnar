@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Observer;
 import java.util.Random;
@@ -162,6 +161,7 @@ public class City extends ActiveEntity implements IMyObservable {
 						map[lineIndex][i] = new Street();
 						break;
 					}
+					map[lineIndex][i].setLocation(new Location(i,lineIndex));
 					sectorByType.get(map[lineIndex][i].getType().getValue()).add(map[lineIndex][i]);
 				}
 				lineIndex++;
@@ -267,7 +267,7 @@ public class City extends ActiveEntity implements IMyObservable {
 		int x = citizen.getLocation().getLocationX();
 		int y = citizen.getLocation().getLocationY();
 
-		return map[x][y];
+		return map[y][x];
 	}
 
 	public void depositMoney(Citizen citizen, int amount) {
@@ -393,6 +393,21 @@ public class City extends ActiveEntity implements IMyObservable {
 
 	public void setAnnee(int annee) {
 		this.annee = annee;
+	}
+
+	public List<Sector> getNeighborhood(Humanoid agent) {
+		List<Sector> voisinnage = new ArrayList<>();
+
+		int x = agent.getLocation().getLocationX();
+		int y = agent.getLocation().getLocationY();
+		
+		for(int i = Integer.max(Location.getMinLocationX(),x-agent.speed) ; i <= Integer.min(Location.getMaxLocationX()-1,x+agent.speed) ; i++) {
+			for(int j = Integer.max(Location.getMinLocationY(),y-agent.speed) ; j <= Integer.min(Location.getMaxLocationY()-1,y+agent.speed) ; j++) {
+				voisinnage.add(map[j][i]);
+			}
+		}
+		
+		return voisinnage;
 	}
 
 }

@@ -13,7 +13,7 @@ public class Bank extends Sector {
 	
 	@Override
 	public void ruleEconomy() {
-		this.moneyAvailable *= 1.02;
+		this.setMoneyAvailable((int)(this.getMoneyAvailable() * 1.02));
 	}
 
 }

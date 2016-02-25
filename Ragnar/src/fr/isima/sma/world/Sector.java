@@ -38,6 +38,7 @@ public abstract class Sector extends AbstractModelObject {
 			agents.set(i, new ArrayList<Humanoid>(16));
 			numberHumanoid[i] = 0;
 		}
+		this.setMoneyAvailable(500);
 	}
 
 	@Override
@@ -128,6 +129,14 @@ public abstract class Sector extends AbstractModelObject {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public int getMoneyAvailable() {
+		return moneyAvailable;
+	}
+
+	public void setMoneyAvailable(int moneyAvailable) {
+		this.moneyAvailable = moneyAvailable;
 	}
 
 }

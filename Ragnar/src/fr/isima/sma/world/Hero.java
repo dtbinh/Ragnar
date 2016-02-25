@@ -98,9 +98,11 @@ public class Hero extends Super {
 
 	@Override
 	public void live() {
+		/*
 		if(surname.equals("Superman")){
 			move(location.getLocationX()+1, location.getLocationY()+1);
 		}
+		*/
 	}
 
 }

@@ -50,8 +50,8 @@ public class AgentsView extends JFrame {
 	private JPanel panelAgent;
 	private JLabel imageLabel;
 	private JLabel lblNom;
-	private JLabel lblPrenom;
-	private JLabel lblprenom;
+	private JLabel lblArgent;
+	private JLabel lblargent;
 	private JLabel lblnom;
 	private JLabel lblType;
 	private JLabel lbltype;
@@ -126,22 +126,22 @@ public class AgentsView extends JFrame {
 		lblNom.setDoubleBuffered(true);
 		detailsPanel.add(lblNom);
 		
-		lblnom = new JLabel("#nom");
+		lblnom = new JLabel("#prenom #nom");
 		lblnom.setForeground(Color.YELLOW);
 		lblnom.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblnom);
 		
-		lblPrenom = new JLabel("Pr\u00E9nom :");
-		lblPrenom.setForeground(Color.WHITE);
-		lblPrenom.setFont(new Font("Tahoma", Font.BOLD, 12));
-		detailsPanel.add(lblPrenom);
-		lblPrenom.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPrenom.setLabelFor(lblprenom);
+		lblArgent = new JLabel("Argent :");
+		lblArgent.setForeground(Color.WHITE);
+		lblArgent.setFont(new Font("Tahoma", Font.BOLD, 12));
+		detailsPanel.add(lblArgent);
+		lblArgent.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblArgent.setLabelFor(lblargent);
 		
-		lblprenom = new JLabel("#prenom");
-		lblprenom.setForeground(Color.YELLOW);
-		lblprenom.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		detailsPanel.add(lblprenom);
+		lblargent = new JLabel("#argent");
+		lblargent.setForeground(Color.YELLOW);
+		lblargent.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		detailsPanel.add(lblargent);
 		
 		lblType = new JLabel("Type :");
 		lblType.setForeground(Color.WHITE);
@@ -206,8 +206,8 @@ public class AgentsView extends JFrame {
             public void valueChanged(ListSelectionEvent arg0) {
                 if (!arg0.getValueIsAdjusting()) {
                 	selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-                    lblnom.setText(selected.getName());
-                    lblprenom.setText(selected.getSurname());
+                    lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+                    lblargent.setText(String.valueOf(selected.getMoney())+"$");
                     lblage.setText(String.valueOf(selected.getAge()));
                     lblvitesse.setText(String.valueOf(selected.getSpeed()));
                     lbltype.setText(selected.getClass().getSimpleName());
@@ -230,18 +230,18 @@ public class AgentsView extends JFrame {
 
 		if (selected!=null) {
 			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-		    lblnom.setText(selected.getName());
-		    lblprenom.setText(selected.getSurname());
-		    lblage.setText(String.valueOf(selected.getAge()));
-		    lblvitesse.setText(String.valueOf(selected.getSpeed()));
-		    lbltype.setText(selected.getClass().getSimpleName());
-		    lblposition.setText(String.valueOf(selected.getLocation()));
-		    String imageName = "";
-		    if(selected.getUrl().isEmpty() || selected.getUrl() == null)
-		    	imageName = selected.getClass().getSimpleName().toLowerCase();
-		    else
-		    	imageName = selected.getUrl();
-		    imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+            lblargent.setText(String.valueOf(selected.getMoney())+"$");
+            lblage.setText(String.valueOf(selected.getAge()));
+            lblvitesse.setText(String.valueOf(selected.getSpeed()));
+            lbltype.setText(selected.getClass().getSimpleName());
+            lblposition.setText(String.valueOf(selected.getLocation()));
+            String imageName = "";
+            if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+            	imageName = selected.getClass().getSimpleName().toLowerCase();
+            else
+            	imageName = selected.getUrl();
+            imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
 		    this.panelAgent.repaint();
 		}
 	}
