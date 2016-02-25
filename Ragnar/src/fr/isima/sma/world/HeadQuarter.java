@@ -42,6 +42,12 @@ public class HeadQuarter extends Sector {
 		}
 		
 		return out;
+	}@Override
+	
+	public void ruleEconomy() {
+		if(owner == OwnerType.Citizen) {
+			this.moneyAvailable -= this.getNumberCitizen()*80;
+		}
 	}
 
 }

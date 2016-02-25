@@ -1,47 +1,41 @@
 package fr.isima.sma.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Panel;
+import java.awt.Rectangle;
+import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
-import fr.isima.sma.resources.Properties;
 import fr.isima.sma.resources.ResourcesManager;
-import fr.isima.sma.world.*;
-
-import javax.swing.JList;
-import org.jdesktop.beansbinding.BeanProperty;
-import java.util.List;
-import javax.swing.JLabel;
-import org.jdesktop.beansbinding.AutoBinding;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.Dimension;
-import javax.swing.JScrollBar;
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-
-import java.awt.Panel;
-import java.awt.Color;
-import java.awt.Rectangle;
-import java.awt.GridLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.ObjectProperty;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
-import java.awt.ComponentOrientation;
-import java.awt.Cursor;
+import fr.isima.sma.world.City;
+import fr.isima.sma.world.Humanoid;
 
 
 public class AgentsView extends JFrame {
@@ -50,10 +44,10 @@ public class AgentsView extends JFrame {
 	private ResourcesManager res = ResourcesManager.getInstance();
 	private JPanel contentPane;
 	public JList<Humanoid> agentsList;
+	private Humanoid selected;
 	private City modele;
 	private JLabel lblDate;
 	private JPanel panelAgent;
-	private Panel detailsPanel;
 	private JLabel imageLabel;
 	private JLabel lblNom;
 	private JLabel lblPrenom;
@@ -72,10 +66,13 @@ public class AgentsView extends JFrame {
 	private JPanel layoutBorderDetailPanel;
 	private JPanel panelDateTime;
 
+	private JPanel detailsPanel;
+
 	/**
 	 * Create the frame.
 	 */
 	public AgentsView(City pModele) {
+		selected = null;
 		setMinimumSize(new Dimension(450, 500));
 		setSize(new Dimension(450, 569));
 		modele = pModele;
@@ -112,7 +109,7 @@ public class AgentsView extends JFrame {
 		panelAgent.add(layoutBorderDetailPanel);
 		layoutBorderDetailPanel.setLayout(new BorderLayout(0, 0));
 		
-		detailsPanel = new Panel();
+		detailsPanel = new JPanel();
 		layoutBorderDetailPanel.add(detailsPanel);
 		detailsPanel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		detailsPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -197,40 +194,55 @@ public class AgentsView extends JFrame {
 		scrollPane = new JScrollPane();
 		panelScrollableAgentList.add(scrollPane, BorderLayout.CENTER);
 		
-				agentsList = new JList<Humanoid>();
-				scrollPane.setViewportView(agentsList);
-				agentsList.setVisibleRowCount(32);
-				agentsList.setAutoscrolls(true);
-				agentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		agentsList = new JList<Humanoid>();
+		scrollPane.setViewportView(agentsList);
+		agentsList.setVisibleRowCount(32);
+		agentsList.setAutoscrolls(true);
+		agentsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 				
-						agentsList.addListSelectionListener(new ListSelectionListener() {
-				
-				            @Override
-				            public void valueChanged(ListSelectionEvent arg0) {
-				                if (!arg0.getValueIsAdjusting()) {
-				                	Humanoid selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-				                    lblnom.setText(selected.getName());
-				                    lblprenom.setText(selected.getSurname());
-				                    lblage.setText(String.valueOf(selected.getAge()));
-				                    lblvitesse.setText(String.valueOf(selected.getSpeed()));
-				                    lbltype.setText(selected.getClass().getSimpleName());
-				                    lblposition.setText(String.valueOf(selected.getLocation()));
-				                    String imageName = "";
-				                    if(selected.getUrl().isEmpty() || selected.getUrl() == null)
-				                    	imageName = selected.getClass().getSimpleName().toLowerCase();
-				                    else
-				                    	imageName = selected.getUrl();
-				                    imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
-				                }
-				            }
-				        });
+		agentsList.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                	selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
+                    lblnom.setText(selected.getName());
+                    lblprenom.setText(selected.getSurname());
+                    lblage.setText(String.valueOf(selected.getAge()));
+                    lblvitesse.setText(String.valueOf(selected.getSpeed()));
+                    lbltype.setText(selected.getClass().getSimpleName());
+                    lblposition.setText(String.valueOf(selected.getLocation()));
+                    String imageName = "";
+                    if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+                    	imageName = selected.getClass().getSimpleName().toLowerCase();
+                    else
+                    	imageName = selected.getUrl();
+                    imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+                }
+            }
+            
+        });
 		initDataBindings();
 		//agentsList.setSelectedIndex(0);
 	}
+	
+	public void repaint() {
 
-	protected void paintComponent(Graphics g) {
-		for(Component c : this.getComponents()) {
-			c.repaint();
+		if (selected!=null) {
+			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
+		    lblnom.setText(selected.getName());
+		    lblprenom.setText(selected.getSurname());
+		    lblage.setText(String.valueOf(selected.getAge()));
+		    lblvitesse.setText(String.valueOf(selected.getSpeed()));
+		    lbltype.setText(selected.getClass().getSimpleName());
+		    lblposition.setText(String.valueOf(selected.getLocation()));
+		    String imageName = "";
+		    if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+		    	imageName = selected.getClass().getSimpleName().toLowerCase();
+		    else
+		    	imageName = selected.getUrl();
+		    imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+		    this.panelAgent.repaint();
 		}
 	}
 	protected void initDataBindings() {
@@ -238,7 +250,7 @@ public class AgentsView extends JFrame {
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
 		jListBinding.bind();
 		//
-		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Jour ${jour} - ${heure}:00");
+		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Annee ${annee}, Jour ${jour} - ${heure}:00");
 		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
 		AutoBinding<City, Object, JLabel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, modele, cityEvalutionProperty, lblDate, jLabelBeanProperty, "DateTimeBinding");
 		autoBinding_1.bind();

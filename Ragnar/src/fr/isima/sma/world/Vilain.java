@@ -2,8 +2,8 @@ package fr.isima.sma.world;
 
 public class Vilain extends Super {
 
-	public Vilain(String name, String surname, int age, int speed, int locationX, int locationY) {
-		super(AgentType.VILAIN, name, surname, age, speed, locationX, locationY);
+	public Vilain(String name, String surname, int age, int speed, int ligne, int colonne) {
+		super(AgentType.VILAIN, name, surname, age, speed, ligne, colonne);
 	}
 
 	@Override

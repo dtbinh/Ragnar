@@ -15,6 +15,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected static City city;
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
+	protected HeadQuarter home;
 	
 	// Class members
 	protected String name;
@@ -23,12 +24,15 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String url;
 	protected ActiveEntity.AgentType type;
 	
+	// syteme monetaire
+	protected int money;
+	
 	
 	/**
 	 * Default constructor
 	 */
 	public Humanoid() {
-		super();
+		this(AgentType.CITIZEN,"","",0);
 		// By default the entities name, surname and age are randomly generated
 		
 	}
@@ -52,7 +56,7 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param age age of the entity
 	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
 	 */
-	public Humanoid(AgentType type, String name, String surname, int age, int speed, int locationX, int locationY) {
+	public Humanoid(AgentType type, String name, String surname, int age, int speed, int ligne, int colonne) {
 		this.name = name;
 		this.surname = surname;
 		this.speed = speed;
@@ -64,9 +68,11 @@ public abstract class Humanoid extends ActiveEntity {
 			System.err.println("Erreur sur l'age de : " + name);
 		}
 		
-		this.location = new Location(locationX, locationY);
+		this.location = new Location(ligne, colonne);
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
-		firePropertyChange("location", new Location(), this.location);		
+		firePropertyChange("location", new Location(), this.location);
+		home = (HeadQuarter)city.getSector(this);
+		setMoney(0);
 	}
 
 	/**
@@ -174,6 +180,14 @@ public abstract class Humanoid extends ActiveEntity {
 
 	public static void setCity(City m) {
 		city = m;
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 }

@@ -19,6 +19,7 @@ public class Properties {
 		properties = new HashMap<>();
 		properties.put("name", "Ragnar");
 		properties.put("ticksPerHour", "1000");
+		properties.put("daysperyear", "30");
 		properties.put("caseSize", "64");
 		properties.put("cityFile", "ragnar.txt");
 		properties.put("agentsFile", "agents.txt");

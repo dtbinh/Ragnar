@@ -8,13 +8,21 @@ import fr.isima.sma.world.ActiveEntity.AgentType;
 public abstract class Sector extends AbstractModelObject {
 
 	static public enum SectorType {
-		Street, Bank, HeadQuarter, HeroHQ, VilainHQ
+		Street(0), Bank(1), HeadQuarter(2), HeroHQ(3), VilainHQ(4);
+		private final int value;
+		private SectorType(int a) {
+			value = a;
+		}
+		public int getValue() {
+			return value;
+		}
 	}
 
 	protected SectorType 	type;
 	protected Location		location;
 	protected int			numberHumanoid[];
 	protected List<List<Humanoid>> agents; 
+	protected int 			moneyAvailable;		// somme disponible sur le secteur pour etre recolte par les cytoyens
 
 	public Sector() {
 		this(SectorType.Street, new Location());
@@ -112,6 +120,14 @@ public abstract class Sector extends AbstractModelObject {
 		this.numberHumanoid[pType.getValue()] = val;
 		String propertyName = "number"+pType.toString().charAt(0)+pType.toString().toLowerCase().substring(1);
 		firePropertyChange(propertyName, old, val);	// BINDING
+	}
+
+	public void ruleEconomy() {
+		try {
+			throw new Exception("Non implemented method ruleEconomy in "+getClass().getSimpleName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -10,5 +10,10 @@ public class Bank extends Sector {
 	public String toString() {
 		return "B";
 	}
+	
+	@Override
+	public void ruleEconomy() {
+		this.moneyAvailable *= 1.02;
+	}
 
 }

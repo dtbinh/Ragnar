@@ -2,8 +2,8 @@ package fr.isima.sma.world;
 
 public class Hero extends Super {
 
-	public Hero(String name, String surname, int age, int speed, int locationX, int locationY) {
-		super(AgentType.HERO, name, surname, age, speed, locationX, locationY);
+	public Hero(String name, String surname, int age, int speed, int ligne, int colonne) {
+		super(AgentType.HERO, name, surname, age, speed, ligne, colonne);
 	}
 
 	/* (non-Javadoc)
@@ -19,9 +19,9 @@ public class Hero extends Super {
 	 * @see fr.isima.sma.world.Super#move(int, int)
 	 */
 	@Override
-	public void move(int locationX, int locationY) {
+	public void move(int ligne, int colonne) {
 		// TODO Auto-generated method stub
-		super.move(locationX, locationY);
+		super.move(ligne, colonne);
 	}
 
 	/* (non-Javadoc)

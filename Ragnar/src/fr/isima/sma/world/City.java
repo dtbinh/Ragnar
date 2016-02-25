@@ -4,17 +4,26 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Observer;
+import java.util.Random;
+
+import fr.isima.sma.resources.Properties;
 
 public class City extends ActiveEntity implements IMyObservable {
+	protected static Random 			rand = new Random(123); // TODO remove the seed at the end
+	protected Properties				props;
 	protected int 						currentTick;
 	protected int 						tickPerHour;
 	protected int 						heure;
 	protected int 						jour;
+	protected int 						annee;
 	protected String 					name;
 	protected MyObservable 				notifier;
 
 	protected Sector[][] 				map;
+	protected List<List<Sector>>		sectorByType;
 	protected AgentsList<Humanoid>		agents;
 
 	public City() {
@@ -29,6 +38,11 @@ public class City extends ActiveEntity implements IMyObservable {
 		this.jour = 0;
 		this.tickPerHour = tickPerHour;
 		agents = new AgentsList<>("agents");
+		sectorByType = new ArrayList<>(5);
+		for(int i = 0 ; i < Sector.SectorType.values().length ; i++) {
+			sectorByType.add(new ArrayList<Sector>(100));
+		}
+		props = Properties.getInstance();
 	}
 
 	/**
@@ -57,15 +71,15 @@ public class City extends ActiveEntity implements IMyObservable {
 						switch (agent[0]) {
 						
 							case "Citizen":
-								nouveau = new Citizen(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));							
+								nouveau = new Citizen(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[6]), Integer.valueOf(agent[5]));							
 								break;
 								
 							case "Hero":
-								nouveau = new Hero(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));	
+								nouveau = new Hero(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[6]), Integer.valueOf(agent[5]));	
 								break;
 								
 							case "Vilain":
-								nouveau = new Vilain(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[5]), Integer.valueOf(agent[6]));							
+								nouveau = new Vilain(agent[1], agent[2], Integer.valueOf(agent[3]), Integer.valueOf(agent[4]), Integer.valueOf(agent[6]), Integer.valueOf(agent[5]));							
 								break;
 		
 							default:
@@ -148,6 +162,7 @@ public class City extends ActiveEntity implements IMyObservable {
 						map[lineIndex][i] = new Street();
 						break;
 					}
+					sectorByType.get(map[lineIndex][i].getType().getValue()).add(map[lineIndex][i]);
 				}
 				lineIndex++;
 			}
@@ -179,11 +194,24 @@ public class City extends ActiveEntity implements IMyObservable {
 			if(heure == 24) {
 				heure = 0;
 				jour++;
+				if(getAnnee() == Integer.valueOf(props.getProperty("daysperyear"))) {
+					jour = 0;
+					setAnnee(getAnnee() + 1);
+				}
 			}
 
 			firePropertyChange("heure", heure-1, heure);	// BINDING
 			
 			currentTick = 0;
+		}
+		
+		// update of sectors' money
+		if(heure==3) {
+			for (List<Sector> list : sectorByType) {
+				for (Sector s : list) {
+					s.ruleEconomy();
+				}
+			}
 		}
 
 		notifier.setChanged();
@@ -357,6 +385,14 @@ public class City extends ActiveEntity implements IMyObservable {
 	@Override
 	public int countObservers() {
 		return notifier.countObservers();
+	}
+
+	public int getAnnee() {
+		return annee;
+	}
+
+	public void setAnnee(int annee) {
+		this.annee = annee;
 	}
 
 }

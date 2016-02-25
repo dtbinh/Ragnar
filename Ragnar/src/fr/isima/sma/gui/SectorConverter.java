@@ -8,7 +8,7 @@ import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
 
 public class SectorConverter extends Converter<Sector.SectorType, Color> {
-	static protected Color[] sectorStyle = {new Color(255,255,0), new Color(20,20,20), new Color(100,100,100), new Color(50,80,255), new Color(255,50,50)};
+	static protected Color[] sectorStyle = {new Color(255,255,0), new Color(50,100,50), new Color(100,100,100), new Color(50,80,255), new Color(255,50,50)};
 
 	@Override
 	public Color convertForward(SectorType arg) {
