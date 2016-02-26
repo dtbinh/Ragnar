@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.isima.sma.world.ActiveEntity.AgentType;
+import fr.isima.sma.world.patterns.AbstractModelObject;
 
 public abstract class Sector extends AbstractModelObject {
 

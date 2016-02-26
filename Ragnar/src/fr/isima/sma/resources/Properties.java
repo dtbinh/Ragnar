@@ -12,13 +12,20 @@ public class Properties {
 	private String propertiesFileName;
 
 	private Properties() {
-		this.setPropertiesFileName("simulation.properties");
+		try {
+			this.setPropertiesFileName("simulation.properties");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private void setDefaultProperties() {
 		properties = new HashMap<>();
+		properties.put("windowsname", "Ragnar : Simulation Multi Agents");
 		properties.put("name", "Ragnar");
-		properties.put("ticksPerHour", "1000");
+		properties.put("ticksPerHour", "1");
+		properties.put("msPerTick", "1000");
 		properties.put("daysperyear", "30");
 		properties.put("caseSize", "64");
 		properties.put("cityFile", "ragnar.txt");
@@ -38,7 +45,7 @@ public class Properties {
 		return instance;
 	}
 
-	private boolean loadProperties() {
+	private boolean loadProperties() throws IOException {
 		// ajout des proprietes par defaut
 		setDefaultProperties();
 
@@ -63,8 +70,7 @@ public class Properties {
 
 		} catch (IOException e) {
 			System.err.println("Le fichier n'a pas pu être ouvert.");
-			e.printStackTrace();
-			return false;
+			throw e;
 		}
 		return true;
 	}
@@ -82,7 +88,7 @@ public class Properties {
 		return retour;
 	}
 
-	public void setPropertiesFileName(String propertiesFileName) {
+	public void setPropertiesFileName(String propertiesFileName) throws IOException {
 		this.propertiesFileName = propertiesFileName;
 		this.loadProperties();
 	}

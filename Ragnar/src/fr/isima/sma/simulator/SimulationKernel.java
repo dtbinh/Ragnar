@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import fr.isima.sma.gui.RagnarView;
+import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.City;
@@ -23,7 +24,7 @@ public class SimulationKernel {
 	protected ArrayList<Event> 			events;
 	// TODO s'abonner a toutes les entites de la city pour faire ajouter les events automatiquement
 	protected static Random 			rand = new Random();
-	protected static VirtualClock 		c = new VirtualClock(1000);
+	protected static VirtualClock 		c = new VirtualClock(Integer.valueOf(Properties.getInstance().getProperty("msPerTick")));
 
 	public SimulationKernel(City c, RagnarView v) {
 		ragnar = c;

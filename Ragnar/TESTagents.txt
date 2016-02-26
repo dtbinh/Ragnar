@@ -1,0 +1,13 @@
+#	Agents description file
+#	line with a '#' are commentaries
+#	a line should look like this
+#	type:name:surname:age:speed:location_x:location_y:image[:others...]
+#	other fields must be like that : field=value
+#	image must be the name of the asset in assets.rc
+
+Citizen:Benoît:Garçon:22:1:2:0:benoit
+Vilain:C:Mos:48:2:4:7:
+
+Hero:Iron:Man:33:4:5:4:
+
+Bleu

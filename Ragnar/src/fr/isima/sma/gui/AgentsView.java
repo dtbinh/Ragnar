@@ -7,9 +7,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Panel;
 import java.awt.Rectangle;
 import java.util.List;
 
@@ -247,6 +245,7 @@ public class AgentsView extends JFrame {
 	}
 	protected void initDataBindings() {
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
+		@SuppressWarnings("rawtypes")
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
 		jListBinding.bind();
 		//

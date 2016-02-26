@@ -1,27 +1,22 @@
 package fr.isima.sma.gui;
 
-import javax.swing.JPanel;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
+
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
-import fr.isima.sma.world.Hero;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
-
-import javax.swing.JLabel;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class SectorView extends JPanel {
 	private AutoBinding<Sector, Integer, JLabel, Boolean> groupVisibleBind;
