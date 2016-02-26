@@ -43,4 +43,5 @@ public class AgentsList<T> extends AbstractModelObject {
 	public int size() {
 		return agents.size();
 	}
+	
 }

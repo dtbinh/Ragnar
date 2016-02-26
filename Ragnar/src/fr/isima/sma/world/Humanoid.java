@@ -204,28 +204,28 @@ public abstract class Humanoid extends ActiveEntity {
 	        i++;
 
 	        /* check if the field right from the current field is one step away */
-	        if((distance[x+1][y]) == (distance[x][y] - 1)) {
+	        if((x + 1 < length) && ((distance[x+1][y]) == (distance[x][y] - 1))) {
 	            /* that tile is one step away, so take it into the path */
 	            path[i][0] = x+1;
 	            path[i][1] = y;
 	        }
 
 	        /* check if the field left from the current field is one step away */
-	        else if(distance[x-1][y] == distance[x][y] - 1) {
+	        else if( (x - 1 >= 0) && (distance[x-1][y] == (distance[x][y] - 1)) ) {
 	            /* that tile is one step away, so take it into the path */
 	            path[i][0] = x-1;
 	            path[i][1] = y;
 	        }
 
 	        /* check if the field underneath the current field is one step away */
-	        else if(distance[x][y+1] == distance[x][y] - 1) {
+	        else if( (y + 1 < width) && (distance[x][y+1] == (distance[x][y] - 1)) ) {
 	            /* that tile is one step away, so take it into the path */
 	            path[i][0] = x;
 	            path[i][1] = y+1;
 	        }
 
 	        /* check if the field above the current field is one step away */
-	        else if(distance[x][y-1] == distance[x][y] - 1) {
+	        else if( (y - 1 >= 0) && (distance[x][y-1] == (distance[x][y] - 1)) ) {
 	            /* that tile is one step away, so take it into the path */
 	            path[i][0] = x;
 	            path[i][1] = y-1;

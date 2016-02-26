@@ -53,9 +53,6 @@ public class Citizen extends Humanoid {
 				} // path initialized
 				
 				if(pathStep >= 0 && pathStep < path.length) {
-					if(this.id == 12) {
-						System.out.println(" ("+this.path[pathStep][0]+", "+this.path[pathStep][1]+")");
-					}
 					this.setLocation(this.path[pathStep][0], this.path[pathStep][1]); // Move
 					pathStep += 1; // Next step
 				}
