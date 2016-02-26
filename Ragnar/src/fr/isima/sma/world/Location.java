@@ -244,11 +244,9 @@ public class Location {
 	public boolean equals(Object obj) {
 		boolean state = false;
 		
-		if(obj instanceof Location) {
-			if(((Location) obj).getLocationX() == this.locationX) {
-				if(((Location) obj).getLocationY() == this.locationY) {
-					state = true;
-				}
+		if(((Location) obj).getLocationX() == this.getLocationX()) {
+			if(((Location) obj).getLocationY() == this.getLocationY()) {
+				state = true;
 			}
 		}
 		

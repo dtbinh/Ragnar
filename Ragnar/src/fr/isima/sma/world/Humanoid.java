@@ -25,7 +25,8 @@ public abstract class Humanoid extends ActiveEntity {
 	protected String url;
 	protected ActiveEntity.AgentType type;
 	protected HeadQuarter home;
-	protected List<Location> path; // The path to home
+	protected int[][] path; // The path to home, containing x and y locations
+	protected int pathStep; // At which point am i in the path to home
 	
 	// syteme monetaire
 	protected int money;
@@ -80,7 +81,8 @@ public abstract class Humanoid extends ActiveEntity {
 		}
 		setMoney(0);
 		
-		path = new ArrayList<Location>();
+		path = null;
+		pathStep = -1;
 	}
 	
 	/**
@@ -110,6 +112,132 @@ public abstract class Humanoid extends ActiveEntity {
 		// TODO Auto-generated method stub
 		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append("  -  ").append(this.getClass().getSimpleName());
 		return st.toString();
+	}
+	
+	/** finds the Path from (startX, startY) to (endX,endY)
+	 * @param startX starting X-Coordinate
+	 * @param startY starting Y-Coordinate
+	 * @param endX target X-Coordinate
+	 * @param endY target Y-Coordinate
+	 * @param walkableTiles Map representation of walkable tiles
+	 * @return path array with x & y coordinates
+	 */
+	public int[][] findPath(int startX, int startY, int endX, int endY, boolean[][] walkable) {
+	    /* first we get the the width and length of the map */
+	    int length = walkable.length;
+	    int width = walkable[0].length;
+
+	    /* now we initialize an int array and fill it with -1 */
+	    int[][] distance = new int[length][width];
+	    for(int i=0; i < distance.length; i++) {
+	        for(int j=0; j < distance[i].length; j++) {
+	            distance[i][j] = -1;
+	        }
+	    }
+
+	    /* our target point is (endX,endY) so there is distance = 0 */
+	    distance[endX][endY] = 0;
+	    /* we need to store the steps from the end point to the next Tiles in a variable */
+	    int steps = 1;
+
+	    /* now we'll mark every tile how much steps there are from the current Point to the end point until we hit the start point*/
+	    while(distance[startX][startY] == -1) {
+	        for(int i=0; i < distance.length; i++) {
+	            for(int j=0; j < distance[i].length; j++) {
+	                /* check if the current Tile is have the distance of the last marked Tile */
+	                if(distance[i][j] == steps - 1) {
+	                    /* check if the Tile right from the current Tile is valid */
+	                    if(i < width - 1) {
+	                        /* check if that Tile is not marked and if it is walkable*/
+	                        if(distance[i+1][j] == -1 && walkable[i+1][j]) {
+	                            /* not marked & walkable, so we can mark it */
+	                            distance[i+1][j] = steps;
+	                        }
+	                    }
+
+	                    /* check if the Tile left from the current Tile is valid */
+	                    if(i > 0) {
+	                        /* check if that Tile is not marked and if it is walkable*/
+	                        if(distance[i-1][j] == -1 && walkable[i-1][j]) {
+	                            /* not marked & walkable, so we can mark it */
+	                            distance[i-1][j] = steps;
+	                        }
+	                    }
+
+	                    /* check if the Tile underneath the current Tile is valid */
+	                    if(j < length - 1) {
+	                        /* check if that Tile is not marked and if it is walkable*/
+	                        if(distance[i][j+1] == -1 && walkable[i][j+1]) {
+	                            /* not marked & walkable, so we can mark it */
+	                            distance[i][j+1] = steps;
+	                        }
+	                    }
+
+	                    /* check if the Tile above the current Tile is valid */
+	                    if(j > 0) {
+	                        /* check if that Tile is not marked and if it is walkable*/
+	                        if(distance[i][j-1] == -1 && walkable[i][j-1]) {
+	                            /* not marked & walkable, so we can mark it */
+	                            distance[i][j-1] = steps;
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	        /* increment steps after each map check */
+	        steps++;
+	    }
+
+	    /* now we have checked every Tile, so we can start making a path */
+	    int[][] path = new int[steps][2];
+	    /* we start with the start point */
+	    path[0][0] = startX;
+	    path[0][1] = startY;
+
+	    int i = 0;
+	    /* now we go on until we hit the end point */
+	    while(path[i][0] != endX && path[i][1] != endY) {
+	        /* get current tile coordinates */
+	        int x = path[i][0];
+	        int y = path[i][1];
+	        /* we have everything from the current tile so increment i */
+	        i++;
+
+	        /* check if the field right from the current field is one step away */
+	        if((distance[x+1][y]) == (distance[x][y] - 1)) {
+	            /* that tile is one step away, so take it into the path */
+	            path[i][0] = x+1;
+	            path[i][1] = y;
+	        }
+
+	        /* check if the field left from the current field is one step away */
+	        else if(distance[x-1][y] == distance[x][y] - 1) {
+	            /* that tile is one step away, so take it into the path */
+	            path[i][0] = x-1;
+	            path[i][1] = y;
+	        }
+
+	        /* check if the field underneath the current field is one step away */
+	        else if(distance[x][y+1] == distance[x][y] - 1) {
+	            /* that tile is one step away, so take it into the path */
+	            path[i][0] = x;
+	            path[i][1] = y+1;
+	        }
+
+	        /* check if the field above the current field is one step away */
+	        else if(distance[x][y-1] == distance[x][y] - 1) {
+	            /* that tile is one step away, so take it into the path */
+	            path[i][0] = x;
+	            path[i][1] = y-1;
+	        }
+	    }
+	    
+	    path[i][0] = endX;
+	    path[i][1] = endY;
+	    
+	    /* now we should have the finished path array */
+	    // note that path[i][0] has the X-Coordinate and path[i][1] has the Y-Coordinate!
+	    return path;
 	}
 	
 	/**

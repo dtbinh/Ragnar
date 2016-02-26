@@ -21,27 +21,57 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
-		if(city.getHeure() > 20 || city.getHeure() < 8) {
+		if(city.getHeure() > 17 || city.getHeure() < 8) {
 			// Entre 20h et 8h, il faut etre a la maison
-			if( !this.location.equals(this.home.location) ) {
+			if(this.location.equals(this.home.location) == false) { // Pas a la maison
+				if(this.path == null) { // Not created so we create it
+					// This array indicates where i can walk
+					boolean[][] walkable = new boolean[this.city.getSizeX()][this.city.getSizeY()];
+					
+					// For each sector in the city, initialize the walkable
+					for(Sector[] tab : this.city.map) {
+						for(Sector s : tab) {
+							int x = s.location.getLocationX();
+							int y = s.location.getLocationY();
+							
+							if(s.type == SectorType.Street) {
+								walkable[x][y] = true;
+							} else {
+								walkable[x][y] = false;
+							}
+						}
+					}
+					
+					path = super.findPath(
+							this.location.getLocationX(),
+							this.location.getLocationY(),
+							this.home.getLocation().getLocationX(), 
+							this.home.getLocation().getLocationY(),
+							walkable);
+					pathStep = 1; // The first is the current location
+					
+					System.out.println(this.id + " home : " + this.home.location + " is at : " + this.location);
+					System.out.print("path :");
+					for(int i = 0; i < path.length; i++) {
+						System.out.print(" (" + path[i][0]+", " + path[i][1]+")");
+					}
+					System.out.println('\n');
+				} // path initialized
 				
-				this.move(this.home.location.getLocationX(), this.home.location.getLocationY());
+				if(pathStep < path.length) {
+					this.setLocation(this.path[pathStep][0], this.path[pathStep][1]);
+					pathStep++;
+					
+					System.out.println(this.id + " home : " + this.home.location + " is at : " + this.location);
+				}
 				
-//				if(path.size() == 0) {
-//					findHome(); // Create the path
-//				}
-//				
-//				Location tmp = path.get(0); // Get the location
-//				
-//				this.move(tmp.getLocationX(), tmp.getLocationY()); // Move to location
-//				if(this.location == this.home.location) { // If we're at home, go inside
-//					this.location.setInside();
-//				}
-//				
-//				path.remove(0); // Remove in the path
+			} else { // At home
+				if(this.path != null) { // At home and path just ended
+					this.path = null; // Reset it for further use
+					pathStep = -1;
+				}
 			}
-			
-		} else {
+		} else { // The rest of the day
 			List<Sector> voisinnage = city.getNeighborhood(this);
 			Sector cible = null;
 			int valeurCible = 0;
@@ -88,46 +118,4 @@ public class Citizen extends Humanoid {
 		
 	} // live
 	
-	/**
-	 * Create the path to home
-	 */
-	public void findHome() {
-	    Location tmpLoc = new Location(this.location.getLocationX(), this.location.getLocationY()); // Recuperation de la position actuelle comme copie
-
-	    if(true) { // Si on peut traverser les batiments
-	        // Tant qu'on est pas arrivé
-	        while( !tmpLoc.equals(this.home.location) ) {
-	            // Traitement axe X
-	            int xOff = this.home.location.getLocationX() - tmpLoc.getLocationX(); // Difference avec ou je suis
-	            int xDep = 0;
-
-	            if(xOff > 0) {
-	                xDep = Integer.min(xOff, speed); // Je me deplace soit de ce qu'il manque soit j'avance a fond
-	            } else if (xOff < 0){
-	                xDep = Integer.max(xOff, -speed);
-	            }
-	            tmpLoc.setLocationX(tmpLoc.getLocationX() + xDep);
-
-	            // Traitement axe y
-	            int yOff = this.home.location.getLocationY() - tmpLoc.getLocationY(); // Difference avec ou je suis
-	            int yDep = 0;
-
-	            if(yOff > 0) {
-	                yDep = Integer.min(yOff, speed); // Je me deplace soit de ce qu'il manque soit j'avance a fond
-	            } else if (yOff < 0){
-	                yDep = Integer.max(yOff, -speed);
-	            }
-	            tmpLoc.setLocationX(tmpLoc.getLocationY() + yDep);
-
-	            // Ajout dans la liste
-	            Location toAdd = new Location(tmpLoc.getLocationX(), tmpLoc.getLocationY());
-	            path.add(toAdd);
-	            
-	            System.out.println("path to " + this.home.location + " tmpLoc : " + tmpLoc + " xOff :" + xOff + " xDep : " + xDep + " yOff : " + yOff + " yDep : " + yDep + " toadd : " + toAdd);
-	        }
-	    } else { // Sinon path finding ouf
-	    	System.out.println("Not implemented");
-	    }
-	} // findHome
-
 }
