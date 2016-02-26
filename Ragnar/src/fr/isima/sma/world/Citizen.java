@@ -21,8 +21,8 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
-		if(city.getHeure() > 17 || city.getHeure() < 8) {
-			// Entre 20h et 8h, il faut etre a la maison
+		if(city.getHeure() >= 18 || city.getHeure() <= 8) { // On prend large pour avoir le temps de rentrer
+			// Entre 20h et 8h, il faut etre a la maison (a peu pres)
 			if(this.location.equals(this.home.location) == false) { // Pas a la maison
 				if(this.path == null) { // Not created so we create it
 					// This array indicates where i can walk
@@ -42,33 +42,28 @@ public class Citizen extends Humanoid {
 						}
 					}
 					
-					path = super.findPath(
+					this.path = super.findPath(
 							this.location.getLocationX(),
 							this.location.getLocationY(),
 							this.home.getLocation().getLocationX(), 
 							this.home.getLocation().getLocationY(),
 							walkable);
-					pathStep = 1; // The first is the current location
+					this.pathStep = 0; // The 0 is the current location, so go for 1
 					
-					System.out.println(this.id + " home : " + this.home.location + " is at : " + this.location);
-					System.out.print("path :");
-					for(int i = 0; i < path.length; i++) {
-						System.out.print(" (" + path[i][0]+", " + path[i][1]+")");
-					}
-					System.out.println('\n');
 				} // path initialized
 				
-				if(pathStep < path.length) {
-					this.setLocation(this.path[pathStep][0], this.path[pathStep][1]);
-					pathStep++;
-					
-					System.out.println(this.id + " home : " + this.home.location + " is at : " + this.location);
+				if(pathStep >= 0 && pathStep < path.length) {
+					if(this.id == 12) {
+						System.out.println(" ("+this.path[pathStep][0]+", "+this.path[pathStep][1]+")");
+					}
+					this.setLocation(this.path[pathStep][0], this.path[pathStep][1]); // Move
+					pathStep += 1; // Next step
 				}
 				
 			} else { // At home
 				if(this.path != null) { // At home and path just ended
-					this.path = null; // Reset it for further use
-					pathStep = -1;
+					this.path = null;
+					this.pathStep = -1;
 				}
 			}
 		} else { // The rest of the day
