@@ -128,13 +128,13 @@ public class Hero extends Super {
 		if(Humanoid.rand.nextGaussian() < moveProb) { // Je bouge
 			// Un heros ne peut aller dans un qg de vilain ou chez les habitants
 			int maxLook = 3; // Limite de recherche de secteur
-			while( (maxLook > 0) && (toGo == null || toGo.getType()==SectorType.VilainHQ && toGo.getType()==SectorType.HeadQuarter) ) {
+			while( (toGo == null || toGo.getType()==SectorType.VilainHQ || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {
 				toGo = voisinage.get(Humanoid.rand.nextInt(voisinage.size()));
 				maxLook -= 1;
 			}
 			
 			// On bouge, sauf si on voulait aller la ou on a pas le droit
-			if(toGo != null) {
+			if(toGo != null && maxLook > 0) { // Si maxLook est pas positif on peut estimer qu'il a mal choisi
 				this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 			}
 		}
