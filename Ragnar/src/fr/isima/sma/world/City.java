@@ -9,10 +9,13 @@ import java.util.Observer;
 import java.util.Random;
 
 import fr.isima.sma.resources.Properties;
+import fr.isima.sma.world.patterns.AgentsList;
+import fr.isima.sma.world.patterns.IMyObservable;
+import fr.isima.sma.world.patterns.MyObservable;
 
 public class City extends ActiveEntity implements IMyObservable {
 	protected static Random 			rand = new Random(123); // TODO remove the seed at the end
-	protected Properties				props;
+	protected Properties				props = Properties.getInstance();
 	protected int 						currentTick;
 	protected int 						tickPerHour;
 	protected int 						heure;
@@ -26,7 +29,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	protected AgentsList<Humanoid>		agents;
 
 	public City() {
-		this(1);
+		this(Integer.valueOf(Properties.getInstance().getProperty("ticksPerHour")));
 	}
 
 	public City(int tickPerHour) {

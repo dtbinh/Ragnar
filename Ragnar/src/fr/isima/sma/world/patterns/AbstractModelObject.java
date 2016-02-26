@@ -1,4 +1,4 @@
-package fr.isima.sma.world;
+package fr.isima.sma.world.patterns;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;

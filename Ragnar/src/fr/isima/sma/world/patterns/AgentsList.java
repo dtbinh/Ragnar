@@ -1,4 +1,4 @@
-package fr.isima.sma.world;
+package fr.isima.sma.world.patterns;
 
 import java.util.ArrayList;
 import java.util.List;
