@@ -226,7 +226,7 @@ public class AgentsView extends JFrame {
 	
 	public void repaint() {
 		try {
-			if (selected!=null && agentsList.getSelectedIndex() != -1) {
+			if (selected!=null && agentsList.getSelectedIndex() != -1 && agentsList.getSelectedIndex() < agentsList.getModel().getSize()) {
 				selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
 	            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
 	            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
@@ -248,8 +248,8 @@ public class AgentsView extends JFrame {
 	}
 	protected void initDataBindings() {
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
-		@SuppressWarnings("rawtypes")
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
+		jListBinding.setValidator(new AgentForJListValidator<List<Humanoid>>());
 		jListBinding.bind();
 		//
 		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Annee ${annee}, Jour ${jour} - ${heure}:00");

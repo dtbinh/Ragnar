@@ -23,6 +23,11 @@ public class AgentsList<T> extends AbstractModelObject {
 		firePropertyChange("agents", oldValue, agents);
 		firePropertyChange("agentsCount", oldValue.size(), agents.size());
 	}
+	
+	public void update() {
+		firePropertyChange("agents", agents, agents);
+		firePropertyChange("agentsCount", agents.size(), agents.size());
+	}
 
 	public void removeAgent(T elt) {
 		List<T> oldValue = agents;

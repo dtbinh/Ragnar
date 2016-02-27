@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,22 +20,35 @@ import org.jdesktop.swingbinding.SwingBindings;
 
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.patterns.Console;
+import fr.isima.sma.world.patterns.IMyObservable;
+import fr.isima.sma.world.patterns.MyObservable;
+import java.awt.CardLayout;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ControlView extends JFrame {
+public class ControlView extends JFrame implements IMyObservable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+	private MyObservable observable;
 	private JPanel contentPane;
 	private City modele;
 	private Console console = Console.getInstance();
 	private JList<String> list;
+	
+	public enum ButtonPressed {
+		PLAY, PAUSE, STOP, EXPORT, RESTART, GUI
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public ControlView(City pModele) {
+		observable = new MyObservable();
 		setMinimumSize(new Dimension(450, 260));
 		setPreferredSize(new Dimension(450, 250));
 		modele = pModele;
@@ -52,22 +66,67 @@ public class ControlView extends JFrame {
 		buttonPanel.setMinimumSize(new Dimension(450, 50));
 		buttonPanel.setSize(new Dimension(450, 50));
 		contentPane.add(buttonPanel, BorderLayout.SOUTH);
-		buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 		
 		JButton btnPlay = new JButton("Play");
-		buttonPanel.add(btnPlay);
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.PLAY);
+			}
+		});
+		btnPlay.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JButton btnPause = new JButton("Pause");
-		buttonPanel.add(btnPause);
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.PAUSE);
+			}
+		});
+		btnPause.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JButton btnStop = new JButton("Stop");
-		buttonPanel.add(btnStop);
+		btnStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.STOP);
+			}
+		});
+		btnStop.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JButton btnExport = new JButton("Export");
-		buttonPanel.add(btnExport);
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.EXPORT);
+			}
+		});
+		btnExport.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JButton btnRestart = new JButton("Restart");
+		btnRestart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.RESTART);
+			}
+		});
+		btnRestart.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		JButton btnGui = new JButton("GUI");
+		btnGui.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				observable.setChanged();
+				notifyObservers(ButtonPressed.GUI);
+			}
+		});
+		btnGui.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		buttonPanel.add(btnPlay);
+		buttonPanel.add(btnPause);
+		buttonPanel.add(btnStop);
+		buttonPanel.add(btnExport);
 		buttonPanel.add(btnRestart);
+		buttonPanel.add(btnGui);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
@@ -83,5 +142,22 @@ public class ControlView extends JFrame {
 		@SuppressWarnings("rawtypes")
 		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
 		jListBinding.bind();
+	}
+
+	@Override
+	public void notifyObservers() {
+		observable.notifyObservers();
+	}
+	@Override
+	public void notifyObservers(Object o) {
+		observable.notifyObservers(o);
+	}
+	@Override
+	public void addObserver(Observer o) {
+		observable.addObserver(o);
+	}
+	@Override
+	public int countObservers() {
+		return observable.countObservers();
 	}
 }

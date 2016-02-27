@@ -39,11 +39,20 @@ public class RagnarView implements Observer {
 			@Override
 			public void run() {
 				cityView.repaint();
-				agentsView.repaint();
+
+				try {
+					agentsView.repaint();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 				controlView.repaint();
 			}
 		})).start();
 	}
 
+	public ControlView getControlView() {
+		return controlView;
+	}
 
 }

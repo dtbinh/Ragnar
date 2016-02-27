@@ -31,7 +31,13 @@ public class Ragnar {
 		Location.setMinLocationY(0);
 		Location.setMaxLocationY(m.getSizeY());
 
-		while(true) {
+		while(!c.isStop()) {
+			while(!c.isPlay()) {
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+				}
+			}
 			c.simulate();
 		}
 		

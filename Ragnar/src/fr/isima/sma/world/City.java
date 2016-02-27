@@ -222,12 +222,9 @@ public class City extends ActiveEntity implements IMyObservable {
 				}
 			}
 		}
-
+		
+		agents.update();
 		notifier.setChanged();
-		notifier.notifyObservers();
-	}
-
-	public void notifyObservers() {
 		notifier.notifyObservers();
 	}
 
@@ -382,6 +379,11 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 
 	@Override
+	public void notifyObservers() {
+		notifier.notifyObservers();
+	}
+
+	@Override
 	public void addObserver(Observer o) {
 		notifier.addObserver(o);
 	}
@@ -389,6 +391,11 @@ public class City extends ActiveEntity implements IMyObservable {
 	@Override
 	public int countObservers() {
 		return notifier.countObservers();
+	}
+
+	@Override
+	public void notifyObservers(Object o) {
+		notifier.notifyObservers(o);
 	}
 
 	public int getAnnee() {

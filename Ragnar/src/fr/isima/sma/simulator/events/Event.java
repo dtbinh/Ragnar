@@ -32,7 +32,7 @@ public abstract class Event {
 	/**
 	 * Launch the event
 	 */
-	public void Proceed() {
+	public void proceed() {
 		
 		this.ttl--;
 	}
