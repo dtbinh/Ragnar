@@ -9,6 +9,8 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.City;
+import fr.isima.sma.world.Humanoid;
+import fr.isima.sma.world.ActiveEntity.LifeState;
 
 /*
  * 	MVC class
@@ -59,7 +61,10 @@ public class SimulationKernel {
 				events.remove(0); // Remove this event
 			}
 			for (int i = 0 ; i < ragnar.getActiveEntities().size() ; i++) {
-				ragnar.getActiveEntities().getAgent(i).live();
+				Humanoid hum = ragnar.getActiveEntities().getAgent(i);
+				hum.vieillissement();
+				if(hum.getAlive()!= LifeState.DEAD)
+					hum.live();
 			}
 			ragnar.live();
 		}

@@ -7,9 +7,9 @@
 
 package fr.isima.sma.world;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
+
+import fr.isima.sma.resources.Properties;
 
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
@@ -17,16 +17,23 @@ public abstract class Humanoid extends ActiveEntity {
 	protected static City city;
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
+	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
 	
 	// Class members
 	protected String name;
 	protected String surname;
 	protected int age;
+	protected int ageInDays;
 	protected String url;
 	protected ActiveEntity.AgentType type;
 	protected HeadQuarter home;
 	protected int[][] path; // The path to home, containing x and y locations
 	protected int pathStep; // At which point am i in the path to home
+	protected int level;
+	protected boolean superPotential;
+	protected double superChance;
+	protected double chanceToDie;
+	protected LifeState alive;
 	
 	// syteme monetaire
 	protected int money;
@@ -75,7 +82,7 @@ public abstract class Humanoid extends ActiveEntity {
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
 		firePropertyChange("location", new Location(), this.location);
 		try {
-			home = (HeadQuarter)city.getSector(this);			
+			setHome((HeadQuarter)city.getSector(this));			
 		} catch (ClassCastException e) {
 			System.err.println(name + " " + surname + " ne peut avoir son domicile en " + colonne + "-" + ligne);
 		}
@@ -83,6 +90,13 @@ public abstract class Humanoid extends ActiveEntity {
 		
 		path = null;
 		pathStep = -1;
+		
+		ageInDays = age * daysPerYear;
+		superPotential = false;
+		level = 1;
+		chanceToDie = age<40?0.0001:0.02/30*(age-40);
+		superChance = 0;
+		alive = age < 16 ? LifeState.CHILD : LifeState.ALIVE;
 	}
 	
 	/**
@@ -317,6 +331,52 @@ public abstract class Humanoid extends ActiveEntity {
 		int old = this.money;
 		this.money = money;
 		firePropertyChange("money", old, this.money);
+	}
+	
+	// veillissement
+	public void vieillissement() {
+		if(city.getHeure() == 1) {
+			++ageInDays;
+			if(ageInDays%daysPerYear==0) {
+				age++;
+				if(age == 16) {
+					superPotential = true;
+					superChance = (Humanoid.rand.nextDouble()/10);
+				} else if(age == 30) {
+					superPotential = false;
+				} else if(age >= 40) {
+					chanceToDie += (0.02/30);
+				}
+				
+				if(superPotential) {
+					boolean becomeSuper = (Humanoid.rand.nextDouble()<superChance);
+					if(becomeSuper) {
+						city.becomeSuper(this,(Humanoid.rand.nextBoolean()?ActiveEntity.AgentType.HERO:ActiveEntity.AgentType.VILAIN));
+						superPotential = false;
+					}
+				}
+			}
+			if(Humanoid.rand.nextDouble() < chanceToDie) {
+				alive = LifeState.DEAD;
+				city.becomeDead(this);
+			}
+		}
+	}
+
+	public LifeState getAlive() {
+		return alive;
+	}
+
+	public void setAlive(LifeState alive) {
+		this.alive = alive;
+	}
+
+	public HeadQuarter getHome() {
+		return home;
+	}
+
+	public void setHome(HeadQuarter home) {
+		this.home = home;
 	}
 	
 }

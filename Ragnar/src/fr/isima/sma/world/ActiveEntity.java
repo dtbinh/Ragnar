@@ -16,6 +16,19 @@ public abstract class ActiveEntity extends Entity {
 			return value;
 		}
 	}
+	
+	public static enum LifeState {
+		DEAD(0), ALIVE(1), CHILD(2);
+		
+		final private int value;
+		private LifeState(int value) {
+	        this.value = value;
+	    }
+		
+		public int getValue() {
+			return value;
+		}
+	}
 
 	protected static int cpt = 0; // Count for the id
 	protected int id;

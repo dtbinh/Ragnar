@@ -129,7 +129,7 @@ public class AgentsView extends JFrame {
 		lblnom.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblnom);
 		
-		lblArgent = new JLabel("Argent :");
+		lblArgent = new JLabel("Argent (P/H) :");
 		lblArgent.setForeground(Color.WHITE);
 		lblArgent.setFont(new Font("Tahoma", Font.BOLD, 12));
 		detailsPanel.add(lblArgent);
@@ -202,10 +202,10 @@ public class AgentsView extends JFrame {
 
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
-                if (!arg0.getValueIsAdjusting()) {
+                if (!arg0.getValueIsAdjusting() && agentsList.getSelectedIndex() != -1) {
                 	selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
                     lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
-                    lblargent.setText(String.valueOf(selected.getMoney())+"$");
+                    lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
                     lblage.setText(String.valueOf(selected.getAge()));
                     lblvitesse.setText(String.valueOf(selected.getSpeed()));
                     lbltype.setText(selected.getClass().getSimpleName());
@@ -226,10 +226,10 @@ public class AgentsView extends JFrame {
 	
 	public void repaint() {
 
-		if (selected!=null) {
+		if (selected!=null && agentsList.getSelectedIndex() != -1) {
 			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
             lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
-            lblargent.setText(String.valueOf(selected.getMoney())+"$");
+            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
             lblage.setText(String.valueOf(selected.getAge()));
             lblvitesse.setText(String.valueOf(selected.getSpeed()));
             lbltype.setText(selected.getClass().getSimpleName());

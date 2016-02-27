@@ -1,6 +1,5 @@
 package fr.isima.sma.world;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.isima.sma.world.Sector.SectorType;
@@ -8,7 +7,6 @@ import fr.isima.sma.world.Sector.SectorType;
 public class Citizen extends Humanoid {
 
 	protected int dailySalary;
-	protected int level;
 
 	public Citizen(String name, String surname, int age, int speed, int ligne, int colonne) {
 		super(AgentType.CITIZEN, name, surname, age, speed, ligne, colonne);
@@ -21,9 +19,11 @@ public class Citizen extends Humanoid {
 	 */
 	@Override
 	public void live() {
-		if(city.getHeure() >= 18 || city.getHeure() <= 8) { // On prend large pour avoir le temps de rentrer
+		
+		
+		if(city.getHeure() >= 18 || city.getHeure() < 8) { // On prend large pour avoir le temps de rentrer
 			// Entre 20h et 8h, il faut etre a la maison (a peu pres)
-			if(this.location.equals(this.home.location) == false) { // Pas a la maison
+			if(this.location.equals(this.getHome().location) == false) { // Pas a la maison
 				if(this.path == null) { // Not created so we create it
 					// This array indicates where i can walk
 					boolean[][] walkable = new boolean[this.city.getSizeX()][this.city.getSizeY()];
@@ -45,8 +45,8 @@ public class Citizen extends Humanoid {
 					this.path = super.findPath(
 							this.location.getLocationX(),
 							this.location.getLocationY(),
-							this.home.getLocation().getLocationX(), 
-							this.home.getLocation().getLocationY(),
+							this.getHome().getLocation().getLocationX(), 
+							this.getHome().getLocation().getLocationY(),
 							walkable);
 					this.pathStep = 0; // The 0 is the current location, so go for 1
 					
@@ -61,6 +61,10 @@ public class Citizen extends Humanoid {
 				if(this.path != null) { // At home and path just ended
 					this.path = null;
 					this.pathStep = -1;
+					
+					// depot de son argent a la maison
+					city.getSector(this).setMoneyAvailable(this.money+home.getMoneyAvailable());
+					this.setMoney(0);
 				}
 			}
 		} else { // The rest of the day
@@ -102,7 +106,7 @@ public class Citizen extends Humanoid {
 					this.setMoney(this.money+cible.getMoneyAvailable());
 					city.getSector(this).setMoneyAvailable(0);
 				}
-			} else if(cible.getType()==SectorType.Bank || cible.equals(home)) { // depot d'argent banque ou maison
+			} else if(cible.getType()==SectorType.Bank || cible.equals(getHome())) { // depot d'argent banque ou maison
 				city.getSector(this).setMoneyAvailable(this.money+cible.getMoneyAvailable());
 				this.setMoney(0);
 			}

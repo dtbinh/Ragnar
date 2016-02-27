@@ -27,6 +27,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	protected Sector[][] 				map;
 	protected List<List<Sector>>		sectorByType;
 	protected AgentsList<Humanoid>		agents;
+	protected List<Humanoid>			deadAgents;
 
 	public City() {
 		this(Integer.valueOf(Properties.getInstance().getProperty("ticksPerHour")));
@@ -45,6 +46,7 @@ public class City extends ActiveEntity implements IMyObservable {
 			sectorByType.add(new ArrayList<Sector>(100));
 		}
 		props = Properties.getInstance();
+		deadAgents = new ArrayList<>();
 	}
 
 	/**
@@ -197,9 +199,10 @@ public class City extends ActiveEntity implements IMyObservable {
 			if(heure == 24) {
 				heure = 0;
 				jour++;
-				if(getAnnee() == Integer.valueOf(props.getProperty("daysperyear"))) {
+				if(jour == Integer.valueOf(props.getProperty("daysperyear"))) {
 					jour = 0;
 					setAnnee(getAnnee() + 1);
+					firePropertyChange("annee", annee-1, annee);	// BINDING
 				}
 			}
 
@@ -276,11 +279,6 @@ public class City extends ActiveEntity implements IMyObservable {
 	public void depositMoney(Citizen citizen, int amount) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public ArrayList<Location> pathToHome(Citizen citizen) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	/**
@@ -411,6 +409,19 @@ public class City extends ActiveEntity implements IMyObservable {
 		}
 		
 		return voisinnage;
+	}
+
+	public void becomeSuper(Humanoid humanoid, ActiveEntity.AgentType type) {
+		// TODO Auto-generated method stub
+		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " est devenu un " + type);
+	}
+
+	public void becomeDead(Humanoid humanoid) {
+		// TODO Auto-generated method stub
+		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " est mort(e).");
+		deadAgents.add(humanoid);
+		agents.removeAgent(humanoid);
+		getSector(humanoid).setNumberHumanoid(humanoid.type, getSector(humanoid).getNumberHumanoid(humanoid.type)-1);
 	}
 
 }
