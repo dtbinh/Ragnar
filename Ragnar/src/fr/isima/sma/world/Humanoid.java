@@ -98,7 +98,7 @@ public abstract class Humanoid extends ActiveEntity {
 		ageInDays = age * daysPerYear;
 		superPotential = false;
 		level = 1;
-		chanceToDie = age<40?0.0001:0.02/30*(age-40);
+		setChanceToDie(age<40?0.0005:(age < 65 ? 0.0005/daysPerYear*(age-39) : 0.0125+0.005/daysPerYear*(age-64)));
 		superChance = 0;
 		alive = age < 16 ? LifeState.CHILD : LifeState.ALIVE;
 		fertilite = age > 16 ? (age <40?1:Math.pow(0.95,age-40))*(0.12+Humanoid.rand.nextDouble()/20)/daysPerYear : 0;
@@ -352,11 +352,14 @@ public abstract class Humanoid extends ActiveEntity {
 					city.demenager(this);
 				} else if(age == 30) {
 					superPotential = false;
+				} else if(age >= 90) {
+					setChanceToDie(getChanceToDie() + (0.02/daysPerYear));
+					fertilite *= 0.95;
 				} else if(age >= 65) {
-					chanceToDie += (0.04/daysPerYear);
+					setChanceToDie(getChanceToDie() + (0.005/daysPerYear));
 					fertilite *= 0.95;
 				} else if(age >= 40) {
-					chanceToDie += (0.01/daysPerYear);
+					setChanceToDie(getChanceToDie() + (0.0005/daysPerYear));
 					fertilite *= 0.95;
 				}
 				
@@ -368,7 +371,7 @@ public abstract class Humanoid extends ActiveEntity {
 					}
 				}
 			}
-			if(Humanoid.rand.nextDouble() < chanceToDie) {
+			if(Humanoid.rand.nextDouble() < getChanceToDie()) {
 				alive = LifeState.DEAD;
 				city.becomeDead(this);
 			}
@@ -406,6 +409,14 @@ public abstract class Humanoid extends ActiveEntity {
 				}
 			}
 		}
+	}
+
+	public double getChanceToDie() {
+		return chanceToDie;
+	}
+
+	public void setChanceToDie(double chanceToDie) {
+		this.chanceToDie = chanceToDie;
 	}
 	
 }

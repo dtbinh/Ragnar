@@ -72,7 +72,7 @@ public class AgentsView extends JFrame {
 	public AgentsView(City pModele) {
 		selected = null;
 		setMinimumSize(new Dimension(450, 500));
-		setSize(new Dimension(450, 569));
+		setSize(new Dimension(450, 500));
 		modele = pModele;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 505);
@@ -225,22 +225,25 @@ public class AgentsView extends JFrame {
 	}
 	
 	public void repaint() {
-
-		if (selected!=null && agentsList.getSelectedIndex() != -1) {
-			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
-            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
-            lblage.setText(String.valueOf(selected.getAge()));
-            lblvitesse.setText(String.valueOf(selected.getSpeed()));
-            lbltype.setText(selected.getClass().getSimpleName());
-            lblposition.setText(String.valueOf(selected.getLocation()));
-            String imageName = "";
-            if(selected.getUrl().isEmpty() || selected.getUrl() == null)
-            	imageName = selected.getClass().getSimpleName().toLowerCase();
-            else
-            	imageName = selected.getUrl();
-            imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
-		    this.panelAgent.repaint();
+		try {
+			if (selected!=null && agentsList.getSelectedIndex() != -1) {
+				selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
+	            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+	            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
+	            lblage.setText(String.valueOf(selected.getAge()));
+	            lblvitesse.setText(String.valueOf(selected.getSpeed()));
+	            lbltype.setText(selected.getClass().getSimpleName());
+	            lblposition.setText(String.valueOf(selected.getLocation()));
+	            String imageName = "";
+	            if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+	            	imageName = selected.getClass().getSimpleName().toLowerCase();
+	            else
+	            	imageName = selected.getUrl();
+	            imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+			    this.panelAgent.repaint();
+			}
+		} catch (Exception e) {
+			System.err.println("Oups! Petit soucis d'affichage...");
 		}
 	}
 	protected void initDataBindings() {

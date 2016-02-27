@@ -12,6 +12,7 @@ import fr.isima.sma.resources.NameLoader;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.Sector.SectorType;
 import fr.isima.sma.world.patterns.AgentsList;
+import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 
@@ -414,7 +415,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 
 	public void becomeSuper(Humanoid h, ActiveEntity.AgentType type) {
-		System.out.println(h.getName() + " " + h.getSurname() + " est devenu un " + type);
+		Console.println(getDate() + " " + h.getName() + " " + h.getSurname() + " est devenu un " + type);
 		
 		Humanoid newLife = null;
 		
@@ -437,7 +438,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 
 	public void becomeDead(Humanoid humanoid) {
-		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " est mort(e).");
+		Console.println(getDate() + " " + humanoid.getName() + " " + humanoid.getSurname() + " est mort(e) --- age : " + humanoid.getAge() + " ans - Proba : " + humanoid.getChanceToDie()*100 + "%");
 		deadAgents.add(humanoid);
 		agents.removeAgent(humanoid);
 		getSector(humanoid).setNumberHumanoid(humanoid.type, getSector(humanoid).getNumberHumanoid(humanoid.type)-1);
@@ -446,13 +447,17 @@ public class City extends ActiveEntity implements IMyObservable {
 	public void createNewBabyCitizen(Humanoid parent) {
 		Citizen baby = new Citizen(NameLoader.getInstance().getName(), parent.getSurname(), 0, 1, parent.getHome().getLocation().getLocationY(), parent.getHome().getLocation().getLocationX());
 		agents.addAgent(baby);
-		System.out.println("Naissance de " + baby.getName() + " " + baby.getSurname());
+		Console.println(getDate() + " Naissance de " + baby.getName() + " " + baby.getSurname());
 	}
 
 	public void demenager(Humanoid humanoid) {
 		List<Sector> l = sectorByType.get(SectorType.HeadQuarter.getValue());
 		humanoid.setHome((HeadQuarter) l.get(Humanoid.rand.nextInt(l.size())));
-		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " déménage en " + humanoid.home);
+		Console.println(getDate() + " " + humanoid.getName() + " " + humanoid.getSurname() + " déménage en " + humanoid.home);
+	}
+	
+	public String getDate() {
+		return new StringBuilder("[").append(jour).append("/").append(annee).append("]").toString();
 	}
 
 }

@@ -13,16 +13,20 @@ public class RagnarView implements Observer {
 	
 	protected Properties	props = Properties.getInstance();
 	protected City 			modele;	/// modele
+	protected ControlView	controlView;	/// fenetre des controles
 	protected AgentsView	agentsView;	/// fenetre des entites
 	protected CityView		cityView;	/// zone d'affichage de la carte
 
 	public RagnarView(City pModele) {
 		modele = pModele;
 		modele.addObserver(this);
+		controlView = new ControlView(modele);
 		cityView = new CityView(modele, Integer.valueOf(props.getProperty("caseSize")));
 		agentsView = new AgentsView(modele);
 		agentsView.setLocation(cityView.getWidth()+cityView.getX(), cityView.getY());
+		controlView.setLocation(agentsView.getX(), agentsView.getY()+agentsView.getHeight());
 
+		controlView.setVisible(true);
 		cityView.setVisible(true);
 		agentsView.setVisible(true);
 	}
@@ -36,6 +40,7 @@ public class RagnarView implements Observer {
 			public void run() {
 				cityView.repaint();
 				agentsView.repaint();
+				controlView.repaint();
 			}
 		})).start();
 	}
