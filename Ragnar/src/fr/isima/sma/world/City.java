@@ -431,8 +431,8 @@ public class City extends ActiveEntity implements IMyObservable {
 			newLife.setUrl(h.getUrl());
 		}
 
-		agents.removeAgent(h);
 		getSector(h).setNumberHumanoid(h.type, getSector(h).getNumberHumanoid(h.type)-1);
+		agents.removeAgent(h);
 		agents.addAgent(newLife);
 	}
 
