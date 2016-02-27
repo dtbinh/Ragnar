@@ -413,13 +413,30 @@ public class City extends ActiveEntity implements IMyObservable {
 		return voisinnage;
 	}
 
-	public void becomeSuper(Humanoid humanoid, ActiveEntity.AgentType type) {
+	public void becomeSuper(Humanoid h, ActiveEntity.AgentType type) {
 		// TODO Auto-generated method stub
-		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " est devenu un " + type);
+		System.out.println(h.getName() + " " + h.getSurname() + " est devenu un " + type);
+		
+		Humanoid newLife = null;
+		
+		if(type == AgentType.HERO) {
+			List<Sector> lhq = sectorByType.get(SectorType.HeroHQ.getValue());
+			HeadQuarter qg = (HeadQuarter) lhq.get(Humanoid.rand.nextInt(lhq.size()));
+			newLife = new Hero(h.getName(), h.getSurname(), h.getAge(), h.getSpeed()*4, qg.getLocation().getLocationY(), qg.getLocation().getLocationX());
+			newLife.setUrl(h.getUrl());
+		} else {
+			List<Sector> lhq = sectorByType.get(SectorType.VilainHQ.getValue());
+			HeadQuarter qg = (HeadQuarter) lhq.get(Humanoid.rand.nextInt(lhq.size()));
+			newLife = new Vilain(h.getName(), h.getSurname(), h.getAge(), h.getSpeed()*4, qg.getLocation().getLocationY(), qg.getLocation().getLocationX());
+			newLife.setUrl(h.getUrl());
+		}
+
+		agents.removeAgent(h);
+		getSector(h).setNumberHumanoid(h.type, getSector(h).getNumberHumanoid(h.type)-1);
+		agents.addAgent(newLife);
 	}
 
 	public void becomeDead(Humanoid humanoid) {
-		// TODO Auto-generated method stub
 		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " est mort(e).");
 		deadAgents.add(humanoid);
 		agents.removeAgent(humanoid);

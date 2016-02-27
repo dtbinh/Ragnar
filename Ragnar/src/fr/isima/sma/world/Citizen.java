@@ -12,6 +12,8 @@ public class Citizen extends Humanoid {
 		super(AgentType.CITIZEN, name, surname, age, speed, ligne, colonne);
 		dailySalary = 10;
 		level = 1;
+		superPotential = (age > 15 && age < 30);
+		superChance = (Humanoid.rand.nextDouble()/10);
 	}
 
 	/**
