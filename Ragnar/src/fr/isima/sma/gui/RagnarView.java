@@ -54,5 +54,10 @@ public class RagnarView implements Observer {
 	public ControlView getControlView() {
 		return controlView;
 	}
+	
+	public void setVisibleGUI(boolean b) {
+		cityView.setVisible(b);
+		agentsView.setVisible(b);
+	}
 
 }

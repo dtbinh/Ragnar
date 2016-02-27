@@ -30,6 +30,10 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.Bindings;
 
 public class ControlView extends JFrame implements IMyObservable {
 
@@ -39,6 +43,7 @@ public class ControlView extends JFrame implements IMyObservable {
 	private City modele;
 	private Console console = Console.getInstance();
 	private JList<String> list;
+	private JLabel label;
 	
 	public enum ButtonPressed {
 		PLAY, PAUSE, STOP, EXPORT, RESTART, GUI
@@ -133,15 +138,15 @@ public class ControlView extends JFrame implements IMyObservable {
 		
 		list = new JList<String>();
 		scrollPane.setViewportView(list);
+		
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.NORTH);
+		
+		label = new JLabel("Placeholder pour la date");
+		panel.add(label);
 		setAlwaysOnTop(true);
 		setTitle("Panneau de contr\u00F4le");
 		initDataBindings();
-	}
-	protected void initDataBindings() {
-		BeanProperty<Console, List<String>> consoleBeanProperty = BeanProperty.create("console");
-		@SuppressWarnings("rawtypes")
-		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
-		jListBinding.bind();
 	}
 
 	@Override
@@ -159,5 +164,15 @@ public class ControlView extends JFrame implements IMyObservable {
 	@Override
 	public int countObservers() {
 		return observable.countObservers();
+	}
+	protected void initDataBindings() {
+		BeanProperty<Console, List<String>> consoleBeanProperty = BeanProperty.create("console");
+		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
+		jListBinding.bind();
+		//
+		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Annee ${annee}, Jour ${jour} - ${heure}:00");
+		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
+		AutoBinding<City, Object, JLabel, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, modele, cityEvalutionProperty, label, jLabelBeanProperty);
+		autoBinding.bind();
 	}
 }

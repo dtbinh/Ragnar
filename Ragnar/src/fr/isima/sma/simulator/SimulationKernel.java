@@ -119,6 +119,7 @@ public class SimulationKernel implements Observer {
 			switch ((ButtonPressed)arg) {
 				case PLAY:
 					setPlay(true);
+					setStop(false);
 					Console.println(arg.toString());
 					break;
 				case PAUSE:
@@ -126,6 +127,7 @@ public class SimulationKernel implements Observer {
 					Console.println(arg.toString());
 					break;
 				case STOP:
+					setRestart(false);
 					setStop(true);
 					Console.println(arg.toString());
 					break;
@@ -135,13 +137,13 @@ public class SimulationKernel implements Observer {
 					Console.println(arg.toString());
 					break;
 				case RESTART:
-					setStop(true);
+					setStop(false);
 					setRestart(true);
 					Console.println(arg.toString());
 					break;
 				case GUI:
 					setGui(!isGui());
-					Console.println(arg.toString());
+					this.view.setVisibleGUI(isGui());
 					break;
 	
 				default:

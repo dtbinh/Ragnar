@@ -44,7 +44,6 @@ public class AgentsView extends JFrame {
 	public JList<Humanoid> agentsList;
 	private Humanoid selected;
 	private City modele;
-	private JLabel lblDate;
 	private JPanel panelAgent;
 	private JLabel imageLabel;
 	private JLabel lblNom;
@@ -62,7 +61,6 @@ public class AgentsView extends JFrame {
 	private JPanel panelScrollableAgentList;
 	private JScrollPane scrollPane;
 	private JPanel layoutBorderDetailPanel;
-	private JPanel panelDateTime;
 
 	private JPanel detailsPanel;
 
@@ -82,12 +80,6 @@ public class AgentsView extends JFrame {
 		setContentPane(contentPane);
 		setAlwaysOnTop(true);
 		setTitle("Liste des agents");
-		
-		panelDateTime = new JPanel();
-		contentPane.add(panelDateTime, BorderLayout.SOUTH);
-
-		lblDate = new JLabel("Placeholder pour la date");
-		panelDateTime.add(lblDate);
 		
 		panelAgent = new JPanel();
 		panelAgent.setPreferredSize(new Dimension(500, 128));
@@ -124,7 +116,7 @@ public class AgentsView extends JFrame {
 		lblNom.setDoubleBuffered(true);
 		detailsPanel.add(lblNom);
 		
-		lblnom = new JLabel("#prenom #nom");
+		lblnom = new JLabel("#nom #prenom");
 		lblnom.setForeground(Color.YELLOW);
 		lblnom.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblnom);
@@ -225,25 +217,21 @@ public class AgentsView extends JFrame {
 	}
 	
 	public void repaint() {
-		try {
-			if (selected!=null && agentsList.getSelectedIndex() != -1 && agentsList.getSelectedIndex() < agentsList.getModel().getSize()) {
-				selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-	            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
-	            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
-	            lblage.setText(String.valueOf(selected.getAge()));
-	            lblvitesse.setText(String.valueOf(selected.getSpeed()));
-	            lbltype.setText(selected.getClass().getSimpleName());
-	            lblposition.setText(String.valueOf(selected.getLocation()));
-	            String imageName = "";
-	            if(selected.getUrl().isEmpty() || selected.getUrl() == null)
-	            	imageName = selected.getClass().getSimpleName().toLowerCase();
-	            else
-	            	imageName = selected.getUrl();
-	            imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
-			    this.panelAgent.repaint();
-			}
-		} catch (Exception e) {
-			System.err.println("Oups! Petit soucis d'affichage...");
+		if (selected!=null && agentsList.getSelectedIndex() != -1 && agentsList.getSelectedIndex() < agentsList.getModel().getSize()) {
+			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
+            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+            lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
+            lblage.setText(String.valueOf(selected.getAge()));
+            lblvitesse.setText(String.valueOf(selected.getSpeed()));
+            lbltype.setText(selected.getClass().getSimpleName());
+            lblposition.setText(String.valueOf(selected.getLocation()));
+            String imageName = "";
+            if(selected.getUrl().isEmpty() || selected.getUrl() == null)
+            	imageName = selected.getClass().getSimpleName().toLowerCase();
+            else
+            	imageName = selected.getUrl();
+            imageLabel.setIcon(new ImageIcon(res.getImage(imageName)));
+		    this.panelAgent.repaint();
 		}
 	}
 	protected void initDataBindings() {
@@ -251,11 +239,6 @@ public class AgentsView extends JFrame {
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
 		jListBinding.setValidator(new AgentForJListValidator<List<Humanoid>>());
 		jListBinding.bind();
-		//
-		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Annee ${annee}, Jour ${jour} - ${heure}:00");
-		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
-		AutoBinding<City, Object, JLabel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ, modele, cityEvalutionProperty, lblDate, jLabelBeanProperty, "DateTimeBinding");
-		autoBinding_1.bind();
 	}
 }
 /*

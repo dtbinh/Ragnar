@@ -17,30 +17,47 @@ public class Ragnar {
 		
 		Properties props = Properties.getInstance();
 		NameLoader.getInstance();
-		City m = new City();
-		m.loadCityFromFile(props.getProperty("cityFile"));
-		Humanoid.setCity(m);
-		Humanoid.setWalkable();
-		m.loadAgentsFromFile(props.getProperty("agentsFile"));
-		RagnarView v = new RagnarView(m);
-		m.addObserver(v);
-		SimulationKernel c = new SimulationKernel(m, v);
-
-		Location.setMinLocationX(0);
-		Location.setMaxLocationX(m.getSizeX());
-		Location.setMinLocationY(0);
-		Location.setMaxLocationY(m.getSizeY());
-
-		while(!c.isStop()) {
-			while(!c.isPlay()) {
+		
+		boolean restart = true;
+		int iterations = Integer.valueOf(props.getProperty("iterations"));
+		int tempssimu = Integer.valueOf(props.getProperty("tempssimu"));
+		
+		while(restart || iterations!=0) {
+			restart = false;
+			City m = new City();
+			m.loadCityFromFile(props.getProperty("cityFile"));
+			Humanoid.setCity(m);
+			Humanoid.setWalkable();
+			m.loadAgentsFromFile(props.getProperty("agentsFile"));
+			RagnarView v = new RagnarView(m);
+			m.addObserver(v);
+			SimulationKernel c = new SimulationKernel(m, v);
+	
+			Location.setMinLocationX(0);
+			Location.setMaxLocationX(m.getSizeX());
+			Location.setMinLocationY(0);
+			Location.setMaxLocationY(m.getSizeY());
+	
+			while(!c.isStop() && tempssimu >= m.getAnnee()) {
+				while(!c.isPlay()) {
+					try {
+						Thread.sleep(1);
+					} catch (InterruptedException e) {
+					}
+				}
+				c.simulate();
+			}
+			if(!restart) {
+				c.exportResults();
+				iterations--;
+			}
+			while(c.isStop()) {
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {
 				}
 			}
-			c.simulate();
 		}
-		
 	}
 
 }
