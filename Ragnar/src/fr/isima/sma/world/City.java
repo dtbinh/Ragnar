@@ -414,7 +414,6 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 
 	public void becomeSuper(Humanoid h, ActiveEntity.AgentType type) {
-		// TODO Auto-generated method stub
 		System.out.println(h.getName() + " " + h.getSurname() + " est devenu un " + type);
 		
 		Humanoid newLife = null;
@@ -431,9 +430,10 @@ public class City extends ActiveEntity implements IMyObservable {
 			newLife.setUrl(h.getUrl());
 		}
 
-		getSector(h).setNumberHumanoid(h.type, getSector(h).getNumberHumanoid(h.type)-1);
 		agents.removeAgent(h);
 		agents.addAgent(newLife);
+		h.setAlive(LifeState.DEAD);
+		getSector(h).setNumberHumanoid(h.type, getSector(h).getNumberHumanoid(h.type)-1);
 	}
 
 	public void becomeDead(Humanoid humanoid) {
