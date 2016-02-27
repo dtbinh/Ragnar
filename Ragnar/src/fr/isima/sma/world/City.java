@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Observer;
 import java.util.Random;
 
+import fr.isima.sma.resources.NameLoader;
 import fr.isima.sma.resources.Properties;
+import fr.isima.sma.world.Sector.SectorType;
 import fr.isima.sma.world.patterns.AgentsList;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
@@ -422,6 +424,18 @@ public class City extends ActiveEntity implements IMyObservable {
 		deadAgents.add(humanoid);
 		agents.removeAgent(humanoid);
 		getSector(humanoid).setNumberHumanoid(humanoid.type, getSector(humanoid).getNumberHumanoid(humanoid.type)-1);
+	}
+
+	public void createNewBabyCitizen(Humanoid parent) {
+		Citizen baby = new Citizen(NameLoader.getInstance().getName(), parent.getSurname(), 0, 1, parent.getHome().getLocation().getLocationY(), parent.getHome().getLocation().getLocationX());
+		agents.addAgent(baby);
+		System.out.println("Naissance de " + baby.getName() + " " + baby.getSurname());
+	}
+
+	public void demenager(Humanoid humanoid) {
+		List<Sector> l = sectorByType.get(SectorType.HeadQuarter.getValue());
+		humanoid.setHome((HeadQuarter) l.get(Humanoid.rand.nextInt(l.size())));
+		System.out.println(humanoid.getName() + " " + humanoid.getSurname() + " déménage en " + humanoid.home);
 	}
 
 }

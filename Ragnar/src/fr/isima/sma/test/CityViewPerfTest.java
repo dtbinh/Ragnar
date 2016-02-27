@@ -1,6 +1,6 @@
 package fr.isima.sma.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,6 +10,7 @@ import fr.isima.sma.gui.CityView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
+
 
 public class CityViewPerfTest {
 

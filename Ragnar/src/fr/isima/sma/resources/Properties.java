@@ -32,6 +32,7 @@ public class Properties {
 		properties.put("agentsFile", "agents.txt");
 		properties.put("gui", "true");
 		properties.put("resources", "assets.rc");
+		properties.put("namesFile", "name.txt");
 	}
 
 	static public Properties getInstance() {

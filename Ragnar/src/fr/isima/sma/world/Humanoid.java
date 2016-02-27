@@ -36,6 +36,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected double superChance;
 	protected double chanceToDie;
 	protected LifeState alive;
+	protected double fertilite;
 	
 	// syteme monetaire
 	protected int money;
@@ -73,8 +74,9 @@ public abstract class Humanoid extends ActiveEntity {
 		this.surname = surname;
 		this.speed = speed;
 		this.type = type;
+		this.url = "";
 		
-		if(age > 0 && age < Humanoid.ageMax) {
+		if(age >= 0 && age < Humanoid.ageMax) {
 			this.age = age;
 		} else {
 			System.err.println("Erreur sur l'age de : " + name);
@@ -99,6 +101,7 @@ public abstract class Humanoid extends ActiveEntity {
 		chanceToDie = age<40?0.0001:0.02/30*(age-40);
 		superChance = 0;
 		alive = age < 16 ? LifeState.CHILD : LifeState.ALIVE;
+		fertilite = age > 16 ? (age <40?1:Math.pow(0.95,age-40))*(0.12+Humanoid.rand.nextDouble()/20)/daysPerYear : 0;
 	}
 	
 	/**
@@ -345,10 +348,13 @@ public abstract class Humanoid extends ActiveEntity {
 				if(age == 16) {
 					superPotential = true;
 					superChance = (Humanoid.rand.nextDouble()/10);
+					fertilite = (0.12+Humanoid.rand.nextDouble()/20)/daysPerYear;
+					city.demenager(this);
 				} else if(age == 30) {
 					superPotential = false;
 				} else if(age >= 40) {
-					chanceToDie += (0.02/30);
+					chanceToDie += (0.02/daysPerYear);
+					fertilite *= 0.95;
 				}
 				
 				if(superPotential) {

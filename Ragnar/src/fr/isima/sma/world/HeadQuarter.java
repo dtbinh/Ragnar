@@ -41,6 +41,8 @@ public class HeadQuarter extends Sector {
 			break;
 		}
 		
+		out += " X="+location.getLocationX() + ";Y=" + location.getLocationY();
+		
 		return out;
 	}@Override
 	

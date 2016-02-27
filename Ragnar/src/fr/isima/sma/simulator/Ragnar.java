@@ -1,6 +1,7 @@
 package fr.isima.sma.simulator;
 
 import fr.isima.sma.gui.RagnarView;
+import fr.isima.sma.resources.NameLoader;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
@@ -15,6 +16,7 @@ public class Ragnar {
 	public static void main(String[] args) {
 		
 		Properties props = Properties.getInstance();
+		NameLoader.getInstance();
 		City m = new City();
 		m.loadCityFromFile(props.getProperty("cityFile"));
 		Humanoid.setCity(m);
