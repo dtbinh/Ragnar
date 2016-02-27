@@ -1,20 +1,27 @@
 package fr.isima.sma.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
+import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.swingbinding.JListBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -22,18 +29,6 @@ import fr.isima.sma.world.City;
 import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
-import java.awt.CardLayout;
-import javax.swing.BoxLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import org.jdesktop.beansbinding.ELProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
 
 public class ControlView extends JFrame implements IMyObservable {
 
@@ -167,6 +162,7 @@ public class ControlView extends JFrame implements IMyObservable {
 	}
 	protected void initDataBindings() {
 		BeanProperty<Console, List<String>> consoleBeanProperty = BeanProperty.create("console");
+		@SuppressWarnings("rawtypes")
 		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
 		jListBinding.bind();
 		//

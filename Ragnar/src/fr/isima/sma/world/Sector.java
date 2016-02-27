@@ -140,4 +140,9 @@ public abstract class Sector extends AbstractModelObject {
 		this.moneyAvailable = moneyAvailable;
 	}
 
+	public String toResult() {
+		// TODO Auto-generated method stub
+		return type+"\t"+this.moneyAvailable;
+	}
+
 }
