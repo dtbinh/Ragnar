@@ -48,7 +48,7 @@ public class Ragnar {
 				c.simulate();
 			}
 			if(!restart) {
-				c.exportResults();
+				c.exportResults("result0"+(iterations<10?0:"")+iterations);
 				iterations--;
 			}
 			while(c.isStop()) {

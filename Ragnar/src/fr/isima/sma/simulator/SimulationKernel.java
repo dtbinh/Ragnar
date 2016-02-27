@@ -1,5 +1,10 @@
 package fr.isima.sma.simulator;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,9 +17,12 @@ import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
+import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
+import fr.isima.sma.world.Sector;
+import fr.isima.sma.world.Sector.SectorType;
 import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.MyObservable;
 
@@ -133,7 +141,7 @@ public class SimulationKernel implements Observer {
 					break;
 				case EXPORT:
 					setPlay(false);
-					exportResults();
+					exportResults("manually_exported.out");
 					Console.println(arg.toString());
 					break;
 				case RESTART:
@@ -152,8 +160,62 @@ public class SimulationKernel implements Observer {
 		}
 	}
 	
-	public void exportResults() {
-		
+	public void exportResults(String filename) {
+		try(
+				PrintWriter sortie = new PrintWriter (new BufferedWriter (new FileWriter (new File("results\\"+filename))));
+		)
+		{
+		    sortie.println("################################################################");
+		    sortie.println("################################################################");
+		    sortie.println("");
+		    
+		    int number[] = new int[4];
+		    sortie.println("Vivants\n________________");
+		    for(Humanoid h : ragnar.getActiveEntities().getAgents()) {
+		    	number[h.getType().getValue()]++;
+			    sortie.println(h.toResult());
+		    }
+		    sortie.println("----------------------------------------------------------------");
+		    for(AgentType a : AgentType.values()) {
+		    	sortie.print(a+"\t"+number[a.getValue()]);
+		    }
+		    sortie.println("----------------------------------------------------------------");
+		    sortie.println("");
+
+		    number = new int[4];
+		    sortie.println("Morts\n________________");
+		    for(Humanoid h : ragnar.getDeadAgents()) {
+		    	number[h.getType().getValue()]++;
+			    sortie.println(h.toResult());
+		    }
+		    sortie.println("----------------------------------------------------------------");
+		    for(AgentType a : AgentType.values()) {
+		    	sortie.print(a+"\t"+number[a.getValue()]+"\t");
+		    }
+		    sortie.println("\n----------------------------------------------------------------");
+		    sortie.println("");
+		    
+		    number = new int[ragnar.getSectorByType().size()];
+		    for(List<Sector> list : ragnar.getSectorByType()) {
+			    sortie.println(list.get(0).getType() + "\n________________\nTYPE\tMONEY");
+			    for(Sector sec : list) {
+			    	number[sec.getType().getValue()] += sec.getMoneyAvailable();
+				    sortie.println(sec.toResult());
+			    }
+			    sortie.println("");
+		    }
+		    sortie.println("----------------------------------------------------------------");
+		    for(SectorType a : SectorType.values()) {
+		    	sortie.print(a+"\t"+number[a.getValue()]+"\t");
+		    }
+		    sortie.println("\n----------------------------------------------------------------");
+		    sortie.println("");
+
+		    sortie.println("################################################################");
+		    sortie.print("################################################################");
+		} catch(IOException ex) {
+		    ex.printStackTrace();
+		}
 	}
 
 	public boolean isPlay() {

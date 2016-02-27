@@ -419,4 +419,13 @@ public abstract class Humanoid extends ActiveEntity {
 		this.chanceToDie = chanceToDie;
 	}
 	
+	public AgentType getType() {
+		return type;
+	}
+
+	public String toResult() {
+		StringBuilder b = new StringBuilder(name).append("\t").append(surname).append("\t").append(type).append("\t").append(age).append("\t").append(level);
+		return b.toString();
+	}
+	
 }
