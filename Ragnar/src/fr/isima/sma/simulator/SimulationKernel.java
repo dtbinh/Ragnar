@@ -2,15 +2,16 @@ package fr.isima.sma.simulator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
+import fr.isima.sma.world.ActiveEntity.LifeState;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
-import fr.isima.sma.world.ActiveEntity.LifeState;
 
 /*
  * 	MVC class
@@ -60,8 +61,10 @@ public class SimulationKernel {
 				clearEvents(); // Clear the next events
 				events.remove(0); // Remove this event
 			}
-			for (int i = 0 ; i < ragnar.getActiveEntities().size() ; i++) {
-				Humanoid hum = ragnar.getActiveEntities().getAgent(i);
+			List<Humanoid> agents = new ArrayList<Humanoid>(ragnar.getActiveEntities().getAgents());
+			Collections.shuffle(agents, rand);
+			
+			for (Humanoid hum : agents) {
 				hum.vieillissement();
 				if(hum.getAlive()!= LifeState.DEAD)
 					hum.live();

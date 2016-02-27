@@ -12,16 +12,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
-import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.ObjectProperty;
+import org.jdesktop.swingbinding.JListBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.patterns.Console;
-import org.jdesktop.swingbinding.JListBinding;
-import org.jdesktop.swingbinding.SwingBindings;
 
 public class ControlView extends JFrame {
 
@@ -32,7 +29,7 @@ public class ControlView extends JFrame {
 	private JPanel contentPane;
 	private City modele;
 	private Console console = Console.getInstance();
-	private JList list;
+	private JList<String> list;
 
 	/**
 	 * Create the frame.
@@ -75,7 +72,7 @@ public class ControlView extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
-		list = new JList();
+		list = new JList<String>();
 		scrollPane.setViewportView(list);
 		setAlwaysOnTop(true);
 		setTitle("Panneau de contr\u00F4le");
@@ -83,6 +80,7 @@ public class ControlView extends JFrame {
 	}
 	protected void initDataBindings() {
 		BeanProperty<Console, List<String>> consoleBeanProperty = BeanProperty.create("console");
+		@SuppressWarnings("rawtypes")
 		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
 		jListBinding.bind();
 	}
