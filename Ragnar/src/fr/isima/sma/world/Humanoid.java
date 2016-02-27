@@ -10,11 +10,13 @@ package fr.isima.sma.world;
 import java.util.Random;
 
 import fr.isima.sma.resources.Properties;
+import fr.isima.sma.world.Sector.SectorType;
 
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
 	protected static City city;
+	protected static boolean[][] walkable;
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
@@ -253,6 +255,7 @@ public abstract class Humanoid extends ActiveEntity {
 	    // note that path[i][0] has the X-Coordinate and path[i][1] has the Y-Coordinate!
 	    return path;
 	}
+
 	
 	/**
 	 * @return the name
@@ -377,6 +380,23 @@ public abstract class Humanoid extends ActiveEntity {
 
 	public void setHome(HeadQuarter home) {
 		this.home = home;
+	}
+	
+	public static void setWalkable() {
+		// For each sector in the city, initialize the walkable
+		walkable = new boolean[city.getSizeX()][city.getSizeY()];
+		for(Sector[] tab : city.map) {
+			for(Sector s : tab) {
+				int x = s.location.getLocationX();
+				int y = s.location.getLocationY();
+				
+				if(s.type == SectorType.Street) {
+					walkable[x][y] = true;
+				} else {
+					walkable[x][y] = false;
+				}
+			}
+		}
 	}
 	
 }

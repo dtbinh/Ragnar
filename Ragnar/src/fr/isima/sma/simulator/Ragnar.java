@@ -18,6 +18,7 @@ public class Ragnar {
 		City m = new City();
 		m.loadCityFromFile(props.getProperty("cityFile"));
 		Humanoid.setCity(m);
+		Humanoid.setWalkable();
 		m.loadAgentsFromFile(props.getProperty("agentsFile"));
 		RagnarView v = new RagnarView(m);
 		m.addObserver(v);

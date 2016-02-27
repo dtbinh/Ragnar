@@ -25,22 +25,6 @@ public class Citizen extends Humanoid {
 			// Entre 20h et 8h, il faut etre a la maison (a peu pres)
 			if(this.location.equals(this.getHome().location) == false) { // Pas a la maison
 				if(this.path == null) { // Not created so we create it
-					// This array indicates where i can walk
-					boolean[][] walkable = new boolean[this.city.getSizeX()][this.city.getSizeY()];
-					
-					// For each sector in the city, initialize the walkable
-					for(Sector[] tab : this.city.map) {
-						for(Sector s : tab) {
-							int x = s.location.getLocationX();
-							int y = s.location.getLocationY();
-							
-							if(s.type == SectorType.Street) {
-								walkable[x][y] = true;
-							} else {
-								walkable[x][y] = false;
-							}
-						}
-					}
 					
 					this.path = super.findPath(
 							this.location.getLocationX(),
