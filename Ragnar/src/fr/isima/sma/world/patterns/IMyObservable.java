@@ -7,6 +7,7 @@ import java.util.Observer;
  */
 public interface IMyObservable {
 	public void notifyObservers();
+	public void notifyObservers(Object o);
 	public void addObserver(Observer o);
 	public int countObservers();
 }

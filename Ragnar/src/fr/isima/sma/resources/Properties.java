@@ -33,6 +33,8 @@ public class Properties {
 		properties.put("gui", "true");
 		properties.put("resources", "assets.rc");
 		properties.put("namesFile", "name.txt");
+		properties.put("iterations", "1");
+		properties.put("tempssimu", "1000000");
 	}
 
 	static public Properties getInstance() {
