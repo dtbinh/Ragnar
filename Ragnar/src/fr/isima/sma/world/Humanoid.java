@@ -16,7 +16,6 @@ import fr.isima.sma.world.Sector.SectorType;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
 	protected static City city;
-	protected static boolean[][] walkable;
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
@@ -392,23 +391,6 @@ public abstract class Humanoid extends ActiveEntity {
 
 	public void setHome(HeadQuarter home) {
 		this.home = home;
-	}
-	
-	public static void setWalkable() {
-		// For each sector in the city, initialize the walkable
-		walkable = new boolean[city.getSizeX()][city.getSizeY()];
-		for(Sector[] tab : city.map) {
-			for(Sector s : tab) {
-				int x = s.location.getLocationX();
-				int y = s.location.getLocationY();
-				
-				if(s.type == SectorType.Street) {
-					walkable[x][y] = true;
-				} else {
-					walkable[x][y] = false;
-				}
-			}
-		}
 	}
 
 	public double getChanceToDie() {

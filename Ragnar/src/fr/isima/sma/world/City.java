@@ -18,6 +18,7 @@ import fr.isima.sma.world.patterns.MyObservable;
 
 public class City extends ActiveEntity implements IMyObservable {
 	protected static Random 			rand = new Random(123); // TODO remove the seed at the end
+	
 	protected Properties				props = Properties.getInstance();
 	protected int 						currentTick;
 	protected int 						tickPerHour;
@@ -31,6 +32,9 @@ public class City extends ActiveEntity implements IMyObservable {
 	protected List<List<Sector>>		sectorByType;
 	protected AgentsList<Humanoid>		agents;
 	protected List<Humanoid>			deadAgents;
+	
+	protected boolean[][]		walkableLegit = null; // True for the street, false for everithign else
+	protected boolean[][]		walkableCheat = null; // True everywhere
 
 	public City() {
 		this(Integer.valueOf(Properties.getInstance().getProperty("ticksPerHour")));
@@ -458,6 +462,36 @@ public class City extends ActiveEntity implements IMyObservable {
 	
 	public String getDate() {
 		return new StringBuilder("[").append(jour).append("/").append(annee).append("]").toString();
+	}
+	
+	public boolean[][] getWalkableLegit() {
+		if(this.walkableLegit == null) {
+			walkableLegit = new boolean[this.getSizeX()][this.getSizeY()];
+			for(Sector[] tab : this.map) {
+				for(Sector s : tab) {
+					int x = s.location.getLocationX();
+					int y = s.location.getLocationY();
+					
+					walkableLegit[x][y] = (s.type == SectorType.Street);
+				}
+			}
+		}
+		
+		return walkableLegit;
+	}
+	
+	public boolean[][] getWalkableCheat() {
+		if(this.walkableCheat == null) {
+			walkableCheat = new boolean[this.getSizeX()][this.getSizeY()];
+			
+			for(int x = 0; x < walkableCheat.length; x++) {
+				for(int y = 0; y < walkableCheat[0].length; y++) {
+					walkableCheat[x][y] = true;
+				}
+			}
+		}
+		
+		return walkableCheat;
 	}
 
 }

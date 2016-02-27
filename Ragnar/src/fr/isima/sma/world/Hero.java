@@ -115,17 +115,23 @@ public class Hero extends Super {
 			moveProb = 0.8;
 		}
 		if(here.getNumberVilain() > 0) { // Si un vilain est la, on reste surement
-			moveProb = 0.3;
-			
 			if(here.type==SectorType.HeroHQ) {
 				moveProb = 0.1;
 				// TODO mettre la vraie proba, il faut le compte total de heros
 				//moveProb = 1 - (here.getNumberHero() - 1)/city.getActiveEntities().
+			} else {
+				moveProb = 0.3;
+				
+				if(Math.abs(Humanoid.rand.nextGaussian()) < 0.5) { // Est-ce qu'il veut se fight
+					// TODO event figth
+					moveProb = 0.0; // Si ya fight, il ne bougera pas
+				}
 			}
 		}
+		// TODO s'il est pris dans un fight, il ne bougera pas
 		
 		// On regarde si on va bouger
-		if(Humanoid.rand.nextGaussian() < moveProb) { // Je bouge
+		if(Math.abs(Humanoid.rand.nextGaussian()) < moveProb) { // Je bouge
 			// Un heros ne peut aller dans un qg de vilain ou chez les habitants
 			int maxLook = 3; // Limite de recherche de secteur
 			while( (toGo == null || toGo.getType()==SectorType.VilainHQ || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {

@@ -33,7 +33,7 @@ public class Citizen extends Humanoid {
 								this.location.getLocationY(),
 								this.getHome().getLocation().getLocationX(), 
 								this.getHome().getLocation().getLocationY(),
-								walkable);
+								Humanoid.city.getWalkableLegit());
 						this.pathStep = 0; // The 0 is the current location, so go for 1
 						
 					} // path initialized
