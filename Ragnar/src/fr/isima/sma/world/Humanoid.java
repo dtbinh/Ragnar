@@ -352,8 +352,11 @@ public abstract class Humanoid extends ActiveEntity {
 					city.demenager(this);
 				} else if(age == 30) {
 					superPotential = false;
+				} else if(age >= 65) {
+					chanceToDie += (0.04/daysPerYear);
+					fertilite *= 0.95;
 				} else if(age >= 40) {
-					chanceToDie += (0.02/daysPerYear);
+					chanceToDie += (0.01/daysPerYear);
 					fertilite *= 0.95;
 				}
 				
