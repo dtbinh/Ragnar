@@ -57,6 +57,7 @@ public class Ragnar {
 				} catch (InterruptedException e) {
 				}
 			}
+			v.dispose();
 		}
 	}
 

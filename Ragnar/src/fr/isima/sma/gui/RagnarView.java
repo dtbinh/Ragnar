@@ -60,4 +60,11 @@ public class RagnarView implements Observer {
 		agentsView.setVisible(b);
 	}
 
+
+	public void dispose() {
+		controlView.dispose();
+		cityView.dispose();
+		agentsView.dispose();
+	}
+
 }
