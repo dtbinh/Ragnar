@@ -4,6 +4,5 @@ public enum EventType {
 	Fight, 		// Combats
 	Robery, 	// Braquage
 	Release, 	// Liberation
-	Move, 		// Deplacements
-	Idle 		// Ne rien faire / dormir
+	BringToPrison	// Convoi des prisonniers vers la prison
 }

@@ -1,10 +1,10 @@
 package fr.isima.sma.simulator.events;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
+import fr.isima.sma.world.Super;
 
 public class Event {
 // TODO mettre un time to live et s'il tombe a zero il est fini
@@ -38,14 +38,39 @@ public class Event {
 				h.setInvolved(null);
 				h.setWantRobery(false);
 				h.setWantRelease(false);
+				Super.removeEvent(this);
 			}
 		} else {	// faire l'event
 			switch (type) {
 			case Robery:
-				robery();
+				(new Action() {
+
+					@Override
+					public void live(Event e) {	//TODO a implementer pout les ROBERY
+	
+						
+					}
+				}).live(this);
 				break;
 			case Release:
-				release();
+				(new Action() {
+
+					@Override
+					public void live(Event e) {	//TODO a implementer pout les RELEASE
+	
+						
+					}
+				}).live(this);
+				break;
+			case BringToPrison:
+				(new Action() {
+
+					@Override
+					public void live(Event e) {	//TODO a implementer pout les BRINGTOPRISON
+	
+						
+					}
+				}).live(this);
 				break;
 
 			default:
@@ -53,16 +78,6 @@ public class Event {
 			}
 		}
 		this.ttl--;
-	}
-
-	private void release() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void robery() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	/**

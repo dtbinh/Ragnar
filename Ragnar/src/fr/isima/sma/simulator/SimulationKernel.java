@@ -16,7 +16,6 @@ import fr.isima.sma.gui.ControlView.ButtonPressed;
 import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
-import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
 import fr.isima.sma.world.Bank;
@@ -25,6 +24,7 @@ import fr.isima.sma.world.HeadQuarter;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
+import fr.isima.sma.world.Super;
 import fr.isima.sma.world.patterns.Console;
 
 /*
@@ -130,6 +130,9 @@ public class SimulationKernel implements Observer {
 					for(Humanoid h : cur.getEntities()) {
 						h.setInvolved(cur);
 					}
+				} else {
+					events.add(e);
+					Super.addEvent(e);
 				}
 			}
 		}

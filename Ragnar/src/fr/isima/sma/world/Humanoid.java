@@ -7,6 +7,8 @@
 
 package fr.isima.sma.world;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import fr.isima.sma.resources.Properties;
