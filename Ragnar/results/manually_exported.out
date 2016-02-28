@@ -3,143 +3,142 @@
 
 Vivants
 ________________
-Benoît	Garçon	CITIZEN	28	1
-Benjamin	Barbesange	CITIZEN	27	1
-Sara	Connor	CITIZEN	34	1
-Pierre	Chevalier	CITIZEN	27	1
-Cécile	Jeanson	CITIZEN	28	1
-Adrien	Pierreval	CITIZEN	27	1
-Poca	hontas	CITIZEN	46	1
-Jason	Statur	CITIZEN	58	1
-Leia	Organa	CITIZEN	71	1
-Michelle	Chabrol	CITIZEN	65	1
-Monsieur	Chabrol	CITIZEN	65	1
-Scarlett	Johansson	CITIZEN	37	1
-shlomo	Garçon	CITIZEN	5	1
-corbin	Barbesange	CITIZEN	4	1
-Cindy	Roche	HERO	28	1
-consuela	Garçon	CITIZEN	2	1
-gunther	Smith	CITIZEN	1	1
-algar	hontas	CITIZEN	1	1
+Sara	Connor	CITIZEN	33	7
+Pierre	Chevalier	CITIZEN	26	4
+Cécile	Jeanson	CITIZEN	27	3
+Adrien	Pierreval	CITIZEN	26	5
+John	Smith	CITIZEN	45	6
+Poca	hontas	CITIZEN	45	6
+Jason	Statur	CITIZEN	57	7
+Leia	Organa	CITIZEN	70	6
+Michelle	Chabrol	CITIZEN	64	5
+Monsieur	Chabrol	CITIZEN	64	7
+Scarlett	Johansson	CITIZEN	36	5
+Cindy	Roche	CITIZEN	27	8
+shlomo	Garçon	CITIZEN	3	1
+corbin	Jeanson	CITIZEN	3	1
+consuela	Connor	CITIZEN	3	1
+Benjamin	Barbesange	VILAIN	26	1
+Benoît	Garçon	HERO	27	1
 ----------------------------------------------------------------
-CITIZEN	17HERO	1VILAIN	0GROUP	0----------------------------------------------------------------
+CITIZEN	15	HERO	1	VILAIN	1	GROUP	0	
+----------------------------------------------------------------
 
 Morts
 ________________
-Tina	Turner	CITIZEN	73	1
-John	Smith	CITIZEN	46	1
+Tina	Turner	CITIZEN	71	2
 ----------------------------------------------------------------
-CITIZEN	2	HERO	0	VILAIN	0	GROUP	0	
+CITIZEN	1	HERO	0	VILAIN	0	GROUP	0	
 ----------------------------------------------------------------
 
 Street
 ________________
 TYPE	MONEY
-Street	1862
-Street	1962
-Street	1974
-Street	1962
-Street	1973
-Street	1942
-Street	1814
-Street	1785
-Street	1812
-Street	1811
-Street	1935
-Street	1789
-Street	2080
-Street	2082
-Street	2066
-Street	2147
-Street	1856
-Street	3143
-Street	2523
-Street	1815
-Street	1788
-Street	2083
-Street	2111
-Street	2373
-Street	2233
-Street	2143
-Street	1623
-Street	2355
-Street	1867
-Street	2268
-Street	2170
-Street	2142
-Street	2094
-Street	2119
-Street	2298
-Street	2337
-Street	2290
-Street	2014
-Street	2074
-Street	2166
-Street	2193
-Street	2174
-Street	2108
-Street	2170
-Street	1800
-Street	2149
-Street	2166
-Street	2203
-Street	2186
-Street	2226
-Street	1580
-Street	1689
-Street	2153
+Street	0
+Street	14
+Street	0
+Street	40
+Street	72
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	67
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	19
+Street	0
+Street	0
+Street	0
+Street	0
+Street	42
+Street	10
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	52
 
 Bank
 ________________
 TYPE	MONEY
-Bank	733
-Bank	733
+Bank	31414
+Bank	45752
 
 HeadQuarter
 ________________
 TYPE	MONEY
+HeadQuarter	34
+HeadQuarter	500
+HeadQuarter	744
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	-1329
+HeadQuarter	1595
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	513
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	675
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	500
-HeadQuarter	120
-HeadQuarter	500
-HeadQuarter	-442
+HeadQuarter	1731
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	544
-HeadQuarter	483
+HeadQuarter	500
+HeadQuarter	500
+HeadQuarter	2315
+HeadQuarter	500
+HeadQuarter	2651
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	519
+HeadQuarter	500
+HeadQuarter	500
+HeadQuarter	551
+HeadQuarter	1036
 HeadQuarter	500
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	623
+HeadQuarter	500
+HeadQuarter	839
 HeadQuarter	500
 HeadQuarter	500
-HeadQuarter	486
 HeadQuarter	500
-HeadQuarter	545
+HeadQuarter	463
+HeadQuarter	500
+HeadQuarter	500
+HeadQuarter	1539
+HeadQuarter	500
+HeadQuarter	6028
 
 HeroHQ
 ________________
@@ -153,7 +152,7 @@ VilainHQ	500
 VilainHQ	500
 
 ----------------------------------------------------------------
-Street	109678	Bank	1466	HeadQuarter	18237	HeroHQ	500	VilainHQ	1000	
+Street	316	Bank	77166	HeadQuarter	34526	HeroHQ	500	VilainHQ	1000	
 ----------------------------------------------------------------
 
 ################################################################

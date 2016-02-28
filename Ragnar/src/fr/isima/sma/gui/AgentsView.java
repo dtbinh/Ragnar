@@ -233,6 +233,7 @@ public class AgentsView extends JFrame {
 	}
 	protected void initDataBindings() {
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
+		@SuppressWarnings("rawtypes")
 		JListBinding<Humanoid, City, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, modele, cityBeanProperty, agentsList, "agentsListBinding");
 		jListBinding.setValidator(new AgentForJListValidator<List<Humanoid>>());
 		jListBinding.bind();
