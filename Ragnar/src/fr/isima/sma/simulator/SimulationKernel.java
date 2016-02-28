@@ -137,6 +137,8 @@ public class SimulationKernel implements Observer {
 		newEvents = null;
 		newEvents = new ArrayList<>(); // On vide cette liste
 		
+		newListe = new ArrayList<Event>();
+		
 		for(Event e : newListe) {
 			// recherche d'un event sur le lieu
 			for(Event cur : events) {
@@ -148,11 +150,12 @@ public class SimulationKernel implements Observer {
 						h.setInvolved(cur);
 					}
 				} else {
-					events.add(e);
+					newListe.add(e);
 					Super.addEvent(e);
 				}
 			}
 		}
+		events.addAll(newListe);
 	}
 
 	@Override
