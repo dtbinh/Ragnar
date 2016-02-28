@@ -16,7 +16,6 @@ import fr.isima.sma.gui.ControlView.ButtonPressed;
 import fr.isima.sma.gui.RagnarView;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
-import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
 import fr.isima.sma.world.Bank;
@@ -129,6 +128,9 @@ public class SimulationKernel implements Observer {
 					for(Humanoid h : cur.getEntities()) {
 						h.setInvolved(cur);
 					}
+				} else {
+					events.add(e);
+					Humanoid.addEvent(e);
 				}
 			}
 		}
