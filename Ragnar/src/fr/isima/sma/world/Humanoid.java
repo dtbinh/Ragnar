@@ -16,7 +16,10 @@ import org.apache.commons.math3.random.MersenneTwister;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
 	protected static City city;
-	protected static MersenneTwister rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	protected static MersenneTwister rand;
+	static {
+		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	}
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
 	

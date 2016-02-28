@@ -18,7 +18,11 @@ import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 
 public class City extends ActiveEntity implements IMyObservable {
-	protected static MersenneTwister 	rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	protected static MersenneTwister 	rand;
+	
+	static {
+		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	}
 	
 	protected Properties				props = Properties.getInstance();
 	protected int 						currentTick;

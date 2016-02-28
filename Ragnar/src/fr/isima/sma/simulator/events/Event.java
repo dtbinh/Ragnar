@@ -16,7 +16,11 @@ import fr.isima.sma.world.Vilain;
 import fr.isima.sma.world.patterns.Console;
 
 public class Event {
-	protected static MersenneTwister rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand")));
+	protected static MersenneTwister rand;
+	
+	static {
+		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	}
 	
 	protected int ttl; // Time to live of the event
 	protected List<Humanoid> entities;	// The entities concerned with the event

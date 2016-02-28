@@ -43,7 +43,10 @@ public class SimulationKernel implements Observer {
 	private boolean restart;
 	private boolean gui;
 	// TODO s'abonner a toutes les entites de la city pour faire ajouter les events automatiquement
-	protected static Random	rand = new Random(Integer.valueOf(Properties.getInstance().getProperty("rand")));
+	protected static Random	rand;
+	static {
+		rand = new Random(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+	}
 	protected static VirtualClock 		c = new VirtualClock(Integer.valueOf(Properties.getInstance().getProperty("msPerTick")));
 
 	public SimulationKernel(City c, RagnarView v) {
