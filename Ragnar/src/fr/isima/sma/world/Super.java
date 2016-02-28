@@ -10,19 +10,22 @@ public abstract class Super extends Humanoid {
 	 * evenements connus de tous
 	 */
 	protected static List<Event> events = new ArrayList<>();
+	
+	protected int force; // Utilise dans les combats
 
 	public Super() {
-		// TODO Auto-generated constructor stub
+		super();
+		this.force = Humanoid.rand.nextInt(11);
 	}
 
 	public Super(AgentType type, String name, String surname, int age, int speed, int locationX, int locationY) {
 		super(type, name, surname, age, speed, locationX, locationY);
-		// TODO Auto-generated constructor stub
+		this.force = Humanoid.rand.nextInt(11);
 	}
 
 	public Super(AgentType type, String name, String surname, int age) {
 		super(type, name, surname, age);
-		// TODO Auto-generated constructor stub
+		this.force = Humanoid.rand.nextInt(11);
 	}
 
 	/* (non-Javadoc)
@@ -133,6 +136,10 @@ public abstract class Super extends Humanoid {
 	
 	static public void setEvents(List<Event> liste) {
 		events = liste;
+	}
+
+	public int getForce() {
+		return force;
 	}
 
 }
