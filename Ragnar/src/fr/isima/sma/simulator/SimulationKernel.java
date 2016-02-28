@@ -18,9 +18,7 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
-import fr.isima.sma.world.Bank;
 import fr.isima.sma.world.City;
-import fr.isima.sma.world.HeadQuarter;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
@@ -60,15 +58,6 @@ public class SimulationKernel implements Observer {
 		stop = false;
 		restart = false;
 		gui = Boolean.valueOf(Properties.getInstance().getProperty("gui"));
-
-//		for(Sector s : ragnar.getSectorByType().get(SectorType.Bank.getValue())) {
-//			Bank b = (Bank) s;
-//			b.addObserver(this);
-//		}
-//		for(Sector s : ragnar.getSectorByType().get(SectorType.HeroHQ.getValue())) {
-//			HeadQuarter b = (HeadQuarter) s;
-//			b.addObserver(this);
-//		}
 		
 		for(List<Sector> ss : ragnar.getSectorByType()) {
 			for(Sector s : ss) {
