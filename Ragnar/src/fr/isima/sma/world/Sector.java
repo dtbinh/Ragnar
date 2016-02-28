@@ -35,8 +35,8 @@ public abstract class Sector extends AbstractModelObject {
 		this.type = type;
 		this.location = location;
 		agents = new ArrayList<List<Humanoid>>(4);
-		for(int i = 0 ; i < agents.size() ; i++) {
-			agents.set(i, new ArrayList<Humanoid>(16));
+		for(int i = 0 ; i < AgentType.values().length ; i++) {
+			agents.add(new ArrayList<Humanoid>(16));
 			numberHumanoid[i] = 0;
 		}
 		this.setMoneyAvailable(500);
@@ -143,6 +143,14 @@ public abstract class Sector extends AbstractModelObject {
 	public String toResult() {
 		// TODO Auto-generated method stub
 		return type+"\t"+this.moneyAvailable;
+	}
+
+	public void setArriveHumanoid(AgentType ptype, Humanoid humanoid) {
+		agents.get(ptype.getValue()).add(humanoid);
+	}
+
+	public void setLeaveHumanoid(AgentType ptype, Humanoid humanoid) {
+		agents.get(ptype.getValue()).remove(humanoid);
 	}
 
 }

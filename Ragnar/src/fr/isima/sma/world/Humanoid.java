@@ -10,7 +10,7 @@ package fr.isima.sma.world;
 import java.util.Random;
 
 import fr.isima.sma.resources.Properties;
-import fr.isima.sma.world.Sector.SectorType;
+import fr.isima.sma.simulator.events.Event;
 
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
@@ -36,6 +36,10 @@ public abstract class Humanoid extends ActiveEntity {
 	protected double chanceToDie;
 	protected LifeState alive;
 	protected double fertilite;
+	protected boolean wantRobery = false;
+	protected boolean wantRelease = false;
+	
+	protected Event involved;	// null si n'est pas concerné par un event
 	
 	// syteme monetaire
 	protected int money;
@@ -59,6 +63,8 @@ public abstract class Humanoid extends ActiveEntity {
 	public Humanoid(AgentType type, String name, String surname, int age) {
 		// Default can be placed in the HQ
 		this(type, name, surname, age, 1, 0, 0);
+		setInvolved(null);
+		money = 0;
 	}
 	
 	/**
@@ -82,6 +88,7 @@ public abstract class Humanoid extends ActiveEntity {
 		}
 		
 		this.location = new Location(colonne, ligne);
+		city.getSector(this).setArriveHumanoid(this.type, this);
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
 		firePropertyChange("location", new Location(), this.location);
 		try {
@@ -114,8 +121,10 @@ public abstract class Humanoid extends ActiveEntity {
 	@Override
 	public void setLocation(int x, int y) {
 		Location old = this.location;
+		city.getSector(this).setLeaveHumanoid(type, this);
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)-1);
 		this.location.setLocation(x, y);
+		city.getSector(this).setArriveHumanoid(type, this);
 		city.getSector(this).setNumberHumanoid(type, city.getSector(this).getNumberHumanoid(type)+1);
 		firePropertyChange("location", old, this.location);
 	}
@@ -408,6 +417,30 @@ public abstract class Humanoid extends ActiveEntity {
 	public String toResult() {
 		StringBuilder b = new StringBuilder(name).append("\t").append(surname).append("\t").append(type).append("\t").append(age).append("\t").append(level);
 		return b.toString();
+	}
+
+	public Event getInvolved() {
+		return involved;
+	}
+
+	public void setInvolved(Event involved) {
+		this.involved = involved;
+	}
+
+	public boolean getWantRobery() {
+		return wantRobery;
+	}
+	
+	public void setWantRobery(boolean pwantRobery) {
+		this.wantRobery = pwantRobery;
+	}
+
+	public void setWantRelease(boolean b) {
+		wantRelease = b;
+	}
+
+	public boolean getWantRelease() {
+		return wantRelease;
 	}
 	
 }

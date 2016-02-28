@@ -1,12 +1,23 @@
 package fr.isima.sma.world;
 
-public class HeadQuarter extends Sector {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Observer;
+
+import fr.isima.sma.simulator.events.Event;
+import fr.isima.sma.simulator.events.EventType;
+import fr.isima.sma.world.ActiveEntity.AgentType;
+import fr.isima.sma.world.patterns.IMyObservable;
+import fr.isima.sma.world.patterns.MyObservable;
+
+public class HeadQuarter extends Sector implements IMyObservable {
 	
 	public static enum OwnerType {
 		Citizen, Heroe, Vilain
 	}
 
 	protected OwnerType owner;
+	private MyObservable observable;
 	
 	public HeadQuarter() {
 		this(OwnerType.Citizen);
@@ -20,6 +31,8 @@ public class HeadQuarter extends Sector {
 			setType(SectorType.HeroHQ);
 		else if(owner == OwnerType.Vilain)
 			setType(SectorType.VilainHQ);
+		
+		observable = new MyObservable();
 	}
 	
 	@Override
@@ -44,12 +57,50 @@ public class HeadQuarter extends Sector {
 		out += " X="+location.getLocationX() + ";Y=" + location.getLocationY();
 		
 		return out;
-	}@Override
+	}
 	
+	@Override
+	public void setNumberHumanoid(AgentType pType, int val) {
+		super.setNumberHumanoid(pType, val);
+		if(this.type == SectorType.HeroHQ && pType==AgentType.VILAIN && val!=0) {
+			boolean wantRelease = false;
+			List<Humanoid> liste = new ArrayList<>();
+			for(List<Humanoid> l : this.agents)
+				liste.addAll(l);
+			for(Humanoid h : liste)
+				wantRelease |= h.getWantRelease();
+			if(wantRelease) {
+				observable.setChanged();
+				notifyObservers(new Event(this, liste, EventType.Release, 3));
+			}
+		}
+	}
+	
+	@Override
 	public void ruleEconomy() {
 		if(owner == OwnerType.Citizen) {
 			this.setMoneyAvailable(this.getMoneyAvailable() - this.getNumberCitizen()*80);
 		}
+	}
+
+	@Override
+	public void notifyObservers() {
+		observable.notifyObservers();
+	}
+
+	@Override
+	public void notifyObservers(Object o) {
+		observable.notifyObservers(o);
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		observable.addObserver(o);
+	}
+
+	@Override
+	public int countObservers() {
+		return observable.countObservers();
 	}
 
 }

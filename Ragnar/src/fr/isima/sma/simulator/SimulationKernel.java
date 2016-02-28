@@ -19,12 +19,13 @@ import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.world.ActiveEntity;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
+import fr.isima.sma.world.Bank;
 import fr.isima.sma.world.City;
+import fr.isima.sma.world.HeadQuarter;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
 import fr.isima.sma.world.patterns.Console;
-import fr.isima.sma.world.patterns.MyObservable;
 
 /*
  * 	MVC class
@@ -37,7 +38,8 @@ public class SimulationKernel implements Observer {
 	protected City 						ragnar;			// ville de la simulation
 	protected RagnarView				view;			// vue
 
-	protected ArrayList<Event> 			events;
+	protected List<Event> 			events;
+	private List<Event> newEvents;
 	private boolean play;
 	private boolean stop;
 	private boolean restart;
@@ -51,10 +53,20 @@ public class SimulationKernel implements Observer {
 		view = v;
 		v.getControlView().addObserver(this);
 		events = new ArrayList<>();
+		newEvents = new ArrayList<>();
 		play = true;
 		stop = false;
 		restart = false;
 		gui = Boolean.valueOf(Properties.getInstance().getProperty("gui"));
+
+		for(Sector s : ragnar.getSectorByType().get(SectorType.Bank.getValue())) {
+			Bank b = (Bank) s;
+			b.addObserver(this);
+		}
+		for(Sector s : ragnar.getSectorByType().get(SectorType.HeroHQ.getValue())) {
+			HeadQuarter b = (HeadQuarter) s;
+			b.addObserver(this);
+		}
 	}
 
 	/**
@@ -80,41 +92,42 @@ public class SimulationKernel implements Observer {
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
 				event.proceed(); // Launch the event
-				clearEvents(); // Clear the next events
-				events.remove(0); // Remove this event
 			}
 			List<Humanoid> agents = new ArrayList<Humanoid>(ragnar.getActiveEntities().getAgents());
 			Collections.shuffle(agents, rand);
 			
 			for (Humanoid hum : agents) {
 				hum.vieillissement();
-				if(hum.getAlive()!= LifeState.DEAD)
+				if(hum.getAlive()!= LifeState.DEAD && hum.getInvolved() == null)
 					hum.live();
 			}
 			ragnar.live();
+			updateEvents();
 		}
 		isRunning = false;
 	}
 
-	/**
-	 * Clear the events that have at least one entity from the first event
-	 * @param event the event which has been proceed
+	/*
+	 *	mise a jour de la liste d'event 
 	 */
-	private void clearEvents() {
-		if(events.size() > 0) {
-			Event event = events.get(0);
-			ArrayList<ActiveEntity> eventEntities  = event.getEntities();
-
-			// Reverse to avoid problems when deleting
-			for (int i = events.size()-1; i > 0; i--) {
-				boolean stop = false;
-
-				Event e = events.get(i);
-				for (int a = 0; a < eventEntities.size() && !stop; a++) {
-					ActiveEntity actE = eventEntities.get(a);
-					if(e.getEntities().contains(actE)) {
-						events.remove(i);
-						stop = true;
+	private void updateEvents() {
+		List<Event> newListe = new ArrayList<Event>();
+		for(Event e : events) {
+			if(e.getTtl()>=0) {
+				newListe.add(e);
+			}
+		}
+		events = newListe;
+		
+		for(Event e : newListe) {
+			// recherche d'un event sur le lieu
+			for(Event cur : events) {
+				if(cur.getSector().getLocation().getLocationX()==e.getSector().getLocation().getLocationX() &&
+					cur.getSector().getLocation().getLocationX()==e.getSector().getLocation().getLocationX()) 
+				{
+					cur.setEntities(e.getEntities());
+					for(Humanoid h : cur.getEntities()) {
+						h.setInvolved(cur);
 					}
 				}
 			}
@@ -123,8 +136,8 @@ public class SimulationKernel implements Observer {
 
 	@Override
 	public void update(Observable obs, Object arg) {
-		if ( MyObservable.class.isInstance(obs) ) {
-			switch ((ButtonPressed)arg) {
+		if ( arg instanceof ButtonPressed ) {
+			switch ((ButtonPressed)arg) {	// bouton
 				case PLAY:
 					setPlay(true);
 					setStop(false);
@@ -156,6 +169,20 @@ public class SimulationKernel implements Observer {
 	
 				default:
 					break;
+			}
+		} else if(arg instanceof Event) {	// evenements
+			Event event = (Event) arg;
+			newEvents.add(event);
+			switch (event.getType()) {
+			case Robery:
+				Console.println("Tentative de braquage !");
+				break;
+			case Release:
+				Console.println("Tentative de libération !");
+				break;
+
+			default:
+				break;
 			}
 		}
 	}

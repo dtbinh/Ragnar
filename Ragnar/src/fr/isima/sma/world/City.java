@@ -445,6 +445,7 @@ public class City extends ActiveEntity implements IMyObservable {
 		agents.removeAgent(h);
 		h.setAlive(LifeState.DEAD);
 		agents.addAgent(newLife);
+		getSector(h).setLeaveHumanoid(h.type, h);
 		getSector(h).setNumberHumanoid(h.type, getSector(h).getNumberHumanoid(h.type)-1);
 	}
 
@@ -452,6 +453,7 @@ public class City extends ActiveEntity implements IMyObservable {
 		Console.println(getDate() + " " + humanoid.getName() + " " + humanoid.getSurname() + " est mort(e) --- age : " + humanoid.getAge() + " ans - Proba : " + humanoid.getChanceToDie()*100 + "%");
 		deadAgents.add(humanoid);
 		agents.removeAgent(humanoid);
+		getSector(humanoid).setLeaveHumanoid(humanoid.type, humanoid);
 		getSector(humanoid).setNumberHumanoid(humanoid.type, getSector(humanoid).getNumberHumanoid(humanoid.type)-1);
 	}
 
