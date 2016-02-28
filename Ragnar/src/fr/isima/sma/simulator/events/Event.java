@@ -10,8 +10,11 @@ import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Super;
 import fr.isima.sma.world.Vilain;
+import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.ActiveEntity.LifeState;
+import fr.isima.sma.simulator.SimulationKernel;
+import fr.isima.sma.world.City;
 
 public class Event {
 	protected static Random rand = new Random();
@@ -40,6 +43,7 @@ public class Event {
 	 * Launch the event
 	 */
 	public void proceed() {
+		System.out.println("Proceed");
 		if(ttl==0) {	// on a fini l'event
 			for(Humanoid h : entities) {
 				h.setInvolved(null);
@@ -50,21 +54,41 @@ public class Event {
 		} else {	// faire l'event
 			switch (type) {
 			case Robery:
+				
 				(new Action() {
 
 					@Override
-					public void live(Event e) {	//TODO a implementer pout les ROBERY
-						Sector here = e.getSector();
+					public void live(Event e) {
 						
-						if(here.getNumberHero() > 0) { // Bagarre
-							if(e.getTtl() == 1) { // Resolution du braquage
-								// Simuler le combat
+						if(e.getTtl() == 1) { // Fin de l'event
+							Sector here = e.getSector();
+							boolean success = true; // Emporte els gains ?
+							
+							if(here.getNumberHero() > 0) { // Bagarre !
+								AgentType winner = e.resolveFight();
 								
+								if(winner == AgentType.HERO) {
+									Console.println("Les heros ont empeche le braquage");
+									// TODO evenement emprisonnement
+									
+									success = false;
+								} else {
+									// Creation de la liste des supers
+									List<Super> heroes = new ArrayList<>();
+									for(Humanoid h : e.getEntities()) {
+										if(h.getType() == AgentType.HERO) {
+											heroes.add((Super) h);
+										}
+									}
+									
+									// On les envoie chez eux
+									e.goHome(heroes);
+								}
 							}
 							
-						} else { // Pas de bagarre
-							if(e.getTtl() == 1) { // Fin de l'event
-								// Ils repartent en se partageant les gains
+							if(success) {
+								Console.println("Le braquage est reussi");
+								
 								int butin = (int)(here.getMoneyAvailable() / here.getNumberVilain());
 								for(Humanoid h : e.getEntities()) {
 									if(h.getType() == AgentType.VILAIN) {
@@ -74,7 +98,6 @@ public class Event {
 								here.setMoneyAvailable(0); // La banque est vide
 							}
 						}
-						
 					}
 				}).live(this);
 				break;
@@ -93,12 +116,44 @@ public class Event {
 
 					@Override
 					public void live(Event e) {	//TODO a implementer pout les BRINGTOPRISON
-	
+						
 						
 					}
 				}).live(this);
 				break;
-
+			case Fight:
+				System.out.println("Combat ! (" + this.ttl + ")");
+				(new Action() { // TODO implementer pour fight
+					
+					@Override
+					public void live(Event e) {
+						if(e.getTtl() == 1) {
+							AgentType winner = e.resolveFight();
+							
+							if(winner == AgentType.HERO) {
+								Console.println("Les heros ont gagne un combat !");
+								// TODO evenement emprisonnement
+								
+							} else {
+								Console.println("Les vilains ont gagne un combat");
+								
+								// Les vilains gagnent, les heros s'en vont
+								List<Super> heroes = new ArrayList<>();
+								for(Humanoid h : e.getEntities()) {
+									if(h.getType() == AgentType.HERO) {
+										heroes.add((Super) h);
+									}
+								}
+								
+								// On les envoie chez eux
+								e.goHome(heroes);
+							}
+							
+						}
+					}
+				}).live(this);
+				break;
+				
 			default:
 				break;
 			}
@@ -136,14 +191,16 @@ public class Event {
 			heroWinProba = 0.75;
 			
 			if (Math.abs(Event.rand.nextGaussian()) < 0.2) { // Un seul meurt
-				vilains.get(0).setAlive(LifeState.DEAD); // On tue par accident le premier
+				vilains.get(0).becomeDead();
+				vilains.remove(0);
 			}
 			
 		} else if (forceHeros < forceVilains) {
 			heroWinProba = 0.25;
 			
 			if (Math.abs(Event.rand.nextGaussian()) < 0.2) { // Un seul meurt
-				heroes.get(0).setAlive(LifeState.DEAD); // On tue le premier
+				heroes.get(0).becomeDead();
+				heroes.remove(0);
 			}
 			
 		}
@@ -152,6 +209,31 @@ public class Event {
 		winner = (Math.abs(Event.rand.nextGaussian()) < heroWinProba)? AgentType.HERO : AgentType.VILAIN;
 		
 		return winner;
+	}
+	
+	/**
+	 * Bring the entities back to home by creating the path to it
+	 * @param heroes the entities to bring back home
+	 */
+	protected void goHome(List<Super> heroes) {
+		for(Super h : heroes) {
+			// On cree leur path comme ca ils sauront qu'ils doivent y aller tous seuls
+			h.findPath(	h.getLocation().getLocationX(),
+						h.getLocation().getLocationY(), 
+						h.getHome().getLocation().getLocationX(), 
+						h.getHome().getLocation().getLocationY(), 
+						Humanoid.getCity().getWalkableLegit());
+		}
+	}
+	
+	/**
+	 * Reset the robbery preparation for each vilains
+	 * @param vilains the vilain list to reset robbery prep
+	 */
+	protected void resetPrep(List<Vilain> vilains) {
+		for(Vilain v : vilains) {
+			v.resetRobberyPrep();
+		}
 	}
 
 	/**

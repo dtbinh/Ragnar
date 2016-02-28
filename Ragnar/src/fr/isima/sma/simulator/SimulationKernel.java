@@ -88,7 +88,7 @@ public class SimulationKernel implements Observer {
 	 */
 	public void simulate() {
 		isRunning = true;
-		Collections.shuffle(events, rand); // Les events sont fait dans un autre ordre
+		Collections.shuffle(events); // Les events sont fait dans un autre ordre
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
 				event.proceed(); // Resout l'evenement
@@ -114,7 +114,7 @@ public class SimulationKernel implements Observer {
 	private void updateEvents() {
 		List<Event> newListe = new ArrayList<Event>();
 		for(Event e : events) {
-			if(e.getTtl()>=0) {
+			if(e.getTtl()>0) { // TODO j'ai vire le >=
 				newListe.add(e);
 			}
 		}
@@ -184,7 +184,10 @@ public class SimulationKernel implements Observer {
 			case Release:
 				Console.println("Tentative de libération !");
 				break;
-
+			case Fight:
+				Console.println("Combat en cours !");
+				break;
+				
 			default:
 				break;
 			}

@@ -102,43 +102,56 @@ public class Hero extends Super {
 
 	@Override
 	public void live() {
-		Sector toGo = null; // Le secteur ou il ira
-		Sector here = city.getSector(this); // Secteur actuel
-		double moveProb = 1.0; // Probabilite de deplacement
-		List<Sector> voisinage = city.getNeighborhood(this); // Les secteurs qu'il voit
-		
-		// Determination de la probabilite de mouvement
-		if(here.getNumberHero() > 1) { // Si un heros est deja la, on part surement
-			moveProb = 0.8;
-		}
-		if(here.getNumberVilain() > 0) { // Si un vilain est la, on reste surement
-			if(here.type==SectorType.HeroHQ) {
-				moveProb = 0.1;
-				// TODO mettre la vraie proba, il faut le compte total de heros
-				//moveProb = 1 - (here.getNumberHero() - 1)/city.getActiveEntities().
-			} else {
-				moveProb = 0.3;
-				
-				if(Math.abs(Humanoid.rand.nextGaussian()) < 0.5) { // Est-ce qu'il veut se fight
-					// TODO event figth
-					moveProb = 0.0; // Si ya fight, il ne bougera pas
-				}
-			}
-		}
-		// TODO s'il est pris dans un fight, il ne bougera pas
-		
-		// On regarde si on va bouger
-		if(Math.abs(Humanoid.rand.nextGaussian()) < moveProb) { // Je bouge
-			// Un heros ne peut aller dans un qg de vilain ou chez les habitants
-			int maxLook = 3; // Limite de recherche de secteur
-			while( (toGo == null || toGo.getType()==SectorType.VilainHQ || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {
-				toGo = voisinage.get(Humanoid.rand.nextInt(voisinage.size()));
-				maxLook -= 1;
+		if(this.path != null) { // Il doit aller a quelque part
+			if(this.pathStep >=0 && pathStep < path.length) {
+				this.setLocation(this.path[pathStep][0], this.path[pathStep][1]); // Il bouge
+				this.pathStep += 1; // Prochain pas
 			}
 			
-			// On bouge, sauf si on voulait aller la ou on a pas le droit
-			if(toGo != null && maxLook > 0) { // Si maxLook est pas positif on peut estimer qu'il a mal choisi
-				this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
+			if( !(this.pathStep < path.length)) { // A destination
+				this.path = null; // Clean le path et il reprendra sa vie
+				this.pathStep = -1;
+			}
+			
+		} else { // Il se promene
+		
+			Sector toGo = null; // Le secteur ou il ira
+			Sector here = city.getSector(this); // Secteur actuel
+			double moveProb = 1.0; // Probabilite de deplacement
+			List<Sector> voisinage = city.getNeighborhood(this); // Les secteurs qu'il voit
+			
+			// Determination de la probabilite de mouvement
+			if(here.getNumberHero() > 1) { // Si un heros est deja la, on part surement
+				moveProb = 0.8;
+			}
+			if(here.getNumberVilain() > 0) { // Si un vilain est la, on reste surement
+				if(here.type==SectorType.HeroHQ) {
+					moveProb = 0.1;
+					// TODO mettre la vraie proba, il faut le compte total de heros
+					//moveProb = 1 - (here.getNumberHero() - 1)/city.getActiveEntities().
+				} else {
+					moveProb = 0.3;
+					
+					if(Math.abs(Humanoid.rand.nextGaussian()) < 0.5) { // Est-ce qu'il veut se fight
+						here.newFight(); // Lancement du combat
+						moveProb = 0.0; // Si ya fight, il ne bougera pas a ce tour
+					}
+				}
+			}
+			
+			// On regarde si on va bouger
+			if(Math.abs(Humanoid.rand.nextGaussian()) < moveProb) { // Je bouge
+				// Un heros ne peut aller dans un qg de vilain ou chez les habitants
+				int maxLook = 3; // Limite de recherche de secteur
+				while( (toGo == null || toGo.getType()==SectorType.VilainHQ || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {
+					toGo = voisinage.get(Humanoid.rand.nextInt(voisinage.size()));
+					maxLook -= 1;
+				}
+				
+				// On bouge, sauf si on voulait aller la ou on a pas le droit
+				if(toGo != null && maxLook > 0) { // Si maxLook est pas positif on peut estimer qu'il a mal choisi
+					this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
+				}
 			}
 		}
 	}

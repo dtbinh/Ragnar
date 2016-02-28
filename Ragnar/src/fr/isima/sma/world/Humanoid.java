@@ -264,6 +264,9 @@ public abstract class Humanoid extends ActiveEntity {
 	    
 	    /* now we should have the finished path array */
 	    // note that path[i][0] has the X-Coordinate and path[i][1] has the Y-Coordinate!
+	    
+	    this.pathStep = 0; // Init the path step, and we are ready to go just after
+	    
 	    return path;
 	}
 
@@ -385,6 +388,13 @@ public abstract class Humanoid extends ActiveEntity {
 			}
 		}
 	}
+	
+	/**
+	 * Mort de l'humanoid
+	 */
+	public void becomeDead() {
+		city.becomeDead(this);
+	}
 
 	public LifeState getAlive() {
 		return alive;
@@ -442,5 +452,10 @@ public abstract class Humanoid extends ActiveEntity {
 	public boolean getWantRelease() {
 		return wantRelease;
 	}
+
+	public static City getCity() {
+		return city;
+	}
+	
 	
 }
