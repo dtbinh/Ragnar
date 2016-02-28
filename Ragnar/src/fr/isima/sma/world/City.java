@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observer;
-import java.util.Random;
+
+import org.apache.commons.math3.random.MersenneTwister;
 
 import fr.isima.sma.resources.NameLoader;
 import fr.isima.sma.resources.Properties;
@@ -17,7 +18,7 @@ import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 
 public class City extends ActiveEntity implements IMyObservable {
-	protected static Random 			rand = new Random(123); // TODO remove the seed at the end
+	protected static MersenneTwister 			rand = new MersenneTwister(123); // TODO remove the seed at the end
 	
 	protected Properties				props = Properties.getInstance();
 	protected int 						currentTick;

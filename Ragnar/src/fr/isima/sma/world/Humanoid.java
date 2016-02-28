@@ -7,16 +7,16 @@
 
 package fr.isima.sma.world;
 
-import java.util.Random;
-
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.simulator.events.Event;
+import org.apache.commons.math3.random.MersenneTwister; 
+
 
 //import fr.isima.sma.world.Humanoid.BadAgeException;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
 	protected static City city;
-	protected static Random rand = new Random(123); // TODO remove the seed at the end
+	protected static MersenneTwister rand = new MersenneTwister(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
 	

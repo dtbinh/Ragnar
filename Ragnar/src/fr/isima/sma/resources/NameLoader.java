@@ -5,18 +5,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import org.apache.commons.math3.random.MersenneTwister;
 
 public class NameLoader {
 	static private NameLoader instance;
 	static private Object objet = new Object();
 	private List<String> names;
 	private String namesFileName;
-	private Random rand;
+	private MersenneTwister rand;
 
 	private NameLoader() {
 		try {
-			rand = new Random(1103);
+			rand = new MersenneTwister(1103);
 			this.setNamesFileName(Properties.getInstance().getProperty("namesFile"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
