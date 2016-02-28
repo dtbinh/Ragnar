@@ -1,8 +1,5 @@
 package fr.isima.sma.world;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import fr.isima.sma.world.Sector.SectorType;

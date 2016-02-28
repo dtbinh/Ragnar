@@ -2,11 +2,16 @@ package fr.isima.sma.world;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
+import fr.isima.sma.simulator.events.Event;
+import fr.isima.sma.simulator.events.EventType;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.patterns.AbstractModelObject;
+import fr.isima.sma.world.patterns.IMyObservable;
+import fr.isima.sma.world.patterns.MyObservable;
 
-public abstract class Sector extends AbstractModelObject {
+public abstract class Sector extends AbstractModelObject implements IMyObservable {
 
 	static public enum SectorType {
 		Street(0), Bank(1), HeadQuarter(2), HeroHQ(3), VilainHQ(4);
@@ -24,6 +29,7 @@ public abstract class Sector extends AbstractModelObject {
 	protected int			numberHumanoid[];
 	protected List<List<Humanoid>> agents; 
 	protected int 			moneyAvailable;		// somme disponible sur le secteur pour etre recolte par les cytoyens
+	protected MyObservable observable;
 
 	public Sector() {
 		this(SectorType.Street, new Location());
@@ -31,6 +37,7 @@ public abstract class Sector extends AbstractModelObject {
 
 	public Sector(SectorType type, Location location) {
 		super();
+		observable = new MyObservable();
 		numberHumanoid = new int[4];
 		this.type = type;
 		this.location = location;
@@ -151,6 +158,35 @@ public abstract class Sector extends AbstractModelObject {
 
 	public void setLeaveHumanoid(AgentType ptype, Humanoid humanoid) {
 		agents.get(ptype.getValue()).remove(humanoid);
+	}
+
+	@Override
+	public void notifyObservers() {
+		observable.notifyObservers();
+	}
+
+	@Override
+	public void notifyObservers(Object o) {
+		observable.notifyObservers(o);
+	}
+
+	@Override
+	public void addObserver(Observer o) {
+		observable.addObserver(o);
+	}
+
+	@Override
+	public int countObservers() {
+		return observable.countObservers();
+	}
+	
+	public void newFight() {
+		List<Humanoid> liste = new ArrayList<>();
+		for(List<Humanoid> l : this.agents)
+			liste.addAll(l);
+		
+		observable.setChanged();
+		notifyObservers(new Event(this, liste, EventType.Fight, 1));
 	}
 
 }
