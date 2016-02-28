@@ -3,13 +3,11 @@ package fr.isima.sma.simulator.events;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-import fr.isima.sma.simulator.SimulationKernel;
+import org.apache.commons.math3.random.MersenneTwister;
+
 import fr.isima.sma.world.ActiveEntity.AgentType;
-import fr.isima.sma.world.City;
-import fr.isima.sma.world.Group;
-import fr.isima.sma.world.Group.GroupType;
+import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.Hero;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
@@ -18,7 +16,7 @@ import fr.isima.sma.world.Vilain;
 import fr.isima.sma.world.patterns.Console;
 
 public class Event {
-	protected static Random rand = new Random();
+	protected static MersenneTwister rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand")));
 	
 	protected int ttl; // Time to live of the event
 	protected List<Humanoid> entities;	// The entities concerned with the event

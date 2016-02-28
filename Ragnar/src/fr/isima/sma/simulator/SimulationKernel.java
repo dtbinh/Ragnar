@@ -43,7 +43,7 @@ public class SimulationKernel implements Observer {
 	private boolean restart;
 	private boolean gui;
 	// TODO s'abonner a toutes les entites de la city pour faire ajouter les events automatiquement
-	protected static Random 			rand = new Random(123);
+	protected static Random	rand = new Random(Integer.valueOf(Properties.getInstance().getProperty("rand")));
 	protected static VirtualClock 		c = new VirtualClock(Integer.valueOf(Properties.getInstance().getProperty("msPerTick")));
 
 	public SimulationKernel(City c, RagnarView v) {
@@ -85,7 +85,7 @@ public class SimulationKernel implements Observer {
 	 */
 	public void simulate() {
 		isRunning = true;
-		Collections.shuffle(events); // Les events sont fait dans un autre ordre
+		Collections.shuffle(events, rand); // Les events sont fait dans un autre ordre
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
 				System.out.println("evenement");
@@ -93,7 +93,7 @@ public class SimulationKernel implements Observer {
 			}
 			
 			List<Humanoid> agents = new ArrayList<Humanoid>(ragnar.getActiveEntities().getAgents());
-			Collections.shuffle(agents, rand);
+			Collections.shuffle(agents, (Random)rand);
 			
 			for (Humanoid hum : agents) {
 				hum.vieillissement();

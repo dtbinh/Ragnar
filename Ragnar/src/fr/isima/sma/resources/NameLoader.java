@@ -17,7 +17,7 @@ public class NameLoader {
 
 	private NameLoader() {
 		try {
-			rand = new MersenneTwister(1103);
+			rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand")));
 			this.setNamesFileName(Properties.getInstance().getProperty("namesFile"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
