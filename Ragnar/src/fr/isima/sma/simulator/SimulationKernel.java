@@ -61,13 +61,19 @@ public class SimulationKernel implements Observer {
 		restart = false;
 		gui = Boolean.valueOf(Properties.getInstance().getProperty("gui"));
 
-		for(Sector s : ragnar.getSectorByType().get(SectorType.Bank.getValue())) {
-			Bank b = (Bank) s;
-			b.addObserver(this);
-		}
-		for(Sector s : ragnar.getSectorByType().get(SectorType.HeroHQ.getValue())) {
-			HeadQuarter b = (HeadQuarter) s;
-			b.addObserver(this);
+//		for(Sector s : ragnar.getSectorByType().get(SectorType.Bank.getValue())) {
+//			Bank b = (Bank) s;
+//			b.addObserver(this);
+//		}
+//		for(Sector s : ragnar.getSectorByType().get(SectorType.HeroHQ.getValue())) {
+//			HeadQuarter b = (HeadQuarter) s;
+//			b.addObserver(this);
+//		}
+		
+		for(List<Sector> ss : ragnar.getSectorByType()) {
+			for(Sector s : ss) {
+				s.addObserver(this);
+			}
 		}
 	}
 
@@ -93,6 +99,7 @@ public class SimulationKernel implements Observer {
 		Collections.shuffle(events); // Les events sont fait dans un autre ordre
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
+				System.out.println("evenement");
 				event.proceed(); // Resout l'evenement
 			}
 			
@@ -116,11 +123,19 @@ public class SimulationKernel implements Observer {
 	private void updateEvents() {
 		List<Event> newListe = new ArrayList<Event>();
 		for(Event e : events) {
-			if(e.getTtl()>0) { // TODO j'ai vire le >=
+			if(e.getTtl()>=0) {
 				newListe.add(e);
 			}
 		}
+		
 		events = newListe;
+		
+		for(Event e : newEvents) {
+			events.add(e);
+		}
+		
+		newEvents = null;
+		newEvents = new ArrayList<>(); // On vide cette liste
 		
 		for(Event e : newListe) {
 			// recherche d'un event sur le lieu

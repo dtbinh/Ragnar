@@ -44,7 +44,7 @@ public class Event {
 	 */
 	public void proceed() {
 		System.out.println("Proceed");
-		if(ttl==0) {	// on a fini l'event
+		if(this.ttl == 0) {	// on a fini l'event
 			for(Humanoid h : entities) {
 				h.setInvolved(null);
 				h.setWantRobery(false);
@@ -98,6 +98,7 @@ public class Event {
 								here.setMoneyAvailable(0); // La banque est vide
 							}
 						}
+						
 					}
 				}).live(this);
 				break;
@@ -150,6 +151,7 @@ public class Event {
 							}
 							
 						}
+						
 					}
 				}).live(this);
 				break;
