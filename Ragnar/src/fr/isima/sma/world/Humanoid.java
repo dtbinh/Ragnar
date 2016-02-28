@@ -153,7 +153,14 @@ public abstract class Humanoid extends ActiveEntity {
 	    /* first we get the the width and length of the map */
 	    int length = walkable.length;
 	    int width = walkable[0].length;
-
+	    
+	    ////////////////////////////////////////////
+	    boolean oldStart = walkable[startX][startY];
+	    boolean oldEnd = walkable[endX][endY]; 
+	    walkable[startX][startY] = true;
+	    walkable[endX][endY] = true;
+	    ////////////////////////////////////////////
+	    
 	    /* now we initialize an int array and fill it with -1 */
 	    int[][] distance = new int[length][width];
 	    for(int i=0; i < distance.length; i++) {
@@ -262,6 +269,11 @@ public abstract class Humanoid extends ActiveEntity {
 	    path[i][0] = endX;
 	    path[i][1] = endY;
 	    
+		////////////////////////////////////////////
+		walkable[startX][startY] = oldStart;
+		walkable[endX][endY] = oldEnd;
+		////////////////////////////////////////////
+	    
 	    /* now we should have the finished path array */
 	    // note that path[i][0] has the X-Coordinate and path[i][1] has the Y-Coordinate!
 	    
@@ -348,6 +360,14 @@ public abstract class Humanoid extends ActiveEntity {
 		int old = this.money;
 		this.money = money;
 		firePropertyChange("money", old, this.money);
+	}
+
+	public void setLevel(int i) {
+		this.level = i;
+	}
+
+	public int getLevel() {
+		return this.level;
 	}
 	
 	// veillissement

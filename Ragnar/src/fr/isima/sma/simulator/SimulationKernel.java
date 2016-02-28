@@ -51,7 +51,9 @@ public class SimulationKernel implements Observer {
 	public SimulationKernel(City c, RagnarView v) {
 		ragnar = c;
 		view = v;
-		v.getControlView().addObserver(this);
+		if(Boolean.valueOf(Properties.getInstance().getProperty("gui"))) {
+			v.getControlView().addObserver(this);
+		}
 		events = new ArrayList<>();
 		newEvents = new ArrayList<>();
 		play = true;
@@ -211,9 +213,9 @@ public class SimulationKernel implements Observer {
 		    }
 		    sortie.println("----------------------------------------------------------------");
 		    for(AgentType a : AgentType.values()) {
-		    	sortie.print(a+"\t"+number[a.getValue()]);
+		    	sortie.print(a+"\t"+number[a.getValue()]+"\t");
 		    }
-		    sortie.println("----------------------------------------------------------------");
+		    sortie.println("\n----------------------------------------------------------------");
 		    sortie.println("");
 
 		    number = new int[4];

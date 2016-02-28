@@ -6,6 +6,7 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Location;
+import fr.isima.sma.world.patterns.Console;
 
 public class Ragnar {
 
@@ -27,9 +28,14 @@ public class Ragnar {
 			m.loadCityFromFile(props.getProperty("cityFile"));
 			Humanoid.setCity(m);
 			m.loadAgentsFromFile(props.getProperty("agentsFile"));
-			RagnarView v = new RagnarView(m);
-			m.addObserver(v);
+			RagnarView v = null;
+			if(Boolean.valueOf(props.getProperty("gui"))) {
+				v = new RagnarView(m);
+				m.addObserver(v);
+			}
 			SimulationKernel c = new SimulationKernel(m, v);
+			
+			Console.println("SIMULATION N°"+(Integer.valueOf(props.getProperty("iterations")) - iterations + 1));
 	
 			Location.setMinLocationX(0);
 			Location.setMaxLocationX(m.getSizeX());
