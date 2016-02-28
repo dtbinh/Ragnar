@@ -5,7 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import fr.isima.sma.simulator.SimulationKernel;
 import fr.isima.sma.world.ActiveEntity.AgentType;
+import fr.isima.sma.world.City;
+import fr.isima.sma.world.Group;
+import fr.isima.sma.world.Group.GroupType;
 import fr.isima.sma.world.Hero;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
@@ -40,7 +44,6 @@ public class Event {
 	 * Launch the event
 	 */
 	public void proceed() {
-		System.out.println("Proceed");
 		if(this.ttl == 0) {	// on a fini l'event
 			for(Humanoid h : entities) {
 				h.setInvolved(null);
@@ -51,7 +54,6 @@ public class Event {
 		} else {	// faire l'event
 			switch (type) {
 			case Robery:
-				
 				(new Action() {
 
 					@Override
@@ -59,7 +61,7 @@ public class Event {
 						
 						if(e.getTtl() == 1) { // Fin de l'event
 							Sector here = e.getSector();
-							boolean success = true; // Emporte els gains ?
+							boolean success = true; // Emporte les gains ?
 							
 							if(here.getNumberHero() > 0) { // Bagarre !
 								AgentType winner = e.resolveFight();
@@ -67,6 +69,8 @@ public class Event {
 								if(winner == AgentType.HERO) {
 									Console.println("Les heros ont empeche le braquage");
 									// TODO evenement emprisonnement
+									
+									//new Event(here, heroesAndVilains, EventType.BringToPrison, 20) // Il faudra changer le ttl a 1 quand ce sera bon
 									
 									success = false;
 								} else {
@@ -84,16 +88,26 @@ public class Event {
 							}
 							
 							if(success) {
-								Console.println("Le braquage est reussi");
-								
-								int butin = (int)(here.getMoneyAvailable() / here.getNumberVilain());
-								for(Humanoid h : e.getEntities()) {
-									if(h.getType() == AgentType.VILAIN) {
-										h.setMoney(h.getMoney() + butin); // Additionne avec ce qu'il avait
+								if(here.getNumberVilain() > 0) { // Le seul braqueur peut mourir donc attention
+									Console.println("Le braquage est reussi");
+									
+									int butin = (int)(here.getMoneyAvailable() / here.getNumberVilain());
+									for(Humanoid h : e.getEntities()) {
+										if(h.getType() == AgentType.VILAIN) {
+											h.setMoney(h.getMoney() + butin); // Additionne avec ce qu'il avait
+										}
 									}
+									here.setMoneyAvailable(0); // La banque est vide
 								}
-								here.setMoneyAvailable(0); // La banque est vide
 							}
+							
+							// Remise a zero de la preparation
+							for(Humanoid humanoid : e.getEntities()) {
+								if(humanoid.getType() == AgentType.VILAIN) {
+									((Vilain) humanoid).resetRobberyPrep();
+								}
+							}
+							
 						}
 						
 					}
@@ -114,14 +128,76 @@ public class Event {
 
 					@Override
 					public void live(Event e) {	//TODO a implementer pout les BRINGTOPRISON
+						/* Version pas mal mais compliquee a gerer */
 						
+//						boolean found = false;
+//						Sector toGo = null;
+//						
+//						// Creation du groupe et ajout des individus
+//						Group heroesAndVilains = new Group(Group.GroupType.WITHPRISONERS, e.getSector().getLocation());
+//						for (Humanoid humanoid : e.getEntities()) {
+//							heroesAndVilains.add(humanoid);
+//							
+//							// Je cherche ou est le qg
+//							if((heroesAndVilains.isPathNull() == true) && (!found) && (humanoid.getType() == AgentType.HERO)) {
+//								toGo = humanoid.getHome();
+//								found = true;
+//							}
+//						}
+//						
+//						// Creation du chemin
+//						if(heroesAndVilains.isPathNull()) {
+//							heroesAndVilains.findPath(	e.getSector().getLocation().getLocationX(),
+//														e.getSector().getLocation().getLocationY(),
+//														toGo.getLocation().getLocationX(),
+//														toGo.getLocation().getLocationY(),
+//														Humanoid.getCity().getWalkableLegit());
+//						}
+//						
+//						// Parcours du chemin
+//						if(heroesAndVilains.getPathStep() >= 0 && heroesAndVilains.getPathStep() < heroesAndVilains.getPath().length) {
+//							// On fait avancer le groupe
+//							heroesAndVilains.setLocation(	heroesAndVilains.getPath()[heroesAndVilains.getPathStep()][0],
+//															heroesAndVilains.getPath()[heroesAndVilains.getPathStep()][1]);
+//							heroesAndVilains.setPathStep(heroesAndVilains.getPathStep() + 1);
+//						}
+//						
+//						// A destination
+//						if( !(heroesAndVilains.getPathStep() < heroesAndVilains.getPath().length)) {
+//							// TODO set captured les vilains
+//							
+//							heroesAndVilains.setPath(null);
+//							heroesAndVilains.setPathStep(-1);
+//						}
+						
+						/* version classique et bourrin mais qui marche */
+						if(ttl == 1) {
+							boolean found = false;
+							Sector toGo = null;
+							
+							// Recherche du QG
+							for (Humanoid humanoid : e.getEntities()) {
+								if((!found) && (humanoid.getType() == AgentType.HERO)) {
+									toGo = humanoid.getHome();
+									found = true;
+								}
+							}
+							
+							// On deplace tout le monde dans le QG et on bloque les vilains
+							for (Humanoid humanoid : e.getEntities()) {
+								humanoid.setLocation(	toGo.getLocation().getLocationX(),
+														toGo.getLocation().getLocationY());
+								if(humanoid.getType() == AgentType.VILAIN) {
+									((Vilain) humanoid).setCaptured(true);
+								}
+							}
+						}
 						
 					}
 				}).live(this);
 				break;
 			case Fight:
-				System.out.println("Combat ! (" + this.ttl + ")");
-				(new Action() { // TODO implementer pour fight
+				(new Action() {
 					
 					@Override
 					public void live(Event e) {
@@ -131,7 +207,7 @@ public class Event {
 							if(winner == AgentType.HERO) {
 								Console.println("Les heros ont gagne un combat !");
 								// TODO evenement emprisonnement
-								
+								// new Event(here, heroesAndVilains, EventType.BringToPrison, 20)
 							} else {
 								Console.println("Les vilains ont gagne un combat");
 								
@@ -146,9 +222,7 @@ public class Event {
 								// On les envoie chez eux
 								e.goHome(heroes);
 							}
-							
 						}
-						
 					}
 				}).live(this);
 				break;

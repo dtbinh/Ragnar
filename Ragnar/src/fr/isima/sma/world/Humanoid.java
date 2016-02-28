@@ -477,5 +477,24 @@ public abstract class Humanoid extends ActiveEntity {
 		return city;
 	}
 	
+	public boolean isPathNull() {
+		return (this.path==null);
+	}
+
+	public int[][] getPath() {
+		return path;
+	}
+
+	public void setPath(int[][] path) {
+		this.path = path;
+	}
+
+	public int getPathStep() {
+		return pathStep;
+	}
+
+	public void setPathStep(int pathStep) {
+		this.pathStep = pathStep;
+	}
 	
 }
