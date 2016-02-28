@@ -3,6 +3,8 @@ package fr.isima.sma.world.patterns;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.isima.sma.resources.Properties;
+
 public class Console extends AbstractModelObject {
 	static private Console instance;
 	static private Object objet = new Object();
@@ -67,6 +69,9 @@ public class Console extends AbstractModelObject {
 	
 	static public void println(String s) {
 		add(s);
+		if(!Boolean.valueOf(Properties.getInstance().getProperty("gui"))) {
+			System.out.println(s);
+		}
 	}
 	
 }

@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.plaf.DimensionUIResource;
@@ -13,7 +12,6 @@ import javax.swing.plaf.DimensionUIResource;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
-import fr.isima.sma.world.patterns.Console;
 
 public class CityView extends JFrame {
 

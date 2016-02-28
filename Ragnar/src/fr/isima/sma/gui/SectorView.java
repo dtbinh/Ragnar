@@ -1,6 +1,5 @@
 package fr.isima.sma.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -18,11 +17,6 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
-import fr.isima.sma.world.Sector.SectorType;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import javax.swing.BoxLayout;
 
 public class SectorView extends JPanel {
 	private AutoBinding<Sector, Integer, JLabel, Boolean> groupVisibleBind;
@@ -31,7 +25,6 @@ public class SectorView extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private AutoBinding<Sector, Integer, JLabel, Boolean> heroVisibleBind;
-	private AutoBinding<Sector, SectorType, JPanel, Color> sectorStyleBind;
 
 	private City modele;
 	private Sector secModele;
@@ -84,12 +77,6 @@ public class SectorView extends JPanel {
 		initDataBindings();
 	}
 	protected void initDataBindings() {
-//		BeanProperty<Sector, SectorType> sectorBeanProperty = BeanProperty.create("type");
-//		BeanProperty<JPanel, Color> jPanelBeanProperty = BeanProperty.create("background");
-//		sectorStyleBind = Bindings.createAutoBinding(UpdateStrategy.READ, secModele, sectorBeanProperty, this, jPanelBeanProperty, "sectorStyleBind");
-//		sectorStyleBind.setConverter(new SectorConverter());
-//		sectorStyleBind.bind();
-		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_1 = BeanProperty.create("numberHero");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_1 = BeanProperty.create("visible");
 		heroVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_1, heroLabel, jLabelBeanProperty_1, "heroVisibleBind");
