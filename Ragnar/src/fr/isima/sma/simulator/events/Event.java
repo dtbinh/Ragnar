@@ -5,16 +5,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.Hero;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Super;
 import fr.isima.sma.world.Vilain;
 import fr.isima.sma.world.patterns.Console;
-import fr.isima.sma.world.ActiveEntity.AgentType;
-import fr.isima.sma.world.ActiveEntity.LifeState;
-import fr.isima.sma.simulator.SimulationKernel;
-import fr.isima.sma.world.City;
 
 public class Event {
 	protected static Random rand = new Random();
