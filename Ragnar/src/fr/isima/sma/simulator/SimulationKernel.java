@@ -60,15 +60,6 @@ public class SimulationKernel implements Observer {
 		stop = false;
 		restart = false;
 		gui = Boolean.valueOf(Properties.getInstance().getProperty("gui"));
-
-//		for(Sector s : ragnar.getSectorByType().get(SectorType.Bank.getValue())) {
-//			Bank b = (Bank) s;
-//			b.addObserver(this);
-//		}
-//		for(Sector s : ragnar.getSectorByType().get(SectorType.HeroHQ.getValue())) {
-//			HeadQuarter b = (HeadQuarter) s;
-//			b.addObserver(this);
-//		}
 		
 		for(List<Sector> ss : ragnar.getSectorByType()) {
 			for(Sector s : ss) {
