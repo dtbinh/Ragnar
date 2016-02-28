@@ -88,11 +88,12 @@ public class SimulationKernel implements Observer {
 	 */
 	public void simulate() {
 		isRunning = true;
-		Collections.shuffle(events); //
+		Collections.shuffle(events, rand); // Les events sont fait dans un autre ordre
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
-				event.proceed(); // Launch the event
+				event.proceed(); // Resout l'evenement
 			}
+			
 			List<Humanoid> agents = new ArrayList<Humanoid>(ragnar.getActiveEntities().getAgents());
 			Collections.shuffle(agents, rand);
 			
