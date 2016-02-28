@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
+import fr.isima.sma.world.patterns.Console;
 
 /*
  *	Vue du programme

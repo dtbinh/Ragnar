@@ -2,7 +2,9 @@ package fr.isima.sma.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +19,10 @@ import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
+import java.awt.FlowLayout;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import javax.swing.BoxLayout;
 
 public class SectorView extends JPanel {
 	private AutoBinding<Sector, Integer, JLabel, Boolean> groupVisibleBind;
@@ -28,6 +34,7 @@ public class SectorView extends JPanel {
 	private AutoBinding<Sector, SectorType, JPanel, Color> sectorStyleBind;
 
 	private City modele;
+	private Sector secModele;
 	private Properties proprietes;
 	private ResourcesManager assets;
 	private JLabel heroLabel;
@@ -37,10 +44,11 @@ public class SectorView extends JPanel {
 
 	private int indiceX;
 	private int indiceY;
-	private AutoBinding<Sector, Integer, JLabel, Boolean> heroNumberBind;
-	private AutoBinding<Sector, Integer, JLabel, Boolean> vilainNumberBind;
-	private AutoBinding<Sector, Integer, JLabel, Boolean> citizenNumberBind;
-	private AutoBinding<Sector, Integer, JLabel, Boolean> groupNumberBind;
+	private AutoBinding<Sector, Integer, JLabel, String> heroNumberBind;
+	private AutoBinding<Sector, Integer, JLabel, String> vilainNumberBind;
+	private AutoBinding<Sector, Integer, JLabel, String> citizenNumberBind;
+	private AutoBinding<Sector, Integer, JLabel, String> groupNumberBind;
+	private Image image;
 
 
 	/**
@@ -53,68 +61,79 @@ public class SectorView extends JPanel {
 
 		indiceX = i;
 		indiceY = j;
+		
+		secModele = modele.getMap()[indiceX][indiceY];
 
 		this.setPreferredSize(new Dimension(Integer.valueOf(proprietes.getProperty("caseSize")), Integer.valueOf(proprietes.getProperty("caseSize"))));
-		setLayout(new GridLayout(0, 2, 0, 0));
-
-		heroLabel = new JLabel(assets.getIcon("hero"));
-		add(heroLabel);
-
-		citizenLabel = new JLabel(assets.getIcon("citizen"));
-		add(citizenLabel);
-
-		vilainLabel = new JLabel(assets.getIcon("vilain"));
-		add(vilainLabel);
-
-		groupLabel = new JLabel(assets.getIcon("group"));
-		add(groupLabel);
+		
+		image = assets.getImage(secModele.getType().toString().toLowerCase());
+		image = image.getScaledInstance(Integer.valueOf(proprietes.getProperty("caseSize")), Integer.valueOf(proprietes.getProperty("caseSize")), Image.SCALE_SMOOTH);
+		setLayout(new GridLayout(2, 1, 0, 0));
+										
+												heroLabel = new JLabel(assets.getIcon("hero"));
+												add(heroLabel);
+												
+														citizenLabel = new JLabel(assets.getIcon("citizen"));
+														add(citizenLabel);
+														
+																vilainLabel = new JLabel(assets.getIcon("vilain"));
+																add(vilainLabel);
+																
+																		groupLabel = new JLabel(assets.getIcon("group"));
+																		add(groupLabel);
 		initDataBindings();
 	}
 	protected void initDataBindings() {
-		BeanProperty<Sector, SectorType> sectorBeanProperty = BeanProperty.create("type");
-		BeanProperty<JPanel, Color> jPanelBeanProperty = BeanProperty.create("background");
-		sectorStyleBind = Bindings.createAutoBinding(UpdateStrategy.READ, modele.getMap()[indiceX][indiceY], sectorBeanProperty, this, jPanelBeanProperty, "sectorStyleBind");
-		sectorStyleBind.setConverter(new SectorConverter());
-		sectorStyleBind.bind();
+//		BeanProperty<Sector, SectorType> sectorBeanProperty = BeanProperty.create("type");
+//		BeanProperty<JPanel, Color> jPanelBeanProperty = BeanProperty.create("background");
+//		sectorStyleBind = Bindings.createAutoBinding(UpdateStrategy.READ, secModele, sectorBeanProperty, this, jPanelBeanProperty, "sectorStyleBind");
+//		sectorStyleBind.setConverter(new SectorConverter());
+//		sectorStyleBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_1 = BeanProperty.create("numberHero");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_1 = BeanProperty.create("visible");
-		heroVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_1, heroLabel, jLabelBeanProperty_1, "heroVisibleBind");
+		heroVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_1, heroLabel, jLabelBeanProperty_1, "heroVisibleBind");
 		heroVisibleBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_2 = BeanProperty.create("numberVilain");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_2 = BeanProperty.create("visible");
-		vilainVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_2, vilainLabel, jLabelBeanProperty_2, "vilainVisibleBind");
+		vilainVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_2, vilainLabel, jLabelBeanProperty_2, "vilainVisibleBind");
 		vilainVisibleBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_3 = BeanProperty.create("numberCitizen");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_3 = BeanProperty.create("visible");
-		citizenVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_3, citizenLabel, jLabelBeanProperty_3, "citizenVisibleBind");
+		citizenVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_3, citizenLabel, jLabelBeanProperty_3, "citizenVisibleBind");
 		citizenVisibleBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_4 = BeanProperty.create("numberGroup");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_4 = BeanProperty.create("visible");
-		groupVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_4, groupLabel, jLabelBeanProperty_4, "groupVisibleBind");
+		groupVisibleBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_4, groupLabel, jLabelBeanProperty_4, "groupVisibleBind");
 		groupVisibleBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_1A = BeanProperty.create("numberHero");
-		BeanProperty<JLabel, Boolean> jLabelBeanProperty_1A = BeanProperty.create("text");
-		heroNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_1A, heroLabel, jLabelBeanProperty_1A, "heroNumberBind");
+		BeanProperty<JLabel, String> jLabelBeanProperty_1A = BeanProperty.create("text");
+		heroNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_1A, heroLabel, jLabelBeanProperty_1A, "heroNumberBind");
 		heroNumberBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_2A = BeanProperty.create("numberVilain");
-		BeanProperty<JLabel, Boolean> jLabelBeanProperty_2A = BeanProperty.create("text");
-		vilainNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_2A, vilainLabel, jLabelBeanProperty_2A, "vilainNumberBind");
+		BeanProperty<JLabel, String> jLabelBeanProperty_2A = BeanProperty.create("text");
+		vilainNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_2A, vilainLabel, jLabelBeanProperty_2A, "vilainNumberBind");
 		vilainNumberBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_3A = BeanProperty.create("numberCitizen");
-		BeanProperty<JLabel, Boolean> jLabelBeanProperty_3A = BeanProperty.create("text");
-		citizenNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_3A, citizenLabel, jLabelBeanProperty_3A, "citizenNumberBind");
+		BeanProperty<JLabel, String> jLabelBeanProperty_3A = BeanProperty.create("text");
+		citizenNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_3A, citizenLabel, jLabelBeanProperty_3A, "citizenNumberBind");
 		citizenNumberBind.bind();
 		//
 		BeanProperty<Sector, Integer> sectorBeanProperty_4A = BeanProperty.create("numberGroup");
-		BeanProperty<JLabel, Boolean> jLabelBeanProperty_4A = BeanProperty.create("text");
-		groupNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, modele.getMap()[indiceX][indiceY], sectorBeanProperty_4A, groupLabel, jLabelBeanProperty_4A, "groupNumberBind");
+		BeanProperty<JLabel, String> jLabelBeanProperty_4A = BeanProperty.create("text");
+		groupNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_4A, groupLabel, jLabelBeanProperty_4A, "groupNumberBind");
 		groupNumberBind.bind();
+	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 0, 0, null);
 	}
 }
