@@ -18,7 +18,6 @@ import fr.isima.sma.simulator.events.Event;
 public abstract class Humanoid extends ActiveEntity {
 	// Static members
 	protected static City city;
-	protected static List<Event> events = new ArrayList<>();
 	protected static Random rand = new Random(123); // TODO remove the seed at the end
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
@@ -444,26 +443,6 @@ public abstract class Humanoid extends ActiveEntity {
 
 	public boolean getWantRelease() {
 		return wantRelease;
-	}
-	
-	static public void addEvent(Event e) {
-		events.add(e);
-	}
-	
-	static public void removeEvent(Event e) {
-		events.remove(e);
-	}
-	
-	static public Event getEvent(int i) {
-		return events.get(i);
-	}
-	
-	static public List<Event> getEvents() {
-		return events;
-	}
-	
-	static public void setEvents(List<Event> liste) {
-		events = liste;
 	}
 	
 }

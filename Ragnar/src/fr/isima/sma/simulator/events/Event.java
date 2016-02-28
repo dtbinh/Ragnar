@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
+import fr.isima.sma.world.Super;
 
 public class Event {
 // TODO mettre un time to live et s'il tombe a zero il est fini
@@ -37,7 +38,7 @@ public class Event {
 				h.setInvolved(null);
 				h.setWantRobery(false);
 				h.setWantRelease(false);
-				Humanoid.removeEvent(this);
+				Super.removeEvent(this);
 			}
 		} else {	// faire l'event
 			switch (type) {

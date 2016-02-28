@@ -24,6 +24,7 @@ import fr.isima.sma.world.HeadQuarter;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Sector.SectorType;
+import fr.isima.sma.world.Super;
 import fr.isima.sma.world.patterns.Console;
 
 /*
@@ -130,7 +131,7 @@ public class SimulationKernel implements Observer {
 					}
 				} else {
 					events.add(e);
-					Humanoid.addEvent(e);
+					Super.addEvent(e);
 				}
 			}
 		}
