@@ -6,7 +6,7 @@
 #	image must be the name of the asset in assets.rc
 
 Citizen:Benoît:Garçon:22:1:2:0:benoit
-Citizen:Benjamin:Barbesange:21:1:0:4:
+Citizen:Benjamin:Barbesange:21:1:0:4:benjamin
 Citizen:Sara:Connor:28:1:0:4:
 Citizen:Pierre:Chevalier:21:1:0:6:
 Citizen:Cécile:Jeanson:22:1:2:0:
