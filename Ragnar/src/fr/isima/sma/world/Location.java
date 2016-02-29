@@ -199,7 +199,7 @@ public class Location {
 	 */
 	@Override
 	public String toString() {
-		return "x : " + this.locationX + " - y : " + this.locationY + ((this.isInterior)?" (interior)": " (exterior)");
+		return "x : " + this.locationX + " - y : " + this.locationY;
 	}
 
 	/**
