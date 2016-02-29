@@ -76,7 +76,7 @@ public class Event {
 								AgentType winner = e.resolveFight();
 								
 								if(winner == AgentType.HERO) {
-									Console.println(Humanoid.getCity().getDate() + "Les heros ont empeche le braquage");
+									Console.println(Humanoid.getCity().getDate() + " Les héros ont empêché le braquage");
 									// TODO evenement emprisonnement
 									
 									//new Event(here, heroesAndVilains, EventType.BringToPrison, 20) // Il faudra changer le ttl a 1 quand ce sera bon
@@ -98,7 +98,7 @@ public class Event {
 							
 							if(success) {
 								if(here.getNumberVilain() > 0) { // Le seul braqueur peut mourir donc attention
-									Console.println(Humanoid.getCity().getDate() + "Le braquage est reussi !");
+									Console.println(Humanoid.getCity().getDate() + " Le braquage est réussi !");
 									
 									// Determination de la part qu'il vont prendre en banque, entre 40 et 60%
 									double part = (double)(((double)Event.rand.nextInt(20) + (double)40)/(double)100);
@@ -176,7 +176,7 @@ public class Event {
 							AgentType winner = e.resolveFight();
 							
 							if(winner == AgentType.HERO) {
-								Console.println(Humanoid.getCity().getDate() + "Les heros ont gagne un combat !");
+								Console.println(Humanoid.getCity().getDate() + " Les héros ont gagné un combat !");
 								// TODO evenement emprisonnement
 								
 								// Emprisonnement
@@ -202,7 +202,7 @@ public class Event {
 								
 								
 							} else {
-								Console.println(Humanoid.getCity().getDate() + "Les vilains ont gagne un combat !");
+								Console.println(Humanoid.getCity().getDate() + " Les vilains ont gagné un combat !");
 								
 								// Les vilains gagnent, les heros s'en vont
 								List<Super> heroes = new ArrayList<>();

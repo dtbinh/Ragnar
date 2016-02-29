@@ -232,11 +232,33 @@ public class City extends ActiveEntity implements IMyObservable {
 			}
 		}
 		
+		// maybe new inhabitants
+		if(heure==6) {
+			if(City.rand.nextDouble() < (0.8 / Integer.valueOf(props.getProperty("daysperyear")))) {
+				int numberMigrants = (int) (City.rand.nextGaussian()*2+3);
+				numberMigrants = numberMigrants < 1 ? 1 : numberMigrants;
+				for (int i = 0; i < numberMigrants; i++) {
+					imigration();
+				}
+				Console.println(getDate() + " Arrivée de " + numberMigrants + " nouveaux habitants en ville.");
+			}
+		}
+		
 		agents.update();
 		notifier.setChanged();
 		notifier.notifyObservers();
 	}
 
+	/**
+	 * Simulate arriving of people from outside the city.
+	 */
+	private void imigration() {
+		int age = (int) (City.rand.nextGaussian()*20+40);
+		age = age<16 ? 16 : age;
+		Sector home = sectorByType.get(SectorType.HeadQuarter.getValue()).get(City.rand.nextInt(sectorByType.get(SectorType.HeadQuarter.getValue()).size()));
+		this.agents.addAgent(new Citizen(NameLoader.getInstance().getName(), NameLoader.getInstance().getName(), age, heure, home.getLocation().getLocationY(), home.getLocation().getLocationX()));
+	}
+	
 	/**
 	 * Print the map in its string format
 	 * @return the formated string representing the map

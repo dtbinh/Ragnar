@@ -50,6 +50,7 @@ public class NameLoader {
 			String line = data.readLine();
 
 			while(line != null && !line.isEmpty()) {
+				line = line.replaceFirst(".",(line.charAt(0)+"").toUpperCase());
 				names.add(line);
 				line = data.readLine();
 			}
