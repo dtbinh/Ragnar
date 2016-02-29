@@ -78,7 +78,7 @@ public class Event {
 								AgentType winner = e.resolveFight();
 								
 								if(winner == AgentType.HERO) {
-									Console.println("Les heros ont empeche le braquage");
+									Console.println(Humanoid.getCity().getDate() + "Les heros ont empeche le braquage");
 									// TODO evenement emprisonnement
 									
 									//new Event(here, heroesAndVilains, EventType.BringToPrison, 20) // Il faudra changer le ttl a 1 quand ce sera bon
@@ -100,15 +100,19 @@ public class Event {
 							
 							if(success) {
 								if(here.getNumberVilain() > 0) { // Le seul braqueur peut mourir donc attention
-									Console.println("Le braquage est reussi");
+									Console.println(Humanoid.getCity().getDate() + "Le braquage est reussi !");
 									
-									int butin = (int)(here.getMoneyAvailable() / here.getNumberVilain());
+									// Determination de la part qu'il vont prendre en banque, entre 40 et 60%
+									double part = (double)(((double)Event.rand.nextInt(20) + (double)40)/(double)100);
+									
+									// Distribution des gains
+									int butin = (int)((int)(part * here.getMoneyAvailable()) / here.getNumberVilain());
 									for(Humanoid h : e.getEntities()) {
 										if(h.getType() == AgentType.VILAIN) {
 											h.setMoney(h.getMoney() + butin); // Additionne avec ce qu'il avait
+											here.setMoneyAvailable(here.getMoneyAvailable() - butin); // On vide la banque petit a petit
 										}
 									}
-									here.setMoneyAvailable(0); // La banque est vide
 								}
 							}
 							
@@ -124,7 +128,7 @@ public class Event {
 					}
 				}).live(this);
 				break;
-			case Release:
+			case Release: // TODO remove parce que non utilise
 				(new Action() {
 
 					@Override
@@ -134,54 +138,12 @@ public class Event {
 					}
 				}).live(this);
 				break;
-			case BringToPrison:
+			case BringToPrison: // TODO remove car non utilise
 				(new Action() {
 
 					@Override
 					public void live(Event e) {	//TODO a implementer pout les BRINGTOPRISON
-						/* Version pas mal mais compliquee a gerer */
 						
-//						boolean found = false;
-//						Sector toGo = null;
-//						
-//						// Creation du groupe et ajout des individus
-//						Group heroesAndVilains = new Group(Group.GroupType.WITHPRISONERS, e.getSector().getLocation());
-//						for (Humanoid humanoid : e.getEntities()) {
-//							heroesAndVilains.add(humanoid);
-//							
-//							// Je cherche ou est le qg
-//							if((heroesAndVilains.isPathNull() == true) && (!found) && (humanoid.getType() == AgentType.HERO)) {
-//								toGo = humanoid.getHome();
-//								found = true;
-//							}
-//						}
-//						
-//						// Creation du chemin
-//						if(heroesAndVilains.isPathNull()) {
-//							heroesAndVilains.findPath(	e.getSector().getLocation().getLocationX(),
-//														e.getSector().getLocation().getLocationY(),
-//														toGo.getLocation().getLocationX(),
-//														toGo.getLocation().getLocationY(),
-//														Humanoid.getCity().getWalkableLegit());
-//						}
-//						
-//						// Parcours du chemin
-//						if(heroesAndVilains.getPathStep() >= 0 && heroesAndVilains.getPathStep() < heroesAndVilains.getPath().length) {
-//							// On fait avancer le groupe
-//							heroesAndVilains.setLocation(	heroesAndVilains.getPath()[heroesAndVilains.getPathStep()][0],
-//															heroesAndVilains.getPath()[heroesAndVilains.getPathStep()][1]);
-//							heroesAndVilains.setPathStep(heroesAndVilains.getPathStep() + 1);
-//						}
-//						
-//						// A destination
-//						if( !(heroesAndVilains.getPathStep() < heroesAndVilains.getPath().length)) {
-//							// TODO set captured les vilains
-//							
-//							heroesAndVilains.setPath(null);
-//							heroesAndVilains.setPathStep(-1);
-//						}
-						
-						/* version classique et bourrin mais qui marche */
 						if(ttl == 1) {
 							boolean found = false;
 							Sector toGo = null;
@@ -216,11 +178,33 @@ public class Event {
 							AgentType winner = e.resolveFight();
 							
 							if(winner == AgentType.HERO) {
-								Console.println("Les heros ont gagne un combat !");
+								Console.println(Humanoid.getCity().getDate() + "Les heros ont gagne un combat !");
 								// TODO evenement emprisonnement
-								// new Event(here, heroesAndVilains, EventType.BringToPrison, 20)
+								
+								// Emprisonnement
+								boolean found = false;
+								Sector toGo = null;
+								
+								// Recherche du QG d'un des heros
+								for (Humanoid humanoid : e.getEntities()) {
+									if((!found) && (humanoid.getType() == AgentType.HERO)) {
+										toGo = humanoid.getHome();
+										found = true;
+									}
+								}
+								
+								// On teleporte tout le monde dans le QG et on bloque les vilains
+								for (Humanoid humanoid : e.getEntities()) {
+									humanoid.setLocation(	toGo.getLocation().getLocationX(),
+															toGo.getLocation().getLocationY());
+									if(humanoid.getType() == AgentType.VILAIN) {
+										((Vilain) humanoid).setCaptured(true);
+									}
+								}
+								
+								
 							} else {
-								Console.println("Les vilains ont gagne un combat");
+								Console.println(Humanoid.getCity().getDate() + "Les vilains ont gagne un combat !");
 								
 								// Les vilains gagnent, les heros s'en vont
 								List<Super> heroes = new ArrayList<>();
@@ -252,45 +236,24 @@ public class Event {
 		
 		double heroWinProba = 0.5; // De base
 		
-		List<Hero> heroes = new ArrayList<>();
-		List<Vilain> vilains = new ArrayList<>();
-		
 		// On additionne les forces de chaque factions
 		for(Humanoid h : this.entities) {
 			if(h.getType() == AgentType.HERO) {
 				forceHeros += ((Super)h).getForce();
-				heroes.add((Hero) h);
 			} else if (h.getType() == AgentType.VILAIN) {
 				forceVilains += ((Super)h).getForce();
-				vilains.add((Vilain) h);
 			}
 		}
 		
-		// Shuffle les factions pour ensuite determiner les morts (si il y en a)
-		Collections.shuffle(heroes);
-		Collections.shuffle(vilains);
-		
-		// Modification de la proba et deces des super
+		// Determination de la probabilite de victoire
 		if(forceHeros > forceVilains) {
-			heroWinProba = 0.75;
-			
-			if (Math.abs(Event.rand.nextGaussian()) < 0.2) { // Un seul meurt
-				vilains.get(0).becomeDead();
-				vilains.remove(0);
-			}
-			
+			heroWinProba = 0.75;			
 		} else if (forceHeros < forceVilains) {
 			heroWinProba = 0.25;
-			
-			if (Math.abs(Event.rand.nextGaussian()) < 0.2) { // Un seul meurt
-				heroes.get(0).becomeDead();
-				heroes.remove(0);
-			}
-			
 		}
 		
 		// Determination de la faction gagnante
-		winner = (Math.abs(Event.rand.nextGaussian()) < heroWinProba)? AgentType.HERO : AgentType.VILAIN;
+		winner = (Event.rand.nextDouble() < heroWinProba)? AgentType.HERO : AgentType.VILAIN;
 		
 		return winner;
 	}
@@ -307,16 +270,6 @@ public class Event {
 						h.getHome().getLocation().getLocationX(), 
 						h.getHome().getLocation().getLocationY(), 
 						Humanoid.getCity().getWalkableLegit());
-		}
-	}
-	
-	/**
-	 * Reset the robbery preparation for each vilains
-	 * @param vilains the vilain list to reset robbery prep
-	 */
-	protected void resetPrep(List<Vilain> vilains) {
-		for(Vilain v : vilains) {
-			v.resetRobberyPrep();
 		}
 	}
 

@@ -71,7 +71,7 @@ public class Vilain extends Super {
 					if(found == true && toGo != null) { // Si on l'a trouvee, on y va
 						this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 						moveProb = 0.0; // Il ne bougera pas parce qu'il l'a trouvee
-						Console.println(Humanoid.city.getDate() + this.name + " " + this.surname + " tente un braquage !");
+						Console.println(Humanoid.city.getDate() + this.toString() + " tente un braquage !");
 						this.setWantRobery(true); // Lancement du braquage
 					}
 				} else { // S'il n'est pas pret il va au moins tenter de sauver un collegue
@@ -86,9 +86,9 @@ public class Vilain extends Super {
 					}
 					
 					if(found == true && toGo != null) { // Si on l'a trouve
-						// On teste s'il y va, proba de : 1 / (4 * nbHerosQg)
-						if( Humanoid.rand.nextDouble() < (double)(1 / (4*( (toGo.getNumberHero()>0)?toGo.getNumberHero():1)) ) ) {
-							Console.println(Humanoid.city.getDate() + this.getName() + " " + this.getSurname() + " a libere des vilains");
+						// On teste s'il y va, proba de : 1 / (8 * nbHerosQg)
+						if( Humanoid.rand.nextDouble() < (double)((double)1 / (double)((double)8*( ((double)toGo.getNumberHero()>0.0)?(double)toGo.getNumberHero():1.0)) ) ) {
+							Console.println(Humanoid.city.getDate() + this.toString() + " a libere des vilains");
 							this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 							moveProb = 0.0; // Il ne bougera pas parce qu'il l'a trouvee
 							toGo.freeAll(); // Liberation des vilains
@@ -125,6 +125,7 @@ public class Vilain extends Super {
 			}
 		} else { // Il a quand meme une toute petite chance de se liberer tout seul
 			if(Humanoid.rand.nextDouble() < ((0.00005)*Humanoid.city.getSector(this).getNumberVilain()) ) { // 0.005% de chances de se liberer
+				Console.println(Humanoid.getCity().getDate() + this.toString() + " s'est libere tout seul !");
 				this.setCaptured(false);
 			}
 		}

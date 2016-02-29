@@ -138,7 +138,7 @@ public abstract class Humanoid extends ActiveEntity {
 	
 	@Override
 	public String toString() {
-		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append("  -  ").append(this.getClass().getSimpleName());
+		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append(" (").append(this.getClass().getSimpleName()).append(")");
 		return st.toString();
 	}
 	

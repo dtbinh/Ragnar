@@ -5,6 +5,7 @@ import java.util.List;
 import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.simulator.events.EventType;
 import fr.isima.sma.world.Sector.SectorType;
+import fr.isima.sma.world.patterns.Console;
 
 public class Hero extends Super {
 
@@ -119,7 +120,8 @@ public class Hero extends Super {
 			if(here.getNumberVilain() > 0) { // Si un vilain est la, on reste surement
 				if(here.type==SectorType.HeroHQ) {
 					// S'il y a un au moins un vilain au qg, la proba de bouger est : (nbHerosQG - 1) / nbTotalHerosMap
-					moveProb = (double)((here.getNumberHero() - 1) / Humanoid.city.getTotalHeroes());
+					moveProb = (double)(((double)here.getNumberHero() - (double)1) / (double)Humanoid.city.getTotalHeroes());
+					System.out.println(here.getNumberHero() + " ; " + Humanoid.city.getTotalHeroes() + " ;" + "partir : " + moveProb);
 				} else {
 					moveProb = 0.3;
 					
@@ -142,6 +144,7 @@ public class Hero extends Super {
 				}
 				
 				if(found == true && toGo != null && e != null) { // Si on l'a trouve, i y va forcement
+					Console.println(Humanoid.city.getDate() + this.toString() + " part dejouer le braquage.");
 					this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 					e.addEntity(this); // Il participe maintenant a l'evenement
 					moveProb = 0.0; // Il ne bougera pas parce qu'il est alle a la banque
