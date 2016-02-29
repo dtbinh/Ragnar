@@ -8,11 +8,11 @@ import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.simulator.events.EventType;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.patterns.AbstractModelObject;
+import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 
 public abstract class Sector extends AbstractModelObject implements IMyObservable {
-
 	static public enum SectorType {
 		Street(0), Bank(1), HeadQuarter(2), HeroHQ(3), VilainHQ(4);
 		private final int value;
@@ -31,10 +31,18 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 	protected int 			moneyAvailable;		// somme disponible sur le secteur pour etre recolte par les cytoyens
 	protected MyObservable observable;
 
+	/**
+	 * Default constructor
+	 */
 	public Sector() {
 		this(SectorType.Street, new Location());
 	}
 
+	/**
+	 * Sector constructor
+	 * @param type The sector type
+	 * @param location The sector location on a map
+	 */
 	public Sector(SectorType type, Location location) {
 		super();
 		observable = new MyObservable();
@@ -180,6 +188,9 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 		return observable.countObservers();
 	}
 	
+	/**
+	 * Create a new fight event in this sector
+	 */
 	public void newFight() {
 		List<Humanoid> liste = new ArrayList<>();
 		for(List<Humanoid> l : this.agents)
@@ -187,6 +198,30 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 		
 		observable.setChanged();
 		notifyObservers(new Event(this, liste, EventType.Fight, 1));
+	}
+	
+	/**
+	 * Free all vilains in this sector
+	 */
+	public void freeAll() {
+		for(Humanoid h : agents.get(AgentType.VILAIN.getValue())) {
+			((Vilain) h).setCaptured(false);
+		}
+	}
+	
+	/**
+	 * Number of entities trapped in this sector
+	 * @return The number of entities trapped here, 0 if none are trapped here
+	 */
+	public int getNumberCaptured() {
+		int nb = 0;
+		for(Humanoid h : agents.get(AgentType.VILAIN.getValue())) {
+			if( ((Vilain) h).isCaptured() == true ) {
+				nb += 1;
+			}
+		}
+		
+		return nb;
 	}
 
 }
