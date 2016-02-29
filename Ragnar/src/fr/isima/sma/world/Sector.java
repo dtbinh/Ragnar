@@ -156,7 +156,6 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 	}
 
 	public String toResult() {
-		// TODO Auto-generated method stub
 		return type+"\t"+this.moneyAvailable;
 	}
 
@@ -222,6 +221,24 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 		}
 		
 		return nb;
+	}
+	
+	/**
+	 * Test if two sectors are the same. They are the same if they are the same type and at the same location.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		boolean state = false;
+		
+		if(obj instanceof Sector) {
+			if(((Sector) obj).getLocation() == this.getLocation()) {
+				if(((Sector) obj).getType() == this.getType()) {
+					state = true;
+				}
+			}
+		}
+		
+		return state;
 	}
 
 }

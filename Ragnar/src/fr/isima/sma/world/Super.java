@@ -33,7 +33,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void moveRandom() {
-		// TODO Auto-generated method stub
 		super.moveRandom();
 	}
 
@@ -42,7 +41,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void move(int locationX, int locationY) {
-		// TODO Auto-generated method stub
 		super.move(locationX, locationY);
 	}
 
@@ -51,7 +49,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return super.getName();
 	}
 
@@ -60,7 +57,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
 		super.setName(name);
 	}
 
@@ -69,7 +65,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public String getSurname() {
-		// TODO Auto-generated method stub
 		return super.getSurname();
 	}
 
@@ -78,7 +73,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void setSurname(String surname) {
-		// TODO Auto-generated method stub
 		super.setSurname(surname);
 	}
 
@@ -87,7 +81,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public int getAge() {
-		// TODO Auto-generated method stub
 		return super.getAge();
 	}
 
@@ -96,7 +89,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void setAge(int age) {
-		// TODO Auto-generated method stub
 		super.setAge(age);
 	}
 
@@ -105,7 +97,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public int getSpeed() {
-		// TODO Auto-generated method stub
 		return super.getSpeed();
 	}
 
@@ -114,7 +105,6 @@ public abstract class Super extends Humanoid {
 	 */
 	@Override
 	public void setSpeed(int speed) {
-		// TODO Auto-generated method stub
 		super.setSpeed(speed);
 	}
 	

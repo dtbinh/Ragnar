@@ -284,9 +284,9 @@ public class City extends ActiveEntity implements IMyObservable {
 
 		return map[y][x];
 	}
-
+	
+	@Deprecated
 	public void depositMoney(Citizen citizen, int amount) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -515,5 +515,20 @@ public class City extends ActiveEntity implements IMyObservable {
 	public List<List<Sector>> getSectorByType() {
 		return sectorByType;
 	}
-
+	
+	/**
+	 * Count all the heroes in this city
+	 * @return The nimber of heroes, 0 if there is none
+	 */
+	public int getTotalHeroes() {
+		int nb = 0;
+		
+		for (Humanoid humanoid : agents.getAgents()) {
+			if(humanoid.type == AgentType.HERO) {
+				nb += 1;
+			}
+		}
+		
+		return nb;
+	}
 }

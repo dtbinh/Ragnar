@@ -43,6 +43,15 @@ public class Event {
 	}
 	
 	/**
+	 * Add an entity in the current event
+	 * @param humanoid The humanoid to add in this event
+	 */
+	public void addEntity(Humanoid humanoid) {
+		this.entities.add(humanoid);
+		humanoid.setInvolved(this);
+	}
+	
+	/**
 	 * Launch the event
 	 */
 	public void proceed() {

@@ -2,6 +2,8 @@ package fr.isima.sma.world;
 
 import java.util.List;
 
+import fr.isima.sma.simulator.events.Event;
+import fr.isima.sma.simulator.events.EventType;
 import fr.isima.sma.world.Sector.SectorType;
 
 public class Hero extends Super {
@@ -15,7 +17,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void moveRandom() {
-		// TODO Auto-generated method stub
 		super.moveRandom();
 	}
 
@@ -24,7 +25,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void move(int ligne, int colonne) {
-		// TODO Auto-generated method stub
 		super.move(ligne, colonne);
 	}
 
@@ -33,7 +33,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return super.getName();
 	}
 
@@ -42,7 +41,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
 		super.setName(name);
 	}
 
@@ -51,7 +49,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public String getSurname() {
-		// TODO Auto-generated method stub
 		return super.getSurname();
 	}
 
@@ -60,7 +57,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void setSurname(String surname) {
-		// TODO Auto-generated method stub
 		super.setSurname(surname);
 	}
 
@@ -69,7 +65,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public int getAge() {
-		// TODO Auto-generated method stub
 		return super.getAge();
 	}
 
@@ -78,7 +73,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void setAge(int age) {
-		// TODO Auto-generated method stub
 		super.setAge(age);
 	}
 
@@ -87,7 +81,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public int getSpeed() {
-		// TODO Auto-generated method stub
 		return super.getSpeed();
 	}
 
@@ -96,7 +89,6 @@ public class Hero extends Super {
 	 */
 	@Override
 	public void setSpeed(int speed) {
-		// TODO Auto-generated method stub
 		super.setSpeed(speed);
 	}
 
@@ -117,30 +109,47 @@ public class Hero extends Super {
 		
 			Sector toGo = null; // Le secteur ou il ira
 			Sector here = city.getSector(this); // Secteur actuel
-			double moveProb = 1.0; // Probabilite de deplacement
+			double moveProb = 1.0; // Probabilite de deplacement de base
 			List<Sector> voisinage = city.getNeighborhood(this); // Les secteurs qu'il voit
 			
 			// Determination de la probabilite de mouvement
-			if(here.getNumberHero() > 1) { // Si un heros est deja la, on part surement
+			if(here.getNumberHero() > 1) { // Si un heros est deja la, on part
 				moveProb = 0.8;
 			}
 			if(here.getNumberVilain() > 0) { // Si un vilain est la, on reste surement
 				if(here.type==SectorType.HeroHQ) {
-					moveProb = 0.1;
-					// TODO mettre la vraie proba, il faut le compte total de heros
-					//moveProb = 1 - (here.getNumberHero() - 1)/city.getActiveEntities().
+					// S'il y a un au moins un vilain au qg, la proba de bouger est : (nbHerosQG - 1) / nbTotalHerosMap
+					moveProb = (double)((here.getNumberHero() - 1) / Humanoid.city.getTotalHeroes());
 				} else {
 					moveProb = 0.3;
 					
-					if(Math.abs(Humanoid.rand.nextGaussian()) < 0.5) { // Est-ce qu'il veut se fight
+					if(Humanoid.rand.nextDouble() < 0.2) { // Est-ce qu'il veut se fight
 						here.newFight(); // Lancement du combat
 						moveProb = 0.0; // Si ya fight, il ne bougera pas a ce tour
 					}
 				}
+			} else { // Il regarde si un braquage est en cours et qu'il peut y aller
+				
+				// Pour chaque evenement, on regarde si braquage et dans la voisinage
+				boolean found = false;
+				Event e = null;
+				for(int i = 0; i < super.getEvents().size() && !found; i++) {
+					e = super.getEvent(i);
+					if(voisinage.contains(e) && e.getType() == EventType.Robery) { // Alors il doit y aller
+						found = true;
+						toGo = e.getSector();
+					}
+				}
+				
+				if(found == true && toGo != null && e != null) { // Si on l'a trouve, i y va forcement
+					this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
+					e.addEntity(this); // Il participe maintenant a l'evenement
+					moveProb = 0.0; // Il ne bougera pas parce qu'il est alle a la banque
+				}
 			}
 			
 			// On regarde si on va bouger
-			if(Math.abs(Humanoid.rand.nextGaussian()) < moveProb) { // Je bouge
+			if(Humanoid.rand.nextDouble() < moveProb) { // Je bouge
 				// Un heros ne peut aller dans un qg de vilain ou chez les habitants
 				int maxLook = 3; // Limite de recherche de secteur
 				while( (toGo == null || toGo.getType()==SectorType.VilainHQ || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {
