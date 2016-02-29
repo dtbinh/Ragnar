@@ -112,7 +112,7 @@ public class Citizen extends Humanoid {
 							// gain de niveau
 							this.setLevel(getLevel()+1);
 							this.dailySalary *= (1.5+Humanoid.rand.nextDouble());
-							Console.println(city.getDate()+" "+name+" "+surname+" gagne un niveau, nouveau salaire : "+dailySalary+".");
+							//Console.println(city.getDate()+" "+name+" "+surname+" gagne un niveau, nouveau salaire : "+dailySalary+".");
 						}
 					}
 					
