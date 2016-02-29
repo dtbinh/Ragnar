@@ -91,7 +91,6 @@ public class SimulationKernel implements Observer {
 		Collections.shuffle(events, rand); // Les events sont fait dans un autre ordre
 		if(SimulationKernel.c.ticTac()) {
 			for (Event event : events) {
-				System.out.println("evenement");
 				event.proceed(); // Resout l'evenement
 			}
 			

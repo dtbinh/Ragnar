@@ -121,7 +121,6 @@ public class Hero extends Super {
 				if(here.type==SectorType.HeroHQ) {
 					// S'il y a un au moins un vilain au qg, la proba de bouger est : (nbHerosQG - 1) / nbTotalHerosMap
 					moveProb = (double)(((double)here.getNumberHero() - (double)1) / (double)Humanoid.city.getTotalHeroes());
-					System.out.println(here.getNumberHero() + " ; " + Humanoid.city.getTotalHeroes() + " ;" + "partir : " + moveProb);
 				} else {
 					moveProb = 0.3;
 					
