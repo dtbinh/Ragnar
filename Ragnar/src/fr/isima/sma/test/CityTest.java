@@ -17,7 +17,7 @@ public class CityTest {
 	@Before
 	public void before() {
 		c = new City();
-		c.loadCityFromFile("ragnar.txt");
+		c.loadCityFromFile("test/ragnar.txt");
 		Humanoid.setCity(c);
 	}
 	
@@ -28,28 +28,28 @@ public class CityTest {
 	
 	@Test
 	public void testLoadCity() {
-		c.loadCityFromFile("ragnar.txt");
+		c.loadCityFromFile("test/ragnar.txt");
 		assertEquals(10, c.getSizeX());
 	}
 	
 	@Test
 	public void testLoadNonSquareCity() {
-		c.loadCityFromFile("TESTragnar.txt");
+		c.loadCityFromFile("test/TESTragnar.txt");
 		assertEquals(10, c.getSizeX());
 		assertEquals(22, c.getSizeY());
 	}
 	
 	@Test
 	public void testBigCity() {
-		c.loadCityFromFile("ragnar2000.txt");
+		c.loadCityFromFile("test/ragnar2000.txt");
 		assertEquals(20, c.getSizeX());
 		assertEquals(20, c.getSizeY());
 	}
 	
 	@Test
 	public void testGoodAgents() {
-		c.loadCityFromFile("TESTragnar.txt");
-		c.loadAgentsFromFile("agents.txt");
+		c.loadCityFromFile("test/TESTragnar.txt");
+		c.loadAgentsFromFile("test/agents.txt");
 		Citizen ci = new Citizen("Benoît", "Garçon", 22, 1, 0, 2);
 		ci.setUrl("benoit");
 		assertEquals(Citizen.class, c.getActiveEntities().getAgent(0).getClass());
@@ -67,8 +67,8 @@ public class CityTest {
 	
 	@Test
 	public void testBadAgents() {
-		c.loadCityFromFile("ragnar.txt");
-		c.loadAgentsFromFile("TESTagents.txt");
+		c.loadCityFromFile("test/ragnar.txt");
+		c.loadAgentsFromFile("test/TESTagents.txt");
 		assertEquals(3, c.getActiveEntities().size());
 	}
 

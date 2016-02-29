@@ -1,0 +1,180 @@
+################################################################
+################################################################
+
+Vivants
+________________
+Benjamin	Barbesange	CITIZEN	72	10
+Sara	Connor	CITIZEN	79	10
+Pierre	Chevalier	CITIZEN	72	12
+Iron	Man	HERO	84	1
+celestino	Connor	CITIZEN	49	11
+ethelred	hontas	CITIZEN	47	8
+radomira	Garçon	CITIZEN	46	11
+melody	Barbesange	CITIZEN	45	9
+sheryl	Jeanson	CITIZEN	41	10
+dima (2)	Jeanson	CITIZEN	34	2
+rashid	Jeanson	CITIZEN	24	9
+santa	hontas	CITIZEN	23	3
+adelmar	Jeanson	CITIZEN	22	6
+rab	Jeanson	CITIZEN	17	3
+palmiro	hontas	HERO	43	1
+odalis	Barbesange	CITIZEN	7	1
+hosanna	Jeanson	CITIZEN	6	1
+stacey	Jeanson	CITIZEN	3	1
+ourania	Jeanson	CITIZEN	1	1
+florin	Jeanson	CITIZEN	0	1
+----------------------------------------------------------------
+CITIZEN	18	HERO	2	VILAIN	0	GROUP	0	
+----------------------------------------------------------------
+
+Morts
+________________
+The	Joker	VILAIN	32	1
+Lex	Luthor	VILAIN	33	1
+C	Mos	VILAIN	49	1
+General	Zod	VILAIN	34	1
+Tina	Turner	CITIZEN	75	5
+Leia	Organa	CITIZEN	74	8
+Michelle	Chabrol	CITIZEN	74	7
+	Batman	HERO	57	1
+	Superman	HERO	60	1
+ajax	Barbesange	VILAIN	24	1
+Benoît	Garçon	CITIZEN	49	8
+Poca	hontas	CITIZEN	71	10
+Adrien	Pierreval	CITIZEN	53	10
+John	Smith	CITIZEN	74	10
+Jason	Statur	CITIZEN	88	12
+Monsieur	Chabrol	CITIZEN	96	9
+Cécile	Jeanson	CITIZEN	61	10
+Scarlett	Johansson	CITIZEN	71	9
+Cindy	Roche	CITIZEN	70	12
+----------------------------------------------------------------
+CITIZEN	12	HERO	2	VILAIN	5	GROUP	0	
+----------------------------------------------------------------
+
+Street
+________________
+TYPE	MONEY
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	59
+Street	0
+Street	0
+Street	0
+Street	63
+Street	0
+Street	0
+Street	0
+Street	60
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+Street	0
+
+Bank
+________________
+TYPE	MONEY
+Bank	360817
+Bank	1653208
+
+HeadQuarter
+________________
+TYPE	MONEY
+HeadQuarter	4298
+HeadQuarter	500
+HeadQuarter	56
+HeadQuarter	420
+HeadQuarter	500
+HeadQuarter	3205
+HeadQuarter	500
+HeadQuarter	500
+HeadQuarter	1578
+HeadQuarter	420
+HeadQuarter	500
+HeadQuarter	500
+HeadQuarter	420
+HeadQuarter	1165
+HeadQuarter	420
+HeadQuarter	500
+HeadQuarter	340
+HeadQuarter	5363
+HeadQuarter	420
+HeadQuarter	1697
+HeadQuarter	1923
+HeadQuarter	100
+HeadQuarter	354
+HeadQuarter	420
+HeadQuarter	500
+HeadQuarter	2282
+HeadQuarter	991
+HeadQuarter	7861
+HeadQuarter	340
+HeadQuarter	435
+HeadQuarter	-646
+HeadQuarter	-66
+HeadQuarter	-242
+HeadQuarter	500
+HeadQuarter	4679
+HeadQuarter	500
+HeadQuarter	2004
+HeadQuarter	500
+HeadQuarter	420
+HeadQuarter	2232
+HeadQuarter	420
+HeadQuarter	1999
+
+HeroHQ
+________________
+TYPE	MONEY
+HeroHQ	500
+
+VilainHQ
+________________
+TYPE	MONEY
+VilainHQ	500
+VilainHQ	500
+
+----------------------------------------------------------------
+Street	182	Bank	2014025	HeadQuarter	50808	HeroHQ	500	VilainHQ	1000	
+----------------------------------------------------------------
+
+################################################################
+################################################################
