@@ -82,12 +82,14 @@ public class AgentsView extends JFrame {
 		setTitle("Liste des agents");
 		
 		panelAgent = new JPanel();
+		panelAgent.setBackground(Color.DARK_GRAY);
 		panelAgent.setPreferredSize(new Dimension(500, 128));
 		panelAgent.setMinimumSize(new Dimension(500, 128));
 		contentPane.add(panelAgent, BorderLayout.NORTH);
 		panelAgent.setLayout(new BoxLayout(panelAgent, BoxLayout.X_AXIS));
 		
 		imageLabel = new JLabel();
+		imageLabel.setBackground(Color.DARK_GRAY);
 		imageLabel.setPreferredSize(new Dimension(128, 128));
 		imageLabel.setMaximumSize(new Dimension(128, 128));
 		imageLabel.setMinimumSize(new Dimension(128, 128));
@@ -116,7 +118,7 @@ public class AgentsView extends JFrame {
 		lblNom.setDoubleBuffered(true);
 		detailsPanel.add(lblNom);
 		
-		lblnom = new JLabel("#nom #prenom");
+		lblnom = new JLabel("");
 		lblnom.setForeground(Color.YELLOW);
 		lblnom.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblnom);
@@ -128,7 +130,7 @@ public class AgentsView extends JFrame {
 		lblArgent.setAlignmentX(Component.CENTER_ALIGNMENT);
 		lblArgent.setLabelFor(lblargent);
 		
-		lblargent = new JLabel("#argent");
+		lblargent = new JLabel("");
 		lblargent.setForeground(Color.YELLOW);
 		lblargent.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblargent);
@@ -139,7 +141,7 @@ public class AgentsView extends JFrame {
 		lblType.setAlignmentX(0.5f);
 		detailsPanel.add(lblType);
 		
-		lbltype = new JLabel("#type");
+		lbltype = new JLabel("");
 		lbltype.setForeground(Color.YELLOW);
 		lbltype.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lbltype);
@@ -150,7 +152,7 @@ public class AgentsView extends JFrame {
 		lblAge.setAlignmentX(0.5f);
 		detailsPanel.add(lblAge);
 		
-		lblage = new JLabel("#age");
+		lblage = new JLabel("");
 		lblage.setForeground(Color.YELLOW);
 		lblage.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblage);
@@ -161,7 +163,7 @@ public class AgentsView extends JFrame {
 		lblVitesse.setAlignmentX(0.5f);
 		detailsPanel.add(lblVitesse);
 		
-		lblvitesse = new JLabel("#vitesse");
+		lblvitesse = new JLabel("");
 		lblvitesse.setForeground(Color.YELLOW);
 		lblvitesse.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblvitesse);
@@ -172,7 +174,7 @@ public class AgentsView extends JFrame {
 		lblPostion.setAlignmentX(0.5f);
 		detailsPanel.add(lblPostion);
 		
-		lblposition = new JLabel("#position");
+		lblposition = new JLabel("");
 		lblposition.setForeground(Color.YELLOW);
 		lblposition.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		detailsPanel.add(lblposition);

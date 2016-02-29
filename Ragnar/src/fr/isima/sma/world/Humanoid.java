@@ -446,7 +446,7 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 
 	public String toResult() {
-		StringBuilder b = new StringBuilder(name).append("\t").append(surname).append("\t").append(type).append("\t").append(age).append("\t").append(level);
+		StringBuilder b = new StringBuilder(name).append("\t").append(surname).append("\t").append(type.toString()).append("\t").append(age).append("\t").append(level).append("\t").append(money);
 		return b.toString();
 	}
 

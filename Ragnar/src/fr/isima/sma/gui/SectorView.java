@@ -17,6 +17,7 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
+import java.awt.Color;
 
 /**
  * 	Represents graphically a sector.
@@ -70,15 +71,19 @@ public class SectorView extends JPanel {
 		setLayout(new GridLayout(2, 1, 0, 0));
 										
 												heroLabel = new JLabel(assets.getIcon("hero"));
+												heroLabel.setForeground(Color.WHITE);
 												add(heroLabel);
 												
 														citizenLabel = new JLabel(assets.getIcon("citizen"));
+														citizenLabel.setForeground(Color.WHITE);
 														add(citizenLabel);
 														
 																vilainLabel = new JLabel(assets.getIcon("vilain"));
+																vilainLabel.setForeground(Color.WHITE);
 																add(vilainLabel);
 																
 																		groupLabel = new JLabel(assets.getIcon("group"));
+																		groupLabel.setForeground(Color.WHITE);
 																		add(groupLabel);
 		initDataBindings();
 	}

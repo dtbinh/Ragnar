@@ -65,6 +65,7 @@
 		
 		<mkdir dir="${jarLocation}/assets"/>
 		<mkdir dir="${jarLocation}/settings"/>
+		<mkdir dir="${jarLocation}/results"/>
 		<copy todir="${jarLocation}/assets">
 		    <fileset dir="./assets"/>
 		</copy>
