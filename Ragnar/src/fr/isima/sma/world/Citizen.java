@@ -3,7 +3,6 @@ package fr.isima.sma.world;
 import java.util.List;
 
 import fr.isima.sma.world.Sector.SectorType;
-import fr.isima.sma.world.patterns.Console;
 
 public class Citizen extends Humanoid {
 

@@ -6,8 +6,8 @@ import java.util.Observer;
 import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 
-/*
- *	Vue du programme
+/**
+ *	Represents the entire view of the application.
  */
 public class RagnarView implements Observer {
 	
@@ -17,6 +17,10 @@ public class RagnarView implements Observer {
 	protected AgentsView	agentsView;	/// fenetre des entites
 	protected CityView		cityView;	/// zone d'affichage de la carte
 
+	/**
+	 * Create the view of the MVC.
+	 * @param pModele : model of the MVC
+	 */
 	public RagnarView(City pModele) {
 		modele = pModele;
 		modele.addObserver(this);
@@ -51,16 +55,26 @@ public class RagnarView implements Observer {
 		})).start();
 	}
 
+	/**
+	 * Getter for the ControlView.
+	 * @return ControlView
+	 */
 	public ControlView getControlView() {
 		return controlView;
 	}
 	
+	/**
+	 * Set the visibility of the GUI.
+	 * @param b : boolean
+	 */
 	public void setVisibleGUI(boolean b) {
 		cityView.setVisible(b);
 		agentsView.setVisible(b);
 	}
 
-
+	/**
+	 * Update display.
+	 */
 	public void dispose() {
 		controlView.dispose();
 		cityView.dispose();

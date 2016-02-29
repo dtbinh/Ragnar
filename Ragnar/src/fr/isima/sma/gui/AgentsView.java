@@ -32,7 +32,9 @@ import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Humanoid;
 
-
+/**
+ * Represents the list of the living agents.
+ */
 public class AgentsView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
@@ -63,6 +65,7 @@ public class AgentsView extends JFrame {
 
 	/**
 	 * Create the frame.
+	 * @param pModele : model of the MVC
 	 */
 	public AgentsView(City pModele) {
 		selected = null;
@@ -213,6 +216,9 @@ public class AgentsView extends JFrame {
 		//agentsList.setSelectedIndex(0);
 	}
 	
+	/**
+	 * Redraw the component.
+	 */
 	public void repaint() {
 		if (selected!=null && agentsList.getSelectedIndex() != -1 && agentsList.getSelectedIndex() < agentsList.getModel().getSize()) {
 			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
@@ -231,6 +237,10 @@ public class AgentsView extends JFrame {
 		    this.panelAgent.repaint();
 		}
 	}
+	
+	/**
+	 * Initialize the data binding.
+	 */
 	protected void initDataBindings() {
 		BeanProperty<City, List<Humanoid>> cityBeanProperty = BeanProperty.create("activeEntities.agents");
 		@SuppressWarnings("rawtypes")
@@ -239,12 +249,3 @@ public class AgentsView extends JFrame {
 		jListBinding.bind();
 	}
 }
-/*
-//	LISTE DES AGENTS
-BeanProperty<AgentsList<Humanoid>, List<Humanoid>> agentsBeanProperty = BeanProperty.create("agents");
-@SuppressWarnings("rawtypes")
-JListBinding<Humanoid, AgentsList<Humanoid>, JList> jListBinding = SwingBindings.createJListBinding(AutoBinding.UpdateStrategy.READ, this.modele.getActiveEntities(), agentsBeanProperty, agentsList);
-ELProperty<Humanoid, Object> agentEvalutionProperty = ELProperty.create("${name} ${surname} ${age}");
-jListBinding.setDetailBinding(agentEvalutionProperty);
-jListBinding.bind();
-*/

@@ -30,6 +30,9 @@ import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 
+/**
+ * 	Represents graphically the control panel.
+ */
 public class ControlView extends JFrame implements IMyObservable {
 
 	private static final long serialVersionUID = 1L;
@@ -45,7 +48,8 @@ public class ControlView extends JFrame implements IMyObservable {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame of the control panel.
+	 * @param pModele : model of the MVC.
 	 */
 	public ControlView(City pModele) {
 		observable = new MyObservable();
@@ -160,6 +164,10 @@ public class ControlView extends JFrame implements IMyObservable {
 	public int countObservers() {
 		return observable.countObservers();
 	}
+	
+	/**
+	 * Initialize the data binding.
+	 */
 	protected void initDataBindings() {
 		BeanProperty<Console, List<String>> consoleBeanProperty = BeanProperty.create("console");
 		@SuppressWarnings("rawtypes")
