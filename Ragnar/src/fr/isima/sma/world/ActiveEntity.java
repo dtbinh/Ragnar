@@ -73,7 +73,6 @@ public abstract class ActiveEntity extends Entity {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return super.toString();
 	}
 

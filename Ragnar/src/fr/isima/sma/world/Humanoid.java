@@ -18,7 +18,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected static City city;
 	protected static MersenneTwister rand;
 	static {
-		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand")));
 	}
 	protected static final int ageMax = 90;
 	static protected int daysPerYear = Integer.valueOf(Properties.getInstance().getProperty("daysperyear"));
@@ -133,14 +133,12 @@ public abstract class Humanoid extends ActiveEntity {
 	}
 	
 	public void move(int locationX, int locationY) {
-		// TODO je peux pas aller plus vite que la speed
 		this.setLocation(new Location(locationX, locationY));
 	}
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append("  -  ").append(this.getClass().getSimpleName());
+		StringBuilder st = new StringBuilder(name).append(name!=""?" ":"").append(surname).append(" (").append(this.getClass().getSimpleName()).append(")");
 		return st.toString();
 	}
 	

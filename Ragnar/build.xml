@@ -29,6 +29,7 @@
 	<target name="clean">
 		<echo message="Nettoyage en cours ..."/>
 		<delete dir="build" />
+		<delete dir="bin" />
 	</target>
 
 	<target name="test">

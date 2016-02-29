@@ -9,6 +9,15 @@ public class Vilain extends Super {
 	protected double robberyPrep;
 	protected boolean captured; // S'il est capturé, il ne peux pas bouger
 
+	/**
+	 * Vilain constructor
+	 * @param name The vilain's name
+	 * @param surname The vilain's surname
+	 * @param age The vilain's age
+	 * @param speed The vilain's speed (in block per simulation ticks)
+	 * @param ligne The vilain y axis coordinate on the map
+	 * @param colonne The vilain x axis coordinate on the map
+	 */
 	public Vilain(String name, String surname, int age, int speed, int ligne, int colonne) {
 		super(AgentType.VILAIN, name, surname, age, speed, ligne, colonne);
 		
@@ -16,6 +25,9 @@ public class Vilain extends Super {
 		robberyPrep = ((double)Humanoid.rand.nextInt(60)) + 20.0;
 	}
 
+	/**
+	 * Make the villain living
+	 */
 	@Override
 	public void live() {
 		if( !captured ) {
@@ -42,11 +54,6 @@ public class Vilain extends Super {
 				}
 				if(here.getNumberHero() > 0) { // Si un heros est la, il veut s'en fuir
 					moveProb = 0.8;
-						
-					if(Math.abs(Humanoid.rand.nextGaussian()) < 0.5) { // Est-ce qu'il veut se fight
-						here.newFight(); // Lancement du combat
-						moveProb = 0.0; // Si ya fight, il ne bougera pas
-					}
 				}
 				if(robberyPrep > 100.0) { // Il est prêt, et n'est pas en train de voler
 					moveProb = 1.0; // Il cherche une banque, donc bouge tout le temps, sauf si on l'a trouvee
@@ -60,19 +67,39 @@ public class Vilain extends Super {
 							toGo = s;
 						}
 					}
-					System.out.println(this.name + " " + this.surname + " cherche une banque");
-					if(found) { // Si on l'a trouvee, on y va
+					
+					if(found == true && toGo != null) { // Si on l'a trouvee, on y va
 						this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 						moveProb = 0.0; // Il ne bougera pas parce qu'il l'a trouvee
-						Console.println(this.name + " " + this.surname + " tente un braquage !");
+						Console.println(Humanoid.city.getDate() + this.toString() + " tente un braquage !");
 						this.setWantRobery(true); // Lancement du braquage
+					}
+				} else { // S'il n'est pas pret il va au moins tenter de sauver un collegue
+					// Recherche des heros enprisonnes dans le voisinage
+					boolean found = false;
+					for(int i = 0; i < voisinage.size() && !found; i++) {
+						Sector s = voisinage.get(i);
+						if(s.type == SectorType.HeroHQ && s.getNumberCaptured() > 0) {
+							found = true;
+							toGo = s;
+						}
+					}
+					
+					if(found == true && toGo != null) { // Si on l'a trouve
+						// On teste s'il y va, proba de : 1 / (8 * nbHerosQg)
+						if( Humanoid.rand.nextDouble() < (double)((double)1 / (double)((double)8*( ((double)toGo.getNumberHero()>0.0)?(double)toGo.getNumberHero():1.0)) ) ) {
+							Console.println(Humanoid.city.getDate() + this.toString() + " a libere des vilains");
+							this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
+							moveProb = 0.0; // Il ne bougera pas parce qu'il l'a trouvee
+							toGo.freeAll(); // Liberation des vilains
+						}
 					}
 				}
 				
-				// Augmentation de la preparation
+				// Augmentation de la preparation, si pas dans un HQ
 				if(here.type!=SectorType.VilainHQ) {
-					double prep = Math.abs(Humanoid.rand.nextGaussian());
-					robberyPrep = robberyPrep + (prep * here.getNumberVilain()) - (prep * here.getNumberHero());
+					double prep = Humanoid.rand.nextDouble();
+					robberyPrep = robberyPrep + (prep * here.getNumberVilain()) - (prep * here.getNumberHero()); // TODO ameliorer la preparation
 					
 					if(robberyPrep < -100.0) {
 						// Si le mec est au bout, on le debloque quand meme
@@ -81,10 +108,11 @@ public class Vilain extends Super {
 				}
 				
 				// On regarde si on va bouger
-				if(Math.abs(Humanoid.rand.nextGaussian()) < moveProb) { // Je bouge
-					// Un heros ne peut aller dans un qg de vilain ou chez les habitants
-					int maxLook = 3; // Limite de recherche de secteur
-					while( (toGo == null || toGo.getType()==SectorType.HeadQuarter) && (maxLook > 0)) {
+				if(Humanoid.rand.nextDouble() < moveProb) { // Je bouge
+					// Un vilain ne peut aller chez les Citoyens ou chez les Heros
+					int maxLook = 3; // Limite de recherche de secteur autorise
+					while( (toGo == null || toGo.getType()==SectorType.HeadQuarter || toGo.getType()==SectorType.HeroHQ) && (maxLook > 0)) {
+						// Pas le droit d'aller chez les citoyens ou les heros de cette maniere
 						toGo = voisinage.get(Humanoid.rand.nextInt(voisinage.size()));
 						maxLook -= 1;
 					}
@@ -95,17 +123,31 @@ public class Vilain extends Super {
 					}
 				}
 			}
+		} else { // Il a quand meme une toute petite chance de se liberer tout seul
+			if(Humanoid.rand.nextDouble() < ((0.00005)*Humanoid.city.getSector(this).getNumberVilain()) ) { // 0.005% de chances de se liberer
+				Console.println(Humanoid.getCity().getDate() + this.toString() + " s'est libere tout seul !");
+				this.setCaptured(false);
+			}
 		}
 	}
 	
+	/**
+	 * Reset the vilain robberyPrep to 0.0 
+	 */
 	public void resetRobberyPrep() {
 		this.robberyPrep = 0.0;
 	}
 
+	/**
+	 * @return True if the vilain is captured and can't move, False if he can move
+	 */
 	public boolean isCaptured() {
 		return captured;
 	}
 
+	/**
+	 * @param captured True to trap the vilain, False to release him
+	 */
 	public void setCaptured(boolean captured) {
 		this.captured = captured;
 	}
