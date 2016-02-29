@@ -1,14 +1,12 @@
 package fr.isima.sma.simulator.events;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math3.random.MersenneTwister;
 
-import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.resources.Properties;
-import fr.isima.sma.world.Hero;
+import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.Humanoid;
 import fr.isima.sma.world.Sector;
 import fr.isima.sma.world.Super;

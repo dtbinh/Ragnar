@@ -13,7 +13,7 @@ public class Properties {
 
 	private Properties() {
 		try {
-			this.setPropertiesFileName("simulation.properties");
+			this.setPropertiesFileName("settings/simulation.properties");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -28,13 +28,14 @@ public class Properties {
 		properties.put("msPerTick", "1000");
 		properties.put("daysperyear", "30");
 		properties.put("caseSize", "64");
-		properties.put("cityFile", "ragnar.txt");
-		properties.put("agentsFile", "agents.txt");
+		properties.put("cityFile", "settings/ragnar.txt");
+		properties.put("agentsFile", "settings/agents.txt");
 		properties.put("gui", "true");
-		properties.put("resources", "assets.rc");
-		properties.put("namesFile", "name.txt");
+		properties.put("resources", "settings/assets.rc");
+		properties.put("namesFile", "settings/name.txt");
 		properties.put("iterations", "1");
 		properties.put("tempssimu", "1000000");
+		properties.put("rand", "1103");
 	}
 
 	static public Properties getInstance() {

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="MyAntDevPro" default="package" basedir=".">
+	<description>
+		Build du projet Ragnar
+	</description>
+
+	<target name="init">
+		<echo message="Initialisation en cours ..."/>
+		<property file="build.properties"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<echo message="Compilation en cours ..."/>
+		<mkdir dir="${buildLocation}"/>
+		<javac srcdir="."
+		 includeantruntime="false"
+         destdir="${buildLocation}"
+         classpath="${classPath}"
+		 encoding="ISO-8859-1"
+         debug="on">
+		<classpath>
+        	<path id="org.junit" location="lib/test/junit.jar" />
+        	<path id="org.jdesktop.beansbinding" location="lib/beansbinding-1.2.1.jar" />
+        	<path id="org.apache.commons.math3" location="lib/commons-math3-3.0.jar" />
+      	</classpath>
+	</javac>
+	</target>
+
+	<target name="clean">
+		<echo message="Nettoyage en cours ..."/>
+		<delete dir="build" />
+		<delete dir="bin" />
+	</target>
+
+	<target name="test">
+		<echo message="Tests en cours ..."/>
+			<junit haltonfailure="true" printsummary="yes" fork="true" dir=".">
+				<classpath>
+					<pathelement location="lib/test/junit.jar" />
+					<pathelement location="lib/test/hamcrest.jar" />
+					<pathelement location="lib/commons-math3-3.0.jar" />
+					<pathelement location="bin" />
+					<pathelement location="test" />
+					<pathelement location="." />
+				</classpath>
+				<formatter type="plain" />
+				<test name="fr.isima.sma.test.AllTests" outfile="tests-results" />
+			</junit>
+		<echo message="Tests terminés !"/>
+	</target>
+	
+	<target name="package" depends="clean,compile,test">
+		<echo message="Packaging en cours ..."/>
+			
+		<mkdir dir="${jarLocation}"/>
+		<jar 
+			destfile="${jarLocation}${jarName}"
+			basedir="bin"
+			excludes="fr/isima/sma/test/**">
+			<zipgroupfileset dir="lib" includes="*.jar" />
+			<manifest>
+				<attribute name="Main-Class" value="fr.isima.sma.simulator.Ragnar"/>
+			</manifest>
+		</jar>
+		
+		<mkdir dir="${jarLocation}/assets"/>
+		<mkdir dir="${jarLocation}/settings"/>
+		<copy todir="${jarLocation}/assets">
+		    <fileset dir="./assets"/>
+		</copy>
+		<copy todir="${jarLocation}/settings">
+		    <fileset dir="./settings"/>
+		</copy>
+		    
+	</target>
+
+	<target name="run" depends="package">
+		<echo message="Exécution en cours ..."/>
+		<java classpath="${jarLocation}" classname="${classPath}">
+		</java>
+	</target>
+</project>

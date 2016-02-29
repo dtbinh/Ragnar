@@ -18,6 +18,9 @@ import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
 
+/**
+ * 	Represents graphically a sector.
+ */
 public class SectorView extends JPanel {
 	private AutoBinding<Sector, Integer, JLabel, Boolean> groupVisibleBind;
 	private AutoBinding<Sector, Integer, JLabel, Boolean> citizenVisibleBind;
@@ -45,7 +48,10 @@ public class SectorView extends JPanel {
 
 
 	/**
-	 * Create the panel.
+	 * Create the Sector representation.
+	 * @param pModele : model of the MVC
+	 * @param i : int - X position
+	 * @param j : int - Y position
 	 */
 	public SectorView(City pModele, int i, int j) {
 		modele = pModele;
@@ -76,6 +82,10 @@ public class SectorView extends JPanel {
 																		add(groupLabel);
 		initDataBindings();
 	}
+	
+	/**
+	 * Initialize data binding.
+	 */
 	protected void initDataBindings() {
 		BeanProperty<Sector, Integer> sectorBeanProperty_1 = BeanProperty.create("numberHero");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_1 = BeanProperty.create("visible");

@@ -1,0 +1,32 @@
+#	Agents description file
+#	line with a '#' are commentaries
+#	a line should look like this
+#	type:name:surname:age:speed:location_x:location_y:image[:others...]
+#	other fields must be like that : field=value
+#	image must be the name of the asset in assets.rc
+
+Citizen:Benoît:Garçon:22:1:2:0:benoit
+Citizen:Benjamin:Barbesange:21:1:0:4:benjamin
+Citizen:Sara:Connor:28:1:0:4:
+Citizen:Pierre:Chevalier:21:1:0:6:
+Citizen:Kat:Chevalier:28:1:0:6:
+Citizen:Pierre-Loup:Pissavy:21:1:9:3:
+Citizen:Cécile:Jeanson:22:1:2:0:
+Citizen:Adrien:Pierreval:21:1:9:7:
+Citizen:John:Smith:40:1:9:2:
+Citizen:Poca:Hontas:40:1:9:2:
+Citizen:Jason:Statur:52:1:3:9:
+Citizen:Leia:Organa:65:1:7:9:
+Citizen:Tina:Turner:70:1:9:5:
+Citizen:Michelle:Chabrol:59:1:9:0:
+Citizen:Monsieur:Chabrol:59:1:9:0:
+Citizen:Scarlett:Johansson:31:1:5:0:
+Citizen:Cindy:Roche:22:1:9:9:
+Vilain:C:Mos:48:2:4:7:
+Vilain:Lex:Luthor:32:2:3:7:
+Vilain:The:Joker:32:2:3:7:
+Vilain:General:Zod:32:2:3:7:
+Vilain:Dark:Vador:32:2:3:7:
+Hero::Superman:35:4:5:4:
+Hero::Batman:35:4:5:4:
+Hero:Iron:Man:33:4:5:4:

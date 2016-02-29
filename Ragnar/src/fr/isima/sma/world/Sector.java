@@ -8,7 +8,6 @@ import fr.isima.sma.simulator.events.Event;
 import fr.isima.sma.simulator.events.EventType;
 import fr.isima.sma.world.ActiveEntity.AgentType;
 import fr.isima.sma.world.patterns.AbstractModelObject;
-import fr.isima.sma.world.patterns.Console;
 import fr.isima.sma.world.patterns.IMyObservable;
 import fr.isima.sma.world.patterns.MyObservable;
 

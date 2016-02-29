@@ -13,6 +13,9 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
 
+/**
+ * Represents graphically the city's map.
+ */
 public class CityView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +29,11 @@ public class CityView extends JFrame {
 	protected int nbBlocLargeur;
 	protected int nbBlocHauteur;
 
+	/**
+	 * Create the view of the city.
+	 * @param pModele : city to represent
+	 * @param pSize : size of the unit squares
+	 */
 	public CityView(City pModele, int pSize) {
 
 			super();
@@ -55,18 +63,33 @@ public class CityView extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Getter for the number of case (width).
+	 * @return int : number of case (width)
+	 */
 	public int getNbBlocsL() {
 		return nbBlocLargeur;
 	}
 
+	/**
+	 * Getter for the number of case (height).
+	 * @return int : number of case (height)
+	 */
 	public int getNbBlocsH() {
 		return nbBlocHauteur;
 	}
 
+	/**
+	 * Getter for the size of blocs.
+	 * @return int : size
+	 */
 	public int getBlocsSize() {
 		return size;
 	}
 	
+	/**
+	 * Override of paint.
+	 */
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);

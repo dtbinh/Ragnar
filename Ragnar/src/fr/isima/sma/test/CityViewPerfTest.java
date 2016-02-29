@@ -19,7 +19,7 @@ public class CityViewPerfTest {
 	@Before
 	public void before() {
 		c = new City();
-		c.loadCityFromFile("ragnar.txt");
+		c.loadCityFromFile("test/ragnar.txt");
 		Humanoid.setCity(c);
 	}
 	
