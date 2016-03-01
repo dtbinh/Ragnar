@@ -1,7 +1,7 @@
 package fr.isima.sma.simulator.events;
 
 /*
- * 	PATTERN state pour la gestion des évènements
+ * 	PATTERN state for event gestion
  */
 
 public abstract class Action {

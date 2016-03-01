@@ -14,21 +14,23 @@ import fr.isima.sma.world.Vilain;
 import fr.isima.sma.world.patterns.Console;
 
 public class Event {
-	protected static MersenneTwister rand;
+	protected static MersenneTwister rand;	// Generateur aleatoire pour les evenements
 	
 	static {
-		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand"))); // TODO remove the seed at the end
+		rand = new MersenneTwister(Integer.valueOf(Properties.getInstance().getProperty("rand")));
 	}
 	
-	protected int ttl; // Time to live of the event
-	protected List<Humanoid> entities;	// The entities concerned with the event
-	protected EventType type;		// The type of event
-	protected Sector sector;		// The sector of event
+	protected List<Humanoid> 	entities;	// Entitees concernees par l'evenement
+	protected Sector 			sector;		// Secteur de l'evenement
+	protected int 				ttl; 		// Temps de vie de l'evements
+	protected EventType 		type;		// Type d'evenement
 	
 	/**
 	 * Constructor
+	 * @param sector the sector concerned with the event
 	 * @param entities entities list concerned with the event
 	 * @param type the event type
+	 * @param ttl the event time to live
 	 */
 	public Event(Sector sector, List<Humanoid> entities, EventType type, int ttl) {
 		this.entities = entities;
@@ -50,7 +52,50 @@ public class Event {
 	}
 	
 	/**
-	 * Launch the event
+	 * @return the entities
+	 */
+	public List<Humanoid> getEntities() {
+		return entities;
+	}
+	
+	/**
+	 * @return the sector
+	 */
+	public Sector getSector() {
+		return sector;
+	}
+	
+	/**
+	 * @return the ttl
+	 */
+	public int getTtl() {
+		return ttl;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public EventType getType() {
+		return type;
+	}
+
+	/**
+	 * Bring the entities back to home by creating the path to it, it's not an event
+	 * @param heroes the entities to bring back home
+	 */
+	protected void goHome(List<Super> heroes) {
+		for(Super h : heroes) {
+			// On cree leur path comme ca ils sauront qu'ils doivent y aller tous seuls
+			h.findPath(	h.getLocation().getLocationX(),
+						h.getLocation().getLocationY(), 
+						h.getHome().getLocation().getLocationX(), 
+						h.getHome().getLocation().getLocationY(), 
+						Humanoid.getCity().getWalkableLegit());
+		}
+	}
+
+	/**
+	 * Launch the event and resolve it
 	 */
 	public void proceed() {
 		if(this.ttl == 0) {	// on a fini l'event
@@ -77,7 +122,6 @@ public class Event {
 								
 								if(winner == AgentType.HERO) {
 									Console.println(Humanoid.getCity().getDate() + " Les héros ont empêché le braquage");
-									// TODO evenement emprisonnement
 									
 									// Emprisonnement
 									boolean found = false;
@@ -149,7 +193,7 @@ public class Event {
 				(new Action() {
 
 					@Override
-					public void live(Event e) {	//TODO a implementer pout les RELEASE
+					public void live(Event e) {
 	
 						
 					}
@@ -159,7 +203,7 @@ public class Event {
 				(new Action() {
 
 					@Override
-					public void live(Event e) {	//TODO a implementer pout les BRINGTOPRISON
+					public void live(Event e) {
 						
 						if(ttl == 1) {
 							boolean found = false;
@@ -196,7 +240,22 @@ public class Event {
 							
 							if(winner == AgentType.HERO) {
 								Console.println(Humanoid.getCity().getDate() + " Les héros ont gagné un combat !");
+<<<<<<< HEAD
 								// TODO evenement emprisonnement
+=======
+								
+								// Les heros gagnent, les vilains s'en vont
+								List<Super> villains = new ArrayList<>();
+								for(Humanoid h : e.getEntities()) {
+									if(h.getType() == AgentType.HERO) {
+										villains.add((Super) h);
+									}
+								}
+								
+								// On les envoie chez eux
+								e.goHome(villains);
+								
+>>>>>>> 33a3ba0c47ff78871937f2ccac3fa15cf13195af
 								
 							} else {
 								Console.println(Humanoid.getCity().getDate() + " Les vilains ont gagné un combat !");
@@ -223,7 +282,11 @@ public class Event {
 		}
 		this.ttl--;
 	}
-	
+
+	/**
+	 * Resolve the fight between Hereos and Villains
+	 * @return the entity type who wins the fight
+	 */
 	public AgentType resolveFight() {
 		AgentType winner = AgentType.HERO; // De base, les gentils gagnent toujours
 		int forceHeros = 0;
@@ -252,27 +315,19 @@ public class Event {
 		
 		return winner;
 	}
-	
+
 	/**
-	 * Bring the entities back to home by creating the path to it
-	 * @param heroes the entities to bring back home
+	 * @param entities the entities to set
 	 */
-	protected void goHome(List<Super> heroes) {
-		for(Super h : heroes) {
-			// On cree leur path comme ca ils sauront qu'ils doivent y aller tous seuls
-			h.findPath(	h.getLocation().getLocationX(),
-						h.getLocation().getLocationY(), 
-						h.getHome().getLocation().getLocationX(), 
-						h.getHome().getLocation().getLocationY(), 
-						Humanoid.getCity().getWalkableLegit());
-		}
+	public void setEntities(List<Humanoid> entities) {
+		this.entities = entities;
 	}
 
 	/**
-	 * @return the ttl
+	 * @param sector the sector to set
 	 */
-	public int getTtl() {
-		return ttl;
+	public void setSector(Sector sector) {
+		this.sector = sector;
 	}
 
 	/**
@@ -283,39 +338,10 @@ public class Event {
 	}
 
 	/**
-	 * @return the entities
-	 */
-	public List<Humanoid> getEntities() {
-		return entities;
-	}
-
-	/**
-	 * @param entities the entities to set
-	 */
-	public void setEntities(List<Humanoid> entities) {
-		this.entities = entities;
-	}
-
-	/**
-	 * @return the type
-	 */
-	public EventType getType() {
-		return type;
-	}
-
-	/**
 	 * @param type the type to set
 	 */
 	public void setType(EventType type) {
 		this.type = type;
-	}
-
-	public Sector getSector() {
-		return sector;
-	}
-
-	public void setSector(Sector sector) {
-		this.sector = sector;
 	}
 	
 
