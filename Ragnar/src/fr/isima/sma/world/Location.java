@@ -37,6 +37,7 @@ public class Location {
 	 * constructor to set all the parameters at once
 	 * @param locationX the location on the x axis
 	 * @param locationY the location on the y axis
+	 * @param isInterior True if the location is inside, False if it's outside
 	 */
 	public Location(int locationX, int locationY, boolean isInterior) {
 		this.locationX = locationX;

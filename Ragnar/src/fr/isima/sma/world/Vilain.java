@@ -86,8 +86,8 @@ public class Vilain extends Super {
 					}
 					
 					if(found == true && toGo != null) { // Si on l'a trouve
-						// On teste s'il y va, proba de : 1 / (8 * nbHerosQg)
-						if( Humanoid.rand.nextDouble() < (double)((double)1 / (double)((double)4*( ((double)toGo.getNumberHero()>0.0)?(double)toGo.getNumberHero()+1:1.0)) )/daysPerYear ) {
+						// On teste s'il y va, proba de : 1 / (2 * nbHerosQg)/nbJours
+						if( Humanoid.rand.nextDouble() < (double)((double)1 / (double)((double)2*( ((double)toGo.getNumberHero()>0.0)?(double)toGo.getNumberHero()+1:1.0)) )/daysPerYear ) {
 							Console.println(Humanoid.city.getDate() + " " + this.toString() + " a libéré des vilains");
 							this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 							moveProb = 0.0; // Il ne bougera pas parce qu'il l'a trouvee

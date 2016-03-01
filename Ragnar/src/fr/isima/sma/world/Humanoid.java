@@ -58,10 +58,10 @@ public abstract class Humanoid extends ActiveEntity {
 	
 	/**
 	 * Normal constructor with fewer arguments
-	 * @param name
-	 * @param surname
-	 * @param age
-	 * @throws BadAgeException
+	 * @param type humanoid type
+	 * @param name the name of the humanoid
+	 * @param surname the surname of the humanoid
+	 * @param age the age of the humanoid
 	 */
 	public Humanoid(AgentType type, String name, String surname, int age) {
 		// Default can be placed in the HQ
@@ -72,10 +72,13 @@ public abstract class Humanoid extends ActiveEntity {
 	
 	/**
 	 * Specific constructor
-	 * @param name name of the entity
-	 * @param surname surname of the entity
-	 * @param age age of the entity
-	 * @throws BadAgeException if the age is not in the range ]0 - <code>maxAge</code>[
+	 * @param type humanoid type
+	 * @param name name of the humanoid
+	 * @param surname surname of the huanoid
+	 * @param age age of the humanoid
+	 * @param speed move speed of the humanoid, in block per simulation ticks
+	 * @param ligne y coordinate on the map
+	 * @param colonne x coordinate on the map
 	 */
 	public Humanoid(AgentType type, String name, String surname, int age, int speed, int ligne, int colonne) {
 		this.name = name;
@@ -147,8 +150,8 @@ public abstract class Humanoid extends ActiveEntity {
 	 * @param startY starting Y-Coordinate
 	 * @param endX target X-Coordinate
 	 * @param endY target Y-Coordinate
-	 * @param walkableTiles Map representation of walkable tiles
-	 * @return path array with x & y coordinates
+	 * @param walkable Map representation of walkable tiles
+	 * @return path array with x and y coordinates
 	 */
 	public int[][] findPath(int startX, int startY, int endX, int endY, boolean[][] walkable) {
 	    /* first we get the the width and length of the map */
