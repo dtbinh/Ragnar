@@ -1,8 +1,8 @@
 package fr.isima.sma.world;
 
 public abstract class ActiveEntity extends Entity {
-	protected int speed; // Indicate the entity speed (max blocs per ticks)
-	protected Location location;
+	protected int 		speed; 		// Vitesse de l'entite, en blocs par ticks de simulation
+	protected Location 	location;	// Emplacement de l'entite
 
 	public static enum AgentType {
 		CITIZEN(0), HERO(1), VILAIN(2), GROUP(3);
@@ -33,6 +33,9 @@ public abstract class ActiveEntity extends Entity {
 	protected static int cpt = 0; // Count for the id
 	protected int id;
 
+	/**
+	 * Default constructor
+	 */
 	public ActiveEntity() {
 		ActiveEntity.cpt +=1;
 		this.id = cpt;
@@ -55,6 +58,9 @@ public abstract class ActiveEntity extends Entity {
 		return eq;
 	}
 
+	/**
+	 * Reimplement this methode to make the entity act as it has to
+	 */
 	public abstract void live();
 
 	/**
@@ -76,6 +82,12 @@ public abstract class ActiveEntity extends Entity {
 		return super.toString();
 	}
 
+	/**
+	 * Set the entity location, use instead Humanoid.setLocation(int x, int y)
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 */
+	@Deprecated 
 	public void setLocation(int x, int y) {
 
 	}
