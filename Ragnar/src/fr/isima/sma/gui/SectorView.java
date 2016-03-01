@@ -1,12 +1,18 @@
 package fr.isima.sma.gui;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Label;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.ToolTipManager;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -17,7 +23,8 @@ import fr.isima.sma.resources.Properties;
 import fr.isima.sma.resources.ResourcesManager;
 import fr.isima.sma.world.City;
 import fr.isima.sma.world.Sector;
-import java.awt.Color;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
 
 /**
  * 	Represents graphically a sector.
@@ -46,6 +53,7 @@ public class SectorView extends JPanel {
 	private AutoBinding<Sector, Integer, JLabel, String> citizenNumberBind;
 	private AutoBinding<Sector, Integer, JLabel, String> groupNumberBind;
 	private Image image;
+	private Label moneyLabel;
 
 
 	/**
@@ -55,42 +63,59 @@ public class SectorView extends JPanel {
 	 * @param j : int - Y position
 	 */
 	public SectorView(City pModele, int i, int j) {
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setToolTipText("Argent : " + secModele.getMoneyAvailable() + "$");
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setToolTipText(null);
+			}			
+		});
 		modele = pModele;
 		proprietes = Properties.getInstance();
 		assets = ResourcesManager.getInstance();
 
 		indiceX = i;
 		indiceY = j;
-		
+		ToolTipManager.sharedInstance().setInitialDelay(0);
+		ToolTipManager.sharedInstance().setReshowDelay(0);
 		secModele = modele.getMap()[indiceX][indiceY];
 
 		this.setPreferredSize(new Dimension(Integer.valueOf(proprietes.getProperty("caseSize")), Integer.valueOf(proprietes.getProperty("caseSize"))));
 		
 		image = assets.getImage(secModele.getType().toString().toLowerCase());
 		image = image.getScaledInstance(Integer.valueOf(proprietes.getProperty("caseSize")), Integer.valueOf(proprietes.getProperty("caseSize")), Image.SCALE_SMOOTH);
-		setLayout(new GridLayout(2, 1, 0, 0));
-										
-												heroLabel = new JLabel(assets.getIcon("hero"));
-												heroLabel.setForeground(Color.WHITE);
-												add(heroLabel);
-												
-														citizenLabel = new JLabel(assets.getIcon("citizen"));
-														citizenLabel.setForeground(Color.WHITE);
-														add(citizenLabel);
-														
-																vilainLabel = new JLabel(assets.getIcon("vilain"));
-																vilainLabel.setForeground(Color.WHITE);
-																add(vilainLabel);
-																
-																		groupLabel = new JLabel(assets.getIcon("group"));
-																		groupLabel.setForeground(Color.WHITE);
-																		add(groupLabel);
+																		
+		moneyLabel = new Label("");
+		moneyLabel.setAlignment(Label.CENTER);
+		moneyLabel.setVisible(true);
+		setLayout(new GridLayout(0, 2, 0, 0));
+
+		heroLabel = new JLabel(assets.getIcon("hero"));
+		add(heroLabel);
+		heroLabel.setForeground(Color.WHITE);
+		
+		citizenLabel = new JLabel(assets.getIcon("citizen"));
+		add(citizenLabel);
+		citizenLabel.setForeground(Color.WHITE);
+		
+		vilainLabel = new JLabel(assets.getIcon("vilain"));
+		add(vilainLabel);
+		vilainLabel.setForeground(Color.WHITE);
+		
+		groupLabel = new JLabel(assets.getIcon("group"));
+		add(groupLabel);
+		groupLabel.setForeground(Color.WHITE);
 		initDataBindings();
 	}
 	
-	/**
-	 * Initialize data binding.
-	 */
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.drawImage(image, 0, 0, null);
+	}
 	protected void initDataBindings() {
 		BeanProperty<Sector, Integer> sectorBeanProperty_1 = BeanProperty.create("numberHero");
 		BeanProperty<JLabel, Boolean> jLabelBeanProperty_1 = BeanProperty.create("visible");
@@ -131,11 +156,14 @@ public class SectorView extends JPanel {
 		BeanProperty<JLabel, String> jLabelBeanProperty_4A = BeanProperty.create("text");
 		groupNumberBind = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty_4A, groupLabel, jLabelBeanProperty_4A, "groupNumberBind");
 		groupNumberBind.bind();
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		g.drawImage(image, 0, 0, null);
+		//
+		BeanProperty<Sector, Integer> sectorBeanProperty = BeanProperty.create("moneyAvailable");
+		BeanProperty<Label, String> labelBeanProperty = BeanProperty.create("text");
+		AutoBinding<Sector, Integer, Label, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, secModele, sectorBeanProperty, moneyLabel, labelBeanProperty);
+		autoBinding.bind();
+		//
+		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("toolTipText");
+		AutoBinding<Sector, Integer, JLabel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, secModele, sectorBeanProperty, groupLabel, jLabelBeanProperty);
+		autoBinding_1.bind();
 	}
 }

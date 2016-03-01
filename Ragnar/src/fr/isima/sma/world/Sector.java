@@ -151,7 +151,9 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 	}
 
 	public void setMoneyAvailable(int moneyAvailable) {
+		int old = this.moneyAvailable;
 		this.moneyAvailable = moneyAvailable;
+		firePropertyChange("moneyAvailable", old, moneyAvailable);	// BINDING
 	}
 
 	public String toResult() {
