@@ -128,22 +128,25 @@ public class Event {
 									Sector toGo = null;
 									
 									// Recherche du QG d'un des heros
-									for (Humanoid humanoid : e.getEntities()) {
+									for(int i = 0; i < e.getEntities().size() && !found; i++) {
+										Humanoid humanoid = e.getEntities().get(i);
 										if((!found) && (humanoid.getType() == AgentType.HERO)) {
 											toGo = humanoid.getHome();
 											found = true;
 										}
 									}
-									
-									// On teleporte tout le monde dans le QG et on bloque les vilains
-									for (Humanoid humanoid : e.getEntities()) {
-										humanoid.setLocation(	toGo.getLocation().getLocationX(),
-																toGo.getLocation().getLocationY());
-										if(humanoid.getType() == AgentType.VILAIN) {
-											((Vilain) humanoid).setCaptured(true);
+//									
+//									// On teleporte tout le monde dans le QG et on bloque les vilains
+									if(found && toGo!=null) {
+										for (Humanoid humanoid : e.getEntities()) {
+											if(humanoid.getType() == AgentType.VILAIN) {
+												((Vilain) humanoid).setCaptured(true);
+											}
+											humanoid.setLocation(	toGo.getLocation().getLocationX(),
+																	toGo.getLocation().getLocationY());
+											
 										}
 									}
-									
 									success = false;
 								} else {
 									// Creation de la liste des supers
@@ -246,6 +249,11 @@ public class Event {
 								for(Humanoid h : e.getEntities()) {
 									if(h.getType() == AgentType.HERO) {
 										villains.add((Super) h);
+//										// TODO corriger
+//										double prep = ((Vilain) h).getRobberyPrep();
+//										double diminuer = (double)(Event.rand.nextInt(25)); // Diminution entre 0 et 25 de la preparation
+//										double newPrep = prep - diminuer;
+//										((Vilain) h).setRobberyPrep((newPrep>=0)?newPrep:0);
 									}
 								}
 								

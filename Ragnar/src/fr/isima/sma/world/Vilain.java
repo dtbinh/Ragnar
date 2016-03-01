@@ -87,7 +87,7 @@ public class Vilain extends Super {
 					
 					if(found == true && toGo != null) { // Si on l'a trouve
 						// On teste s'il y va, proba de : 1 / (8 * nbHerosQg)
-						Console.println(Humanoid.city.getDate() + " " + this.toString() + " tente de libérer des vilains");
+//						Console.println(Humanoid.city.getDate() + " " + this.toString() + " tente de libérer des vilains");
 						if( Humanoid.rand.nextDouble() < (double)((double)1 / (double)((double)8*( ((double)toGo.getNumberHero()>0.0)?(double)toGo.getNumberHero()+1:1.0)) )/daysPerYear ) {
 							Console.println(Humanoid.city.getDate() + " " + this.toString() + " a libéré des vilains");
 							this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
@@ -151,6 +151,20 @@ public class Vilain extends Super {
 	 */
 	public void setCaptured(boolean captured) {
 		this.captured = captured;
+	}
+
+	/**
+	 * @return the robberyPrep
+	 */
+	public double getRobberyPrep() {
+		return robberyPrep;
+	}
+
+	/**
+	 * @param robberyPrep the robberyPrep to set
+	 */
+	public void setRobberyPrep(double robberyPrep) {
+		this.robberyPrep = robberyPrep;
 	}
 
 }
