@@ -132,4 +132,12 @@ public abstract class Super extends Humanoid {
 		return force;
 	}
 
+	public static void removeAllEvents() {
+		events.clear();
+	}
+	
+	public static void addAllEvents(List<Event> e) {
+		events.addAll(e);
+	}
+
 }

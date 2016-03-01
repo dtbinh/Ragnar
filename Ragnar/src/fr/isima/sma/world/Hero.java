@@ -136,7 +136,7 @@ public class Hero extends Super {
 				Event e = null;
 				for(int i = 0; i < super.getEvents().size() && !found; i++) {
 					e = super.getEvent(i);
-					if(voisinage.contains(e) && e.getType() == EventType.Robery) { // Alors il doit y aller
+					if(voisinage.contains(e.getSector()) && e.getType() == EventType.Robery) { // Alors il doit y aller
 						found = true;
 						toGo = e.getSector();
 					}
