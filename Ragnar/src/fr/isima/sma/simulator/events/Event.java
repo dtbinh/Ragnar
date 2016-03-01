@@ -240,9 +240,6 @@ public class Event {
 							
 							if(winner == AgentType.HERO) {
 								Console.println(Humanoid.getCity().getDate() + " Les héros ont gagné un combat !");
-<<<<<<< HEAD
-								// TODO evenement emprisonnement
-=======
 								
 								// Les heros gagnent, les vilains s'en vont
 								List<Super> villains = new ArrayList<>();
@@ -254,8 +251,6 @@ public class Event {
 								
 								// On les envoie chez eux
 								e.goHome(villains);
-								
->>>>>>> 33a3ba0c47ff78871937f2ccac3fa15cf13195af
 								
 							} else {
 								Console.println(Humanoid.getCity().getDate() + " Les vilains ont gagné un combat !");
