@@ -247,13 +247,16 @@ public class Event {
 								// Les heros gagnent, les vilains s'en vont
 								List<Super> villains = new ArrayList<>();
 								for(Humanoid h : e.getEntities()) {
-									if(h.getType() == AgentType.HERO) {
+									if(h.getType() == AgentType.VILAIN) {
 										villains.add((Super) h);
 //										// TODO corriger
 //										double prep = ((Vilain) h).getRobberyPrep();
 //										double diminuer = (double)(Event.rand.nextInt(25)); // Diminution entre 0 et 25 de la preparation
 //										double newPrep = prep - diminuer;
 //										((Vilain) h).setRobberyPrep((newPrep>=0)?newPrep:0);
+										
+										//DONE
+										((Vilain) h).setRobberyPrep((double)(Event.rand.nextInt(25)));
 									}
 								}
 								
@@ -267,12 +270,19 @@ public class Event {
 								List<Super> heroes = new ArrayList<>();
 								for(Humanoid h : e.getEntities()) {
 									if(h.getType() == AgentType.HERO) {
-										heroes.add((Super) h);
+										if(Event.rand.nextDouble() < 0.1/Integer.valueOf(Properties.getInstance().getProperty("daysperyear"))) {
+											// il meurt	
+											(Humanoid.getCity()).becomeDead(h);
+											Console.println(Humanoid.getCity().getDate() + " " + h.toString() + " est tombé(e) au combat.");
+										} else {
+											heroes.add((Super) h);
+										}
 									}
 								}
 								
 								// On les envoie chez eux
-								e.goHome(heroes);
+								e.goHome(heroes);									
+								
 							}
 						}
 					}

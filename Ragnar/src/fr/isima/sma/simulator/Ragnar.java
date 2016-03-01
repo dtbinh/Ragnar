@@ -35,11 +35,11 @@ public class Ragnar {
 			m.loadAgentsFromFile(props.getProperty("agentsFile"));
 			RagnarView v = null;
 			if(Boolean.valueOf(props.getProperty("gui"))) {
-				Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-				    public void uncaughtException(Thread t, Throwable e) {
-				        // do something
-				    }
-				});
+//				Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//				    public void uncaughtException(Thread t, Throwable e) {
+//				        // do something
+//				    }
+//				});
 				v = new RagnarView(m);
 				m.addObserver(v);
 			}

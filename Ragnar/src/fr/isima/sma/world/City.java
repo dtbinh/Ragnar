@@ -477,7 +477,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 
 	public void becomeDead(Humanoid humanoid) {
-		Console.println(getDate() + " " + humanoid.getName() + " " + humanoid.getSurname() + " est mort(e) --- age : " + humanoid.getAge() + " ans - Proba : " + humanoid.getChanceToDie()*100 + "%");
+		Console.println(getDate() + " " + humanoid.getName() + " " + humanoid.getSurname() + " est mort(e) à l'âge de " + humanoid.getAge() + " ans.");
 		deadAgents.add(humanoid);
 		agents.removeAgent(humanoid);
 		getSector(humanoid).setLeaveHumanoid(humanoid.type, humanoid);
