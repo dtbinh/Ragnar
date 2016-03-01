@@ -282,13 +282,13 @@ public class SimulationKernel implements Observer {
 			newEvents.add(event);
 			switch (event.getType()) {
 			case Robery:
-				Console.println("Tentative de braquage !");
+				//Console.println("Tentative de braquage !");
 				break;
 			case Release:
-				Console.println("Tentative de libération !");
+				//Console.println("Tentative de libération !");
 				break;
 			case Fight:
-				Console.println("Combat en cours !");
+				//Console.println("Combat en cours !");
 				break;
 				
 			default:
