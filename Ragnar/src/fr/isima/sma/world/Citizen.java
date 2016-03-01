@@ -6,7 +6,7 @@ import fr.isima.sma.world.Sector.SectorType;
 
 public class Citizen extends Humanoid {
 
-	protected int dailySalary;
+	protected long dailySalary;
 	private boolean goToBank;
 	private int[][] pathBank;
 	private int pathBankStep;
@@ -120,7 +120,7 @@ public class Citizen extends Humanoid {
 				} else {	// travail
 					List<Sector> voisinnage = city.getNeighborhood(this);
 					Sector cible = null;
-					int valeurCible = 0;
+					long valeurCible = 0;
 					for(Sector s : voisinnage) {
 						if(s.getType()==SectorType.Street) {
 							if(valeurCible == s.getMoneyAvailable()) {
@@ -150,8 +150,8 @@ public class Citizen extends Humanoid {
 					if(cible.getType()==SectorType.Street) {// travail
 						if(dailySalary <= cible.getMoneyAvailable()) {
 							double efficiency = Humanoid.rand.nextDouble()+0.4;
-							this.setMoney(this.money+Integer.min((int)(efficiency*dailySalary),cible.getMoneyAvailable()));
-							city.getSector(this).setMoneyAvailable(cible.getMoneyAvailable()-Integer.min((int)(efficiency*dailySalary),cible.getMoneyAvailable()));
+							this.setMoney(this.money+Long.min((long)(efficiency*dailySalary),cible.getMoneyAvailable()));
+							city.getSector(this).setMoneyAvailable(cible.getMoneyAvailable()-Long.min((long)(efficiency*dailySalary),cible.getMoneyAvailable()));
 						} else {
 							this.setMoney(this.money+cible.getMoneyAvailable());
 							city.getSector(this).setMoneyAvailable(0);

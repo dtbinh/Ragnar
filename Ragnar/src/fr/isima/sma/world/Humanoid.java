@@ -45,7 +45,7 @@ public abstract class Humanoid extends ActiveEntity {
 	protected Event involved;	// null si n'est pas concerné par un event
 	
 	// syteme monetaire
-	protected int money;
+	protected long money;
 	
 	/**
 	 * Default constructor
@@ -356,12 +356,12 @@ public abstract class Humanoid extends ActiveEntity {
 		city = m;
 	}
 
-	public int getMoney() {
+	public long getMoney() {
 		return money;
 	}
 
-	public void setMoney(int money) {
-		int old = this.money;
+	public void setMoney(long money) {
+		long old = this.money;
 		this.money = money;
 		firePropertyChange("money", old, this.money);
 	}

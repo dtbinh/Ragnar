@@ -27,7 +27,7 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 	protected Location		location;
 	protected int			numberHumanoid[];
 	protected List<List<Humanoid>> agents; 
-	protected int 			moneyAvailable;		// somme disponible sur le secteur pour etre recolte par les cytoyens
+	protected long 			moneyAvailable;		// somme disponible sur le secteur pour etre recolte par les cytoyens
 	protected MyObservable observable;
 
 	/**
@@ -146,12 +146,12 @@ public abstract class Sector extends AbstractModelObject implements IMyObservabl
 		}
 	}
 
-	public int getMoneyAvailable() {
+	public long getMoneyAvailable() {
 		return moneyAvailable;
 	}
 
-	public void setMoneyAvailable(int moneyAvailable) {
-		int old = this.moneyAvailable;
+	public void setMoneyAvailable(long moneyAvailable) {
+		long old = this.moneyAvailable;
 		this.moneyAvailable = moneyAvailable;
 		firePropertyChange("moneyAvailable", old, moneyAvailable);	// BINDING
 	}

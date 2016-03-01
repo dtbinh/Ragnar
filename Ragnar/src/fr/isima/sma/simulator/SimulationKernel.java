@@ -106,7 +106,7 @@ public class SimulationKernel implements Observer {
 		    sortie.println("");
 		    
 		    int number[] = new int[4];		    
-		    int money[] = new int[4];
+		    long[] money = new long[4];
 		    sortie.println("Vivants\n________________");
 		    for(Humanoid h : ragnar.getActiveEntities().getAgents()) {
 		    	number[h.getType().getValue()]++;
