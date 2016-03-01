@@ -497,7 +497,7 @@ public class City extends ActiveEntity implements IMyObservable {
 	}
 	
 	public String getDate() {
-		return new StringBuilder("[").append(jour).append("/").append(annee).append("]").toString();
+		return new StringBuilder("[").append(jour).append("/").append(annee).append("]").append("(").append(heure).append(":00)").toString();
 	}
 	
 	public boolean[][] getWalkableLegit() {
