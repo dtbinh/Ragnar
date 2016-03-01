@@ -198,7 +198,7 @@ public class AgentsView extends JFrame {
             public void valueChanged(ListSelectionEvent arg0) {
                 if (!arg0.getValueIsAdjusting() && agentsList.getSelectedIndex() != -1) {
                 	selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-                    lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+                	lblnom.setText((!selected.getName().equals("")? selected.getName()+" " : "") + selected.getSurname());
                     lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
                     lblage.setText(String.valueOf(selected.getAge()));
                     lblvitesse.setText(String.valueOf(selected.getSpeed()));
@@ -224,7 +224,7 @@ public class AgentsView extends JFrame {
 	public void repaint() {
 		if (selected!=null && agentsList.getSelectedIndex() != -1 && agentsList.getSelectedIndex() < agentsList.getModel().getSize()) {
 			selected = modele.getActiveEntities().getAgents().get(agentsList.getSelectedIndex());
-            lblnom.setText((!selected.getSurname().equals("")? selected.getSurname()+" " : "") + selected.getName());
+            lblnom.setText((!selected.getName().equals("")? selected.getName()+" " : "") + selected.getSurname());
             lblargent.setText(String.valueOf(selected.getMoney())+"$ / "+String.valueOf(selected.getHome().getMoneyAvailable())+"$");
             lblage.setText(String.valueOf(selected.getAge()));
             lblvitesse.setText(String.valueOf(selected.getSpeed()));

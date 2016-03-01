@@ -174,7 +174,7 @@ public class ControlView extends JFrame implements IMyObservable {
 		JListBinding<String, Console, JList> jListBinding = SwingBindings.createJListBinding(UpdateStrategy.READ, console, consoleBeanProperty, list);
 		jListBinding.bind();
 		//
-		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Annee ${annee}, Jour ${jour} - ${heure}:00");
+		ELProperty<City, Object> cityEvalutionProperty = ELProperty.create("Année ${annee}, Jour ${jour} - ${heure}:00");
 		BeanProperty<JLabel, String> jLabelBeanProperty = BeanProperty.create("text");
 		AutoBinding<City, Object, JLabel, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, modele, cityEvalutionProperty, label, jLabelBeanProperty);
 		autoBinding.bind();

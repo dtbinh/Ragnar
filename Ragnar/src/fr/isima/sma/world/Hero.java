@@ -143,7 +143,7 @@ public class Hero extends Super {
 				}
 				
 				if(found == true && toGo != null && e != null) { // Si on l'a trouve, i y va forcement
-					Console.println(Humanoid.city.getDate() + " " + this.toString() + " part dejouer le braquage.");
+					Console.println(Humanoid.city.getDate() + " " + this.toString() + " part déjouer le braquage.");
 					this.setLocation(toGo.getLocation().getLocationX(), toGo.getLocation().getLocationY());
 					e.addEntity(this); // Il participe maintenant a l'evenement
 					moveProb = 0.0; // Il ne bougera pas parce qu'il est alle a la banque
