@@ -32,6 +32,8 @@ public class Street extends Sector {
 	
 	@Override
 	public void ruleEconomy() {
+		if(moneyAvailable < 1)
+			moneyAvailable *= (1+City.rand.nextDouble()/10);
 		moneyAvailable += (int)((0.75+City.rand.nextDouble()/2)*dailyMoney);
 	}
 }

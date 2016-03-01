@@ -234,7 +234,7 @@ public class City extends ActiveEntity implements IMyObservable {
 		
 		// maybe new inhabitants
 		if(heure==6) {
-			if(City.rand.nextDouble() < (0.8 / Integer.valueOf(props.getProperty("daysperyear")))) {
+			if(City.rand.nextDouble() < (0.9 / Integer.valueOf(props.getProperty("daysperyear")))) {
 				int numberMigrants = (int) (City.rand.nextGaussian()*2+3);
 				numberMigrants = numberMigrants < 1 ? 1 : numberMigrants;
 				for (int i = 0; i < numberMigrants; i++) {
