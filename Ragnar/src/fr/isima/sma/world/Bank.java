@@ -36,7 +36,7 @@ public class Bank extends Sector implements IMyObservable {
 				wantRobery |= h.getWantRobery();
 			if(wantRobery) {
 				observable.setChanged();
-				notifyObservers(new Event(this, liste, EventType.Robery, 3));
+				notifyObservers(new Event(this, liste, EventType.Robery, 5));
 			}
 		}
 	}

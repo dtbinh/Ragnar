@@ -260,7 +260,6 @@ public class Event {
 								// On les envoie chez eux
 								e.goHome(villains);
 								
-								
 							} else {
 								Console.println(Humanoid.getCity().getDate() + " Les vilains ont gagné un combat !");
 								

@@ -336,6 +336,8 @@ public class SimulationKernel implements Observer {
 			}
 		}
 		events.addAll(newListe);
+		Super.removeAllEvents();
+		Super.addAllEvents(events);
 	}
 	
 }
