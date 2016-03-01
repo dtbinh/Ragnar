@@ -105,7 +105,7 @@ public class SimulationKernel implements Observer {
 		    sortie.println("################################################################");
 		    sortie.println("");
 		    
-		    int number[] = new int[4];		    
+		    long number[] = new long[4];		    
 		    long[] money = new long[4];
 		    sortie.println("Vivants\n________________");
 		    for(Humanoid h : ragnar.getActiveEntities().getAgents()) {
@@ -120,7 +120,7 @@ public class SimulationKernel implements Observer {
 		    sortie.println("\n----------------------------------------------------------------");
 		    sortie.println("");
 
-		    number = new int[4];
+		    number = new long[4];
 		    sortie.println("Morts\n________________");
 		    for(Humanoid h : ragnar.getDeadAgents()) {
 		    	number[h.getType().getValue()]++;
@@ -140,7 +140,7 @@ public class SimulationKernel implements Observer {
 		    sortie.println("\n----------------------------------------------------------------");
 		    sortie.println("");
 		    
-		    number = new int[ragnar.getSectorByType().size()];
+		    number = new long[ragnar.getSectorByType().size()];
 		    for(List<Sector> list : ragnar.getSectorByType()) {
 			    sortie.println(list.get(0).getType() + "\n________________\nTYPE\tMONEY");
 			    for(Sector sec : list) {

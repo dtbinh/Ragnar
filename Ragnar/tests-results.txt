@@ -1,24 +1,24 @@
 Testsuite: fr.isima.sma.test.AllTests
-Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1,256 sec
+Tests run: 16, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1,254 sec
 ------------- Standard Error -----------------
 La propriété 'Unknown' n'existe pas.
 La propriété '' n'existe pas.
 Le fichier n'a pas pu être ouvert.
 ------------- ---------------- ---------------
 
-Testcase: testUnknownProperty took 0,003 sec
+Testcase: testUnknownProperty took 0,002 sec
 Testcase: testDefaultValues took 0 sec
 Testcase: testLoadedValues took 0 sec
 Testcase: testSingleton took 0,001 sec
 Testcase: testUnknownFile took 0,001 sec
-Testcase: testChangeFile took 0 sec
-Testcase: testLoadedValues took 0,148 sec
+Testcase: testChangeFile took 0,001 sec
+Testcase: testLoadedValues took 0,164 sec
 Testcase: testSingleton took 0 sec
 Testcase: testUnknownAsset took 0 sec
-Testcase: testLoadNonSquareCity took 0,014 sec
-Testcase: testGoodAgents took 0,006 sec
-Testcase: testLoadCity took 0,001 sec
+Testcase: testLoadNonSquareCity took 0,016 sec
+Testcase: testGoodAgents took 0,009 sec
+Testcase: testLoadCity took 0,002 sec
 Testcase: testBigCity took 0,002 sec
-Testcase: testBadAgents took 0,001 sec
+Testcase: testBadAgents took 0,002 sec
 Testcase: testSecond took 1,002 sec
 Testcase: testRandom took 0,002 sec

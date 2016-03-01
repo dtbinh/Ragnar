@@ -21,7 +21,7 @@ public class Bank extends Sector implements IMyObservable {
 	
 	@Override
 	public void ruleEconomy() {
-		this.setMoneyAvailable((int)(this.getMoneyAvailable() * 1.02));
+		this.setMoneyAvailable((long)(this.getMoneyAvailable() * 1.02));
 	}
 	
 	@Override
