@@ -79,7 +79,26 @@ public class Event {
 									Console.println(Humanoid.getCity().getDate() + " Les héros ont empêché le braquage");
 									// TODO evenement emprisonnement
 									
-									//new Event(here, heroesAndVilains, EventType.BringToPrison, 20) // Il faudra changer le ttl a 1 quand ce sera bon
+									// Emprisonnement
+									boolean found = false;
+									Sector toGo = null;
+									
+									// Recherche du QG d'un des heros
+									for (Humanoid humanoid : e.getEntities()) {
+										if((!found) && (humanoid.getType() == AgentType.HERO)) {
+											toGo = humanoid.getHome();
+											found = true;
+										}
+									}
+									
+									// On teleporte tout le monde dans le QG et on bloque les vilains
+									for (Humanoid humanoid : e.getEntities()) {
+										humanoid.setLocation(	toGo.getLocation().getLocationX(),
+																toGo.getLocation().getLocationY());
+										if(humanoid.getType() == AgentType.VILAIN) {
+											((Vilain) humanoid).setCaptured(true);
+										}
+									}
 									
 									success = false;
 								} else {
@@ -178,28 +197,6 @@ public class Event {
 							if(winner == AgentType.HERO) {
 								Console.println(Humanoid.getCity().getDate() + " Les héros ont gagné un combat !");
 								// TODO evenement emprisonnement
-								
-								// Emprisonnement
-								boolean found = false;
-								Sector toGo = null;
-								
-								// Recherche du QG d'un des heros
-								for (Humanoid humanoid : e.getEntities()) {
-									if((!found) && (humanoid.getType() == AgentType.HERO)) {
-										toGo = humanoid.getHome();
-										found = true;
-									}
-								}
-								
-								// On teleporte tout le monde dans le QG et on bloque les vilains
-								for (Humanoid humanoid : e.getEntities()) {
-									humanoid.setLocation(	toGo.getLocation().getLocationX(),
-															toGo.getLocation().getLocationY());
-									if(humanoid.getType() == AgentType.VILAIN) {
-										((Vilain) humanoid).setCaptured(true);
-									}
-								}
-								
 								
 							} else {
 								Console.println(Humanoid.getCity().getDate() + " Les vilains ont gagné un combat !");
