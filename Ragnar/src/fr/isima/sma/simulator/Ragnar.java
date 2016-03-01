@@ -10,10 +10,15 @@ import fr.isima.sma.world.patterns.Console;
 
 public class Ragnar {
 
-	public Ragnar() {
-		// TODO Auto-generated constructor stub
-	}
+	/**
+	 * Default constructor, not used
+	 */
+	public Ragnar() {}
 
+	/**
+	 * Main method, running simulation
+	 * @param args Arguments of the simulation, not used
+	 */
 	public static void main(String[] args) {
 		
 		Properties props = Properties.getInstance();
